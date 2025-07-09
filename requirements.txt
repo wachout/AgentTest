@@ -1,0 +1,7 @@
+langchain
+langgraph
+# pydantic # For potential schema validation later
+# langchain_openai # If we add LLM capabilities
+# We might need a specific ECharts library if we decide to use one for schema validation or generation,
+# but for now, we'll generate JSON directly.
+# The echarts-python library is for generating HTML, not just options, so might not be directly used.
