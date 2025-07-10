@@ -1,0 +1,8 @@
+langchain
+langchain-openai
+openai
+# deepseek-sdk might be required if using their specific SDK,
+# but langchain-openai with base_url should suffice for ChatOpenAI.
+# Add deepseek if direct SDK usage is planned or if issues arise.
+# deepseek
+python-dotenv # For managing environment variables (good practice)
