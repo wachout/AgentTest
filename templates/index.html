@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Search</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        #results { margin-top: 1em; border: 1px solid #ccc; padding: 1em; }
+    </style>
+</head>
+<body>
+    <h1>法律文本混合搜索</h1>
+    <input type="text" id="query" size="50">
+    <button onclick="search()">搜索</button>
+    <div id="results"></div>
+
+    <script>
+        async function search() {
+            const query = document.getElementById('query').value;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '正在搜索...';
+
+            try {
+                const response = await fetch('/search', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ query: query })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    resultsDiv.innerHTML = `错误: ${error.error}`;
+                    return;
+                }
+
+                const results = await response.json();
+                let html = '<ul>';
+                for (const result of results) {
+                    html += `<li>${result.sub_title} (相似度: ${result.score.toFixed(4)})</li>`;
+                }
+                html += '</ul>';
+                resultsDiv.innerHTML = html;
+
+            } catch (error) {
+                resultsDiv.innerHTML = `请求失败: ${error}`;
+            }
+        }
+    </script>
+</body>
+</html>

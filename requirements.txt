@@ -1,0 +1,6 @@
+neo4j
+pymilvus
+transformers
+torch
+flask
+jieba
