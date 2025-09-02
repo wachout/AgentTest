@@ -4,9 +4,9 @@
 CC = gcc
 
 # Compiler flags
-# Add -lm for the math library (e.g., for exp() in gbdt.c)
-CFLAGS = -Wall -Wextra -std=c99 -Isrc -O2
-LDFLAGS = -lm
+# Add -lm for the math library and -pthread for POSIX threads
+CFLAGS = -Wall -Wextra -std=c99 -Isrc -O2 -pthread
+LDFLAGS = -lm -pthread
 
 # Source directory
 SRC_DIR = src
@@ -17,7 +17,7 @@ OBJ_DIR = obj
 # Executable name
 EXEC = gbdt_run
 
-# Source files (now includes all .c files)
+# Source files
 SRCS = $(wildcard $(SRC_DIR)/*.c)
 
 # Object files
@@ -40,6 +40,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 
 # Clean up build artifacts
 clean:
-	rm -rf $(OBJ_DIR) $(EXEC) *.dat
+	rm -rf $(OBJ_DIR) $(EXEC) *.dat *.json
 
 .PHONY: all clean
