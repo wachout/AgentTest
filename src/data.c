@@ -1,11 +1,10 @@
+#define _GNU_SOURCE // For getline
 #include "data.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_LINE_LENGTH 10240 // Adjust as needed
-
-// Helper function to count lines and features
+// Helper function to count lines and features robustly
 static void get_data_dimensions(const char* filepath, int* num_samples, int* num_features) {
     FILE* file = fopen(filepath, "r");
     if (!file) {
@@ -14,24 +13,49 @@ static void get_data_dimensions(const char* filepath, int* num_samples, int* num
     }
 
     *num_samples = 0;
-    *num_features = 0;
-    char line[MAX_LINE_LENGTH];
+    *num_features = 1; // Start with 1 feature
+    int c;
+    int first_line = 1;
 
-    if (fgets(line, sizeof(line), file)) {
-        (*num_samples)++;
-        char* token = strtok(line, ",");
-        while (token) {
+    while ((c = fgetc(file)) != EOF) {
+        if (first_line && c == ',') {
             (*num_features)++;
-            token = strtok(NULL, ",");
+        }
+        if (c == '\n') {
+            (*num_samples)++;
+            first_line = 0;
         }
     }
-
-    while (fgets(line, sizeof(line), file)) {
+    // If the file does not end with a newline, count the last line
+    fseek(file, -1, SEEK_END);
+    if (fgetc(file) != '\n') {
         (*num_samples)++;
     }
 
     fclose(file);
 }
+
+// Helper function to read a line of arbitrary length
+static char* read_dynamic_line(FILE *fp) {
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+
+    read = getline(&line, &len, fp);
+
+    if (read == -1) {
+        free(line);
+        return NULL;
+    }
+
+    // Strip newline character if present
+    if (read > 0 && line[read - 1] == '\n') {
+        line[read - 1] = '\0';
+    }
+
+    return line;
+}
+
 
 // Helper function to count unique classes
 static int count_classes(const char* label_filepath) {
@@ -52,54 +76,44 @@ static int count_classes(const char* label_filepath) {
     return max_label + 1;
 }
 
-
 Dataset* load_dataset(const char* feature_filepath, const char* label_filepath, int* num_classes) {
     int num_samples, num_features;
     get_data_dimensions(feature_filepath, &num_samples, &num_features);
     *num_classes = count_classes(label_filepath);
 
-    // Allocate Dataset structure
-    Dataset* dataset = (Dataset*)malloc(sizeof(Dataset));
-    if (!dataset) {
-        fprintf(stderr, "Memory allocation failed for Dataset.\n");
+    if (num_samples == 0 || num_features == 0) {
+        fprintf(stderr, "Error: No data found in %s\n", feature_filepath);
         exit(EXIT_FAILURE);
     }
+
+    Dataset* dataset = (Dataset*)malloc(sizeof(Dataset));
     dataset->num_samples = num_samples;
     dataset->num_features = num_features;
 
-    // Allocate memory for features and labels
     dataset->features = (double**)malloc(num_samples * sizeof(double*));
-    dataset->labels = (int*)malloc(num_samples * sizeof(int));
-    if (!dataset->features || !dataset->labels) {
-        fprintf(stderr, "Memory allocation failed for features/labels.\n");
-        exit(EXIT_FAILURE);
-    }
     for (int i = 0; i < num_samples; i++) {
         dataset->features[i] = (double*)malloc(num_features * sizeof(double));
-        if (!dataset->features[i]) {
-            fprintf(stderr, "Memory allocation failed for feature row.\n");
-            exit(EXIT_FAILURE);
-        }
     }
+    dataset->labels = (int*)malloc(num_samples * sizeof(int));
 
-    // Load features
+    // Load features using dynamic line reading
     FILE* feature_file = fopen(feature_filepath, "r");
     if (!feature_file) {
         fprintf(stderr, "Error opening file: %s\n", feature_filepath);
         exit(EXIT_FAILURE);
     }
 
-    char line[MAX_LINE_LENGTH];
-    int i = 0;
-    while (fgets(line, sizeof(line), feature_file) && i < num_samples) {
-        char* token = strtok(line, ",");
-        int j = 0;
-        while (token && j < num_features) {
-            dataset->features[i][j] = atof(token);
+    char *line;
+    int row = 0;
+    while ((line = read_dynamic_line(feature_file)) != NULL && row < num_samples) {
+        char *token = strtok(line, ",");
+        int col = 0;
+        while (token != NULL && col < num_features) {
+            dataset->features[row][col++] = atof(token);
             token = strtok(NULL, ",");
-            j++;
         }
-        i++;
+        free(line);
+        row++;
     }
     fclose(feature_file);
 
@@ -109,9 +123,9 @@ Dataset* load_dataset(const char* feature_filepath, const char* label_filepath, 
         fprintf(stderr, "Error opening file: %s\n", label_filepath);
         exit(EXIT_FAILURE);
     }
-    i = 0;
-    while(fscanf(label_file, "%d", &dataset->labels[i]) == 1 && i < num_samples) {
-        i++;
+    int sample_idx = 0;
+    while(fscanf(label_file, "%d", &dataset->labels[sample_idx]) == 1 && sample_idx < num_samples) {
+        sample_idx++;
     }
     fclose(label_file);
 
