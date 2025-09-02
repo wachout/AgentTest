@@ -1,9 +1,25 @@
 #include "gbdt.h"
 #include "tree.h"
+#include "io.h"
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <pthread.h>
+
+#define NUM_PREDICT_THREADS 4
+
+// --- Structs for Parallel Prediction ---
+typedef struct {
+    const GBDTModel* model;
+    const Dataset* test_data;
+    int* predictions;
+    int start_sample;
+    int end_sample;
+} PredictThreadArgs;
+
+
+// --- Helper Functions ---
 
 // Helper to calculate softmax probabilities
 static void softmax(double* scores, int num_classes) {
@@ -23,6 +39,8 @@ static void softmax(double* scores, int num_classes) {
     }
 }
 
+// --- Training Function ---
+
 GBDTModel* train_gbdt(const Dataset* train_data, const GBDTParams* params) {
     // Allocate model
     GBDTModel* model = (GBDTModel*)malloc(sizeof(GBDTModel));
@@ -41,22 +59,17 @@ GBDTModel* train_gbdt(const Dataset* train_data, const GBDTParams* params) {
     for (int k = 0; k < params->num_classes; k++) {
         model->trees[k] = (DecisionTree**)malloc(params->num_trees * sizeof(DecisionTree*));
         if (!model->trees[k]) {
-            // Complex cleanup needed here
             perror("Failed to allocate trees for a class");
             return NULL;
         }
     }
 
-    // Initialize predictions
     double** F = (double**)malloc(train_data->num_samples * sizeof(double*));
     for (int i = 0; i < train_data->num_samples; i++) {
         F[i] = (double*)calloc(params->num_classes, sizeof(double));
     }
 
-    // Gradients
     double* gradients = (double*)malloc(train_data->num_samples * sizeof(double));
-
-    // All sample indices
     int* all_indices = (int*)malloc(train_data->num_samples * sizeof(int));
     for(int i=0; i<train_data->num_samples; ++i) all_indices[i] = i;
 
@@ -64,7 +77,6 @@ GBDTModel* train_gbdt(const Dataset* train_data, const GBDTParams* params) {
     for (int m = 0; m < params->num_trees; m++) {
         printf("Building tree %d...\n", m + 1);
         for (int k = 0; k < params->num_classes; k++) {
-            // Calculate current probabilities and gradients
             for (int i = 0; i < train_data->num_samples; i++) {
                 double probs[params->num_classes];
                 memcpy(probs, F[i], params->num_classes * sizeof(double));
@@ -74,10 +86,8 @@ GBDTModel* train_gbdt(const Dataset* train_data, const GBDTParams* params) {
                 gradients[i] = target - probs[k];
             }
 
-            // Fit a tree
             model->trees[k][m] = build_decision_tree(train_data, gradients, all_indices, train_data->num_samples, params);
 
-            // Update predictions
             for (int i = 0; i < train_data->num_samples; i++) {
                 double prediction = predict_tree(model->trees[k][m], train_data->features[i]);
                 F[i][k] += params->learning_rate * prediction;
@@ -85,7 +95,6 @@ GBDTModel* train_gbdt(const Dataset* train_data, const GBDTParams* params) {
         }
     }
 
-    // Cleanup
     free(gradients);
     free(all_indices);
     for (int i = 0; i < train_data->num_samples; i++) {
@@ -96,14 +105,15 @@ GBDTModel* train_gbdt(const Dataset* train_data, const GBDTParams* params) {
     return model;
 }
 
-int* predict_gbdt(const GBDTModel* model, const Dataset* test_data) {
-    int* predictions = (int*)malloc(test_data->num_samples * sizeof(int));
-    if (!predictions) {
-        perror("Failed to allocate memory for predictions");
-        return NULL;
-    }
 
-    for (int i = 0; i < test_data->num_samples; i++) {
+// --- Prediction Functions ---
+
+void* predict_worker(void* args) {
+    PredictThreadArgs* thread_args = (PredictThreadArgs*)args;
+    const GBDTModel* model = thread_args->model;
+    const Dataset* test_data = thread_args->test_data;
+
+    for (int i = thread_args->start_sample; i < thread_args->end_sample; i++) {
         double scores[model->params.num_classes];
         memcpy(scores, model->initial_prediction, model->params.num_classes * sizeof(double));
 
@@ -113,7 +123,6 @@ int* predict_gbdt(const GBDTModel* model, const Dataset* test_data) {
             }
         }
 
-        // Find class with max score
         int max_class = 0;
         double max_score = scores[0];
         for (int k = 1; k < model->params.num_classes; k++) {
@@ -122,11 +131,41 @@ int* predict_gbdt(const GBDTModel* model, const Dataset* test_data) {
                 max_class = k;
             }
         }
-        predictions[i] = max_class;
+        thread_args->predictions[i] = max_class;
+    }
+    pthread_exit(NULL);
+}
+
+int* predict_gbdt(const GBDTModel* model, const Dataset* test_data) {
+    int* predictions = (int*)malloc(test_data->num_samples * sizeof(int));
+    if (!predictions) {
+        perror("Failed to allocate memory for predictions");
+        return NULL;
+    }
+
+    pthread_t threads[NUM_PREDICT_THREADS];
+    PredictThreadArgs thread_args[NUM_PREDICT_THREADS];
+    int samples_per_thread = test_data->num_samples / NUM_PREDICT_THREADS;
+
+    for (int i = 0; i < NUM_PREDICT_THREADS; i++) {
+        thread_args[i].model = model;
+        thread_args[i].test_data = test_data;
+        thread_args[i].predictions = predictions;
+        thread_args[i].start_sample = i * samples_per_thread;
+        thread_args[i].end_sample = (i == NUM_PREDICT_THREADS - 1) ? test_data->num_samples : (i + 1) * samples_per_thread;
+
+        pthread_create(&threads[i], NULL, predict_worker, &thread_args[i]);
+    }
+
+    for (int i = 0; i < NUM_PREDICT_THREADS; i++) {
+        pthread_join(threads[i], NULL);
     }
 
     return predictions;
 }
+
+
+// --- Model Freeing Function ---
 
 void free_gbdt_model(GBDTModel* model) {
     if (model) {
