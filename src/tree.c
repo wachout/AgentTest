@@ -5,10 +5,34 @@
 #include <string.h>
 #include <stdio.h>
 
+// Struct to hold feature value and gradient for sorting
+typedef struct {
+    double feature_value;
+    double gradient;
+} FeatureGradientPair;
+
+// qsort comparison function for the struct
+static int compare_pairs(const void* a, const void* b) {
+    double val1 = ((FeatureGradientPair*)a)->feature_value;
+    double val2 = ((FeatureGradientPair*)b)->feature_value;
+    if (val1 < val2) return -1;
+    if (val1 > val2) return 1;
+    return 0;
+}
+
+// Fisher-Yates shuffle for an array of integers
+static void shuffle_indices(int* array, int n) {
+    for (int i = n - 1; i > 0; i--) {
+        int j = rand() % (i + 1);
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
 // Forward declarations for helper functions
 static DecisionTreeNode* build_node(const Dataset* dataset, const double* gradients, const int* sample_indices, int num_samples, const GBDTParams* params, int depth);
-static void find_best_split(const Dataset* dataset, const double* gradients, const int* sample_indices, int num_samples, const GBDTParams* params, int* best_feature, double* best_threshold);
-static double calculate_mse(const double* values, int num_samples);
+static void find_best_split_sorted(const Dataset* dataset, const double* gradients, const int* sample_indices, int num_samples, const GBDTParams* params, int* best_feature, double* best_threshold);
 static double calculate_leaf_value(const double* gradients, const int* sample_indices, int num_samples);
 static void free_node(DecisionTreeNode* node);
 
@@ -78,20 +102,18 @@ static DecisionTreeNode* create_leaf_node(const double* gradients, const int* sa
 }
 
 static DecisionTreeNode* build_node(const Dataset* dataset, const double* gradients, const int* sample_indices, int num_samples, const GBDTParams* params, int depth) {
-    // Check stopping conditions
     if (depth >= params->max_depth || num_samples < params->min_samples_split) {
         return create_leaf_node(gradients, sample_indices, num_samples);
     }
 
     int best_feature = -1;
     double best_threshold = 0.0;
-    find_best_split(dataset, gradients, sample_indices, num_samples, params, &best_feature, &best_threshold);
+    find_best_split_sorted(dataset, gradients, sample_indices, num_samples, params, &best_feature, &best_threshold);
 
     if (best_feature == -1) {
         return create_leaf_node(gradients, sample_indices, num_samples);
     }
 
-    // Create an internal node
     DecisionTreeNode* node = (DecisionTreeNode*)calloc(1, sizeof(DecisionTreeNode));
     if (!node) {
         perror("Failed to allocate memory for an internal node");
@@ -101,7 +123,6 @@ static DecisionTreeNode* build_node(const Dataset* dataset, const double* gradie
     node->feature_index = best_feature;
     node->threshold = best_threshold;
 
-    // Split samples into left and right children
     int* left_indices = (int*)malloc(num_samples * sizeof(int));
     int* right_indices = (int*)malloc(num_samples * sizeof(int));
     if (!left_indices || !right_indices) {
@@ -119,11 +140,10 @@ static DecisionTreeNode* build_node(const Dataset* dataset, const double* gradie
         }
     }
 
-    // If split is not possible, create a leaf
     if (n_left == 0 || n_right == 0) {
         free(left_indices);
         free(right_indices);
-        free(node); // Free the allocated internal node
+        free(node);
         return create_leaf_node(gradients, sample_indices, num_samples);
     }
 
@@ -136,67 +156,81 @@ static DecisionTreeNode* build_node(const Dataset* dataset, const double* gradie
     return node;
 }
 
-static void find_best_split(const Dataset* dataset, const double* gradients, const int* sample_indices, int num_samples, const GBDTParams* params, int* best_feature, double* best_threshold) {
-    double best_mse_reduction = -1.0;
+static void find_best_split_sorted(const Dataset* dataset, const double* gradients, const int* sample_indices, int num_samples, const GBDTParams* params, int* best_feature, double* best_threshold) {
+    double best_mse_reduction = -DBL_MAX;
     *best_feature = -1;
 
-    double parent_mse = calculate_mse(gradients, num_samples);
+    double total_grad_sum = 0.0;
+    double total_grad_sq_sum = 0.0;
+    for (int i = 0; i < num_samples; i++) {
+        double grad = gradients[sample_indices[i]];
+        total_grad_sum += grad;
+        total_grad_sq_sum += grad * grad;
+    }
+    double parent_mse = total_grad_sq_sum / num_samples - (total_grad_sum / num_samples) * (total_grad_sum / num_samples);
 
-    for (int f_idx = 0; f_idx < dataset->num_features; f_idx++) {
-        for (int s_idx = 0; s_idx < num_samples; s_idx++) {
-            int sample_idx = sample_indices[s_idx];
-            double threshold = dataset->features[sample_idx][f_idx];
+    FeatureGradientPair* pairs = (FeatureGradientPair*)malloc(num_samples * sizeof(FeatureGradientPair));
+    if (!pairs) {
+        perror("Failed to allocate memory for feature-gradient pairs");
+        return;
+    }
 
-            double* left_gradients = (double*)malloc(num_samples * sizeof(double));
-            double* right_gradients = (double*)malloc(num_samples * sizeof(double));
-            if (!left_gradients || !right_gradients) {
-                perror("Failed to allocate memory for gradients split");
-                free(left_gradients); free(right_gradients);
-                continue;
-            }
-            int n_left = 0, n_right = 0;
+    // --- Feature Sub-sampling Logic ---
+    int num_features_to_sample = dataset->num_features;
+    if (params->subsample < 1.0 && params->subsample > 0.0) {
+        num_features_to_sample = (int)(dataset->num_features * params->subsample);
+        if (num_features_to_sample < 1) num_features_to_sample = 1;
+    }
 
-            for (int i = 0; i < num_samples; i++) {
-                int current_sample_idx = sample_indices[i];
-                if (dataset->features[current_sample_idx][f_idx] <= threshold) {
-                    left_gradients[n_left++] = gradients[current_sample_idx];
-                } else {
-                    right_gradients[n_right++] = gradients[current_sample_idx];
-                }
-            }
+    int* feature_indices = (int*)malloc(dataset->num_features * sizeof(int));
+    if (!feature_indices) { free(pairs); return; }
+    for (int i = 0; i < dataset->num_features; i++) feature_indices[i] = i;
 
-            if (n_left == 0 || n_right == 0) {
-                free(left_gradients);
-                free(right_gradients);
-                continue;
-            }
+    if (num_features_to_sample < dataset->num_features) {
+        shuffle_indices(feature_indices, dataset->num_features);
+    }
+    // --- End Sub-sampling Logic ---
 
-            double mse_left = calculate_mse(left_gradients, n_left);
-            double mse_right = calculate_mse(right_gradients, n_right);
-            double weighted_mse = ((double)n_left / num_samples) * mse_left + ((double)n_right / num_samples) * mse_right;
+    for (int i = 0; i < num_features_to_sample; i++) {
+        int f_idx = feature_indices[i]; // Use the sampled feature index
+
+        for (int j = 0; j < num_samples; j++) {
+            int sample_idx = sample_indices[j];
+            pairs[j].feature_value = dataset->features[sample_idx][f_idx];
+            pairs[j].gradient = gradients[sample_idx];
+        }
+
+        qsort(pairs, num_samples, sizeof(FeatureGradientPair), compare_pairs);
+
+        double left_grad_sum = 0.0;
+        double left_grad_sq_sum = 0.0;
+
+        for (int j = 0; j < num_samples - 1; j++) {
+            left_grad_sum += pairs[j].gradient;
+            left_grad_sq_sum += pairs[j].gradient * pairs[j].gradient;
+            int n_left = j + 1;
+
+            if (pairs[j].feature_value == pairs[j+1].feature_value) continue;
+
+            double right_grad_sum = total_grad_sum - left_grad_sum;
+            double right_grad_sq_sum = total_grad_sq_sum - left_grad_sq_sum;
+            int n_right = num_samples - n_left;
+
+            if (n_left < params->min_samples_split || n_right < params->min_samples_split) continue;
+
+            double left_mse = left_grad_sq_sum / n_left - (left_grad_sum / n_left) * (left_grad_sum / n_left);
+            double right_mse = right_grad_sq_sum / n_right - (right_grad_sum / n_right) * (right_grad_sum / n_right);
+
+            double weighted_mse = ((double)n_left / num_samples) * left_mse + ((double)n_right / num_samples) * right_mse;
             double mse_reduction = parent_mse - weighted_mse;
 
             if (mse_reduction > best_mse_reduction) {
                 best_mse_reduction = mse_reduction;
                 *best_feature = f_idx;
-                *best_threshold = threshold;
+                *best_threshold = pairs[j].feature_value;
             }
-            free(left_gradients);
-            free(right_gradients);
         }
     }
-}
-
-static double calculate_mse(const double* values, int num_samples) {
-    if (num_samples < 2) return 0.0;
-    double sum = 0.0;
-    for (int i = 0; i < num_samples; i++) {
-        sum += values[i];
-    }
-    double mean = sum / num_samples;
-    double sse = 0.0;
-    for (int i = 0; i < num_samples; i++) {
-        sse += (values[i] - mean) * (values[i] - mean);
-    }
-    return sse / num_samples;
+    free(pairs);
+    free(feature_indices);
 }

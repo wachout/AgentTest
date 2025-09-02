@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "gbdt.h"
 #include "data.h"
 #include "io.h"
@@ -24,6 +25,9 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // Seed the random number generator
+    srand(time(NULL));
+
     const char* train_features_file = argv[1];
     const char* train_labels_file = argv[2];
     const char* test_features_file = argv[3];
@@ -36,7 +40,7 @@ int main(int argc, char* argv[]) {
     params.max_depth = 3;
     params.learning_rate = 0.1;
     params.min_samples_split = 2;
-    params.subsample = 1.0; // Using all samples for now
+    params.subsample = 0.8; // Use 80% of features for each tree
     // num_classes will be determined from the data
 
     // 2. Load training data
