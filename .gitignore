@@ -1,0 +1,10 @@
+# Build artifacts
+*.o
+xgboost
+
+# Generated data
+data/train_large.txt
+data/label_large.txt
+
+# Models
+*.json
