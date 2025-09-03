@@ -48,8 +48,18 @@ typedef struct {
 // GBDT training function
 GBDTModel* train_gbdt(const Dataset* train_data, const GBDTParams* params);
 
+// Struct to hold the results of a prediction
+typedef struct {
+    int* labels;
+    double** probabilities; // 2D array: num_samples x num_classes
+    int num_samples;
+} PredictionResult;
+
 // GBDT prediction function
-int* predict_gbdt(const GBDTModel* model, const Dataset* test_data);
+PredictionResult* predict_gbdt(const GBDTModel* model, const Dataset* test_data);
+
+// Function to free the prediction result
+void free_prediction_result(PredictionResult* result);
 
 // Function to free the GBDT model
 void free_gbdt_model(GBDTModel* model);
