@@ -190,15 +190,6 @@ int compute_mfcc(mfcc_params* params, const double* audio_buffer, size_t buffer_
             }
         }
 
-        if (i == 0) {
-            printf("\n--- C First Mel Spec Frame ---\n");
-            for (int j = 0; j < 5; ++j) {
-                printf("%.8f ", mel_spec[j]);
-            }
-            printf("...\n");
-            fflush(stdout);
-        }
-
         mfcc_power_to_db(mel_spec, n_mels);
 
         dct2(mel_spec, mfcc_output + i * n_mfcc, n_mels, n_mfcc);

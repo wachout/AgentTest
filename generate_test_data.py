@@ -42,13 +42,6 @@ def generate_data():
     print(f"Saving librosa Mel spectrogram of shape {melspec_to_save.shape} to librosa_melspec.bin")
     melspec_to_save.tofile('librosa_melspec.bin')
 
-    # Print the first frame for debugging
-    print("\n--- Librosa First Mel Spec Frame ---")
-    for val in melspec_to_save[0, :5]:
-        print(f"{val:.8f}", end=" ")
-    print("...")
-
-
     # --- Final Step: MFCC ---
     # We can compute the MFCC from the pre-computed Mel spectrogram
     librosa_mfccs = librosa.feature.mfcc(
