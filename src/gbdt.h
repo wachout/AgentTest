@@ -12,6 +12,7 @@ typedef struct {
     int min_samples_split;
     double subsample;
     int num_classes;
+    double early_stopping_loss; // Stop if validation loss falls below this
 } GBDTParams;
 
 // Dataset structure
@@ -45,11 +46,8 @@ typedef struct {
     double* initial_prediction; // Initial prediction for each class
 } GBDTModel;
 
-// GBDT model creation
-GBDTModel* create_gbdt_model(const GBDTParams* params);
-
 // GBDT training function
-void train_gbdt(GBDTModel* model, const Dataset* train_data, int additional_trees, int save_interval, const char* save_path);
+GBDTModel* train_gbdt(const Dataset* train_data, const GBDTParams* params, const Dataset* valid_data);
 
 // Struct to hold the results of a prediction
 typedef struct {
@@ -66,6 +64,5 @@ void free_prediction_result(PredictionResult* result);
 
 // Function to free the GBDT model
 void free_gbdt_model(GBDTModel* model);
-
 
 #endif // GBDT_H

@@ -9,7 +9,7 @@
 
 #define NUM_PREDICT_THREADS 4
 
-// --- Structs for Parallel Prediction ---
+// Structs for Parallel Prediction
 typedef struct {
     const GBDTModel* model;
     const Dataset* test_data;
@@ -36,110 +36,107 @@ static void softmax(double* scores, int num_classes) {
     }
 }
 
-// --- Model Creation and Training ---
+// Calculates multiclass log loss (cross-entropy)
+static double calculate_log_loss(const GBDTModel* model, const Dataset* dataset) {
+    if (!dataset || dataset->num_samples == 0) return 0.0;
 
-GBDTModel* create_gbdt_model(const GBDTParams* params) {
-    GBDTModel* model = (GBDTModel*)calloc(1, sizeof(GBDTModel));
-    if (!model) {
-        perror("Failed to allocate GBDT model");
-        return NULL;
+    double total_loss = 0.0;
+    PredictionResult* result = predict_gbdt(model, dataset);
+
+    for (int i = 0; i < dataset->num_samples; i++) {
+        int true_label = dataset->labels[i];
+        // Add a small epsilon to prevent log(0)
+        double prob = result->probabilities[i][true_label] + 1e-15;
+        total_loss += -log(prob);
     }
-    model->params = *params;
-    model->params.num_trees = 0; // Start with 0 trees
-    model->initial_prediction = (double*)calloc(params->num_classes, sizeof(double));
 
-    // The 'trees' array will be allocated by train_gbdt as needed
-    model->trees = (DecisionTree***)calloc(params->num_classes, sizeof(DecisionTree**));
-
-    if (!model->initial_prediction || !model->trees) {
-        perror("Failed to allocate model components");
-        free(model->initial_prediction);
-        free(model->trees);
-        free(model);
-        return NULL;
-    }
-    return model;
+    free_prediction_result(result);
+    return total_loss / dataset->num_samples;
 }
 
-void train_gbdt(GBDTModel* model, const Dataset* train_data, int additional_trees, int save_interval, const char* save_path) {
-    if (!model || !train_data || additional_trees <= 0) {
-        return;
+// --- Training Function (with Early Stopping) ---
+
+GBDTModel* train_gbdt(const Dataset* train_data, const GBDTParams* params, const Dataset* valid_data) {
+    GBDTModel* model = (GBDTModel*)malloc(sizeof(GBDTModel));
+    if (!model) { perror("Failed to allocate GBDT model"); return NULL; }
+
+    model->params = *params;
+    model->trees = (DecisionTree***)malloc(params->num_classes * sizeof(DecisionTree**));
+    model->initial_prediction = (double*)calloc(params->num_classes, sizeof(double));
+    if (!model->trees || !model->initial_prediction) {
+        perror("Failed to allocate model components");
+        free_gbdt_model(model);
+        return NULL;
+    }
+    for (int k = 0; k < params->num_classes; k++) {
+        // Allocate for the max number of trees, we will track the actual number
+        model->trees[k] = (DecisionTree**)calloc(params->num_trees, sizeof(DecisionTree*));
+        if (!model->trees[k]) {
+            perror("Failed to allocate trees for a class");
+            free_gbdt_model(model);
+            return NULL;
+        }
     }
 
-    // --- State Initialization ---
     double** F = (double**)malloc(train_data->num_samples * sizeof(double*));
     for (int i = 0; i < train_data->num_samples; i++) {
-        F[i] = (double*)malloc(model->params.num_classes * sizeof(double));
-        // Initialize F with scores from existing trees
-        memcpy(F[i], model->initial_prediction, model->params.num_classes * sizeof(double));
-        for (int k = 0; k < model->params.num_classes; k++) {
-            for (int m = 0; m < model->params.num_trees; m++) {
-                F[i][k] += model->params.learning_rate * predict_tree(model->trees[k][m], train_data->features[i]);
-            }
-        }
+        F[i] = (double*)calloc(params->num_classes, sizeof(double));
     }
 
     double* gradients = (double*)malloc(train_data->num_samples * sizeof(double));
     int* all_indices = (int*)malloc(train_data->num_samples * sizeof(int));
-    for(int i = 0; i < train_data->num_samples; ++i) all_indices[i] = i;
+    for(int i=0; i<train_data->num_samples; ++i) all_indices[i] = i;
 
-    // --- Iterative Training Loop ---
-    int starting_trees = model->params.num_trees;
-    int new_total_trees = starting_trees + additional_trees;
-
-    // Reallocate tree arrays to hold new trees
-    for (int k = 0; k < model->params.num_classes; k++) {
-        model->trees[k] = (DecisionTree**)realloc(model->trees[k], new_total_trees * sizeof(DecisionTree*));
-    }
-
-    for (int m = starting_trees; m < new_total_trees; m++) {
-        printf("Building tree %d...\n", m + 1);
-        for (int k = 0; k < model->params.num_classes; k++) {
-            // Calculate gradients based on current F scores
+    int actual_trees = 0;
+    for (int m = 0; m < params->num_trees; m++) {
+        printf("Building tree %d/%d...\n", m + 1, params->num_trees);
+        for (int k = 0; k < params->num_classes; k++) {
             for (int i = 0; i < train_data->num_samples; i++) {
-                double probs[model->params.num_classes];
-                memcpy(probs, F[i], model->params.num_classes * sizeof(double));
-                softmax(probs, model->params.num_classes);
+                double probs[params->num_classes];
+                memcpy(probs, F[i], params->num_classes * sizeof(double));
+                softmax(probs, params->num_classes);
+
                 int target = (train_data->labels[i] == k);
                 gradients[i] = target - probs[k];
             }
 
-            // Fit a new tree
-            DecisionTree* new_tree = build_decision_tree(train_data, gradients, all_indices, train_data->num_samples, &model->params);
-            model->trees[k][m] = new_tree;
+            model->trees[k][m] = build_decision_tree(train_data, gradients, all_indices, train_data->num_samples, params);
 
-            // Update F scores with the new tree's predictions
             for (int i = 0; i < train_data->num_samples; i++) {
-                F[i][k] += model->params.learning_rate * predict_tree(new_tree, train_data->features[i]);
+                double prediction = predict_tree(model->trees[k][m], train_data->features[i]);
+                F[i][k] += params->learning_rate * prediction;
             }
         }
+        actual_trees++;
 
-        // Update the model's tree count after each full iteration
-        model->params.num_trees++;
-
-        // Periodically save the model
-        if (save_interval > 0 && (model->params.num_trees % save_interval == 0)) {
-            printf("Saving model at iteration %d...\n", model->params.num_trees);
-            save_gbdt_model(model, save_path);
+        // Early stopping check
+        if (valid_data && params->early_stopping_loss > 0) {
+            // Temporarily update model's tree count for accurate loss calculation
+            model->params.num_trees = actual_trees;
+            double current_loss = calculate_log_loss(model, valid_data);
+            printf("  Validation loss after tree %d: %f\n", actual_trees, current_loss);
+            if (current_loss < params->early_stopping_loss) {
+                printf("  Early stopping triggered at tree %d. Loss %f < %f\n", actual_trees, current_loss, params->early_stopping_loss);
+                break;
+            }
         }
     }
 
-    // Final save
-    printf("Finalizing training and saving model...\n");
-    save_gbdt_model(model, save_path);
+    // Set the final number of trees in the model
+    model->params.num_trees = actual_trees;
 
-    // --- Cleanup ---
     free(gradients);
     free(all_indices);
     for (int i = 0; i < train_data->num_samples; i++) free(F[i]);
     free(F);
+
+    return model;
 }
 
 
-// --- Prediction Functions ---
+// --- Prediction Functions (Parallel) ---
 
 void* predict_worker(void* args) {
-    // ... (This part remains the same)
     PredictThreadArgs* thread_args = (PredictThreadArgs*)args;
     const GBDTModel* model = thread_args->model;
     const Dataset* test_data = thread_args->test_data;
@@ -151,7 +148,10 @@ void* predict_worker(void* args) {
 
         for (int k = 0; k < model->params.num_classes; k++) {
             for (int m = 0; m < model->params.num_trees; m++) {
-                scores[k] += model->params.learning_rate * predict_tree(model->trees[k][m], test_data->features[i]);
+                // Important: Check if tree exists, for early-stopped models
+                if (model->trees[k][m]) {
+                    scores[k] += model->params.learning_rate * predict_tree(model->trees[k][m], test_data->features[i]);
+                }
             }
         }
 
@@ -172,7 +172,6 @@ void* predict_worker(void* args) {
 }
 
 PredictionResult* predict_gbdt(const GBDTModel* model, const Dataset* test_data) {
-    // ... (This part remains the same)
     PredictionResult* result = (PredictionResult*)malloc(sizeof(PredictionResult));
     if (!result) {
         perror("Failed to allocate memory for PredictionResult");
@@ -182,9 +181,7 @@ PredictionResult* predict_gbdt(const GBDTModel* model, const Dataset* test_data)
     result->labels = (int*)malloc(test_data->num_samples * sizeof(int));
     result->probabilities = (double**)malloc(test_data->num_samples * sizeof(double*));
     if (!result->labels || !result->probabilities) {
-        free(result->labels);
-        free(result->probabilities);
-        free(result);
+        free(result->labels); free(result->probabilities); free(result);
         return NULL;
     }
     for(int i=0; i<test_data->num_samples; ++i) {
@@ -194,19 +191,30 @@ PredictionResult* predict_gbdt(const GBDTModel* model, const Dataset* test_data)
     pthread_t threads[NUM_PREDICT_THREADS];
     PredictThreadArgs thread_args[NUM_PREDICT_THREADS];
     int samples_per_thread = test_data->num_samples / NUM_PREDICT_THREADS;
+    if (test_data->num_samples < NUM_PREDICT_THREADS) samples_per_thread = test_data->num_samples;
+
 
     for (int i = 0; i < NUM_PREDICT_THREADS; i++) {
         thread_args[i].model = model;
         thread_args[i].test_data = test_data;
         thread_args[i].result = result;
         thread_args[i].start_sample = i * samples_per_thread;
-        thread_args[i].end_sample = (i == NUM_PREDICT_THREADS - 1) ? test_data->num_samples : (i + 1) * samples_per_thread;
+        if (i == NUM_PREDICT_THREADS - 1) {
+            thread_args[i].end_sample = test_data->num_samples;
+        } else {
+            thread_args[i].end_sample = (i + 1) * samples_per_thread;
+        }
+        if (thread_args[i].start_sample >= test_data->num_samples) {
+            thread_args[i].start_sample = thread_args[i].end_sample;
+        }
 
         pthread_create(&threads[i], NULL, predict_worker, &thread_args[i]);
     }
 
     for (int i = 0; i < NUM_PREDICT_THREADS; i++) {
-        pthread_join(threads[i], NULL);
+        if (thread_args[i].start_sample < thread_args[i].end_sample) {
+            pthread_join(threads[i], NULL);
+        }
     }
 
     return result;
@@ -233,9 +241,11 @@ void free_gbdt_model(GBDTModel* model) {
         if (model->trees) {
             for (int k = 0; k < model->params.num_classes; k++) {
                 if (model->trees[k]) {
-                    // Use the actual number of trees stored in the model
                     for (int m = 0; m < model->params.num_trees; m++) {
-                        free_decision_tree(model->trees[k][m]);
+                        // Check if tree exists before freeing
+                        if (model->trees[k][m]) {
+                            free_decision_tree(model->trees[k][m]);
+                        }
                     }
                     free(model->trees[k]);
                 }

@@ -1,33 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <float.h>
 #include "gbdt.h"
 #include "data.h"
 #include "io.h"
 
-void evaluate(const PredictionResult* result, const Dataset* dataset, const GBDTModel* model) {
-    if (!result || !dataset || !model) return;
+// A simple function to evaluate and return accuracy
+double get_accuracy(const PredictionResult* result, const Dataset* dataset) {
+    if (!result || !dataset) return 0.0;
     int correct = 0;
-    int num_classes = model->params.num_classes;
-
-    printf("\n--- Predictions & Probabilities ---\n");
     for (int i = 0; i < result->num_samples; i++) {
         if (result->labels[i] == dataset->labels[i]) {
             correct++;
         }
-        printf("Sample %d: Predicted=%d, Actual=%d, Probs=[", i, result->labels[i], dataset->labels[i]);
-        for (int k = 0; k < num_classes; k++) {
-            printf("%.4f%s", result->probabilities[i][k], k == num_classes - 1 ? "" : ", ");
-        }
-        printf("]\n");
     }
-    double accuracy = (double)correct / result->num_samples;
-    printf("\nAccuracy: %.2f%% (%d/%d)\n", accuracy * 100.0, correct, result->num_samples);
+    return (double)correct / result->num_samples;
 }
 
+
 int main(int argc, char* argv[]) {
-    if (argc != 6) {
-        fprintf(stderr, "Usage: %s <train_features> <train_labels> <test_features> <test_labels> <iterations>\n", argv[0]);
+    if (argc != 5) {
+        fprintf(stderr, "Usage: %s <train_features> <train_labels> <test_features> <test_labels>\n", argv[0]);
+        fprintf(stderr, "Note: Hyperparameters for grid search are hardcoded in main.c\n");
         return 1;
     }
 
@@ -37,78 +32,102 @@ int main(int argc, char* argv[]) {
     const char* train_labels_file = argv[2];
     const char* test_features_file = argv[3];
     const char* test_labels_file = argv[4];
-    int iterations_to_add = atoi(argv[5]);
-    const char* model_file = "gbdt_model.json";
-    const int save_interval = 10;
+    const char* model_file = "best_gbdt_model.json";
 
-    // --- Load or Create Model ---
-    GBDTModel* model = load_gbdt_model(model_file);
-    if (model) {
-        printf("Loaded existing model with %d trees. Preparing to add %d more.\n", model->params.num_trees, iterations_to_add);
-    } else {
-        printf("No existing model found. Creating a new one.\n");
-        GBDTParams params;
-        params.max_depth = 3;
-        params.learning_rate = 0.1;
-        params.min_samples_split = 2;
-        params.subsample = 0.8;
-        // num_classes will be set after loading data
-        model = create_gbdt_model(&params);
-        if (!model) {
-            fprintf(stderr, "Failed to create new GBDT model.\n");
-            return 1;
+    // --- Grid Search Hyperparameters ---
+    double learning_rates[] = {0.1, 0.2};
+    int max_depths[] = {3, 4};
+    int n_estimators = 50; // Max estimators for each run
+    double early_stopping_loss = 0.4; // Stop if loss on test set is < this. Set to 0 to disable.
+
+    int num_lr = sizeof(learning_rates) / sizeof(double);
+    int num_md = sizeof(max_depths) / sizeof(int);
+
+    printf("--- Starting Grid Search ---\n");
+    printf("Learning rates to test: %d\n", num_lr);
+    printf("Max depths to test: %d\n", num_md);
+    printf("Max estimators per run: %d\n", n_estimators);
+    printf("Early stopping loss threshold: %f\n", early_stopping_loss);
+    printf("Total models to train: %d\n", num_lr * num_md);
+
+    // --- Load Data Once ---
+    printf("\nLoading data...\n");
+    int num_classes;
+    Dataset* train_data = load_dataset(train_features_file, train_labels_file, &num_classes);
+    Dataset* test_data = load_dataset(test_features_file, test_labels_file, &num_classes);
+    if (!train_data || !test_data) {
+        fprintf(stderr, "Failed to load data.\n");
+        return 1;
+    }
+    printf("Training data: %d samples. Test data: %d samples.\n", train_data->num_samples, test_data->num_samples);
+
+    // --- Grid Search Loop ---
+    GBDTModel* best_model = NULL;
+    GBDTParams best_params;
+    double best_accuracy = -1.0;
+
+    for (int i = 0; i < num_lr; i++) {
+        for (int j = 0; j < num_md; j++) {
+            GBDTParams current_params;
+            current_params.learning_rate = learning_rates[i];
+            current_params.max_depth = max_depths[j];
+            current_params.num_trees = n_estimators;
+            current_params.min_samples_split = 2;
+            current_params.subsample = 0.8;
+            current_params.num_classes = num_classes;
+            current_params.early_stopping_loss = early_stopping_loss;
+
+            printf("\n--- Training with lr=%.2f, max_depth=%d ---\n", current_params.learning_rate, current_params.max_depth);
+
+            GBDTModel* current_model = train_gbdt(train_data, &current_params, test_data);
+
+            printf("Training finished. Model has %d trees.\n", current_model->params.num_trees);
+
+            PredictionResult* predictions = predict_gbdt(current_model, test_data);
+            double current_accuracy = get_accuracy(predictions, test_data);
+            printf("Accuracy for this model: %.2f%%\n", current_accuracy * 100.0);
+
+            if (current_accuracy > best_accuracy) {
+                printf("!!! New best model found.\n");
+                best_accuracy = current_accuracy;
+                best_params = current_model->params;
+
+                // Free the old best model if it exists
+                if (best_model) {
+                    free_gbdt_model(best_model);
+                }
+                // This becomes the new best model
+                best_model = current_model;
+
+            } else {
+                // This model is not the best, so we can free it immediately
+                free_gbdt_model(current_model);
+            }
+            free_prediction_result(predictions);
         }
     }
 
-    // --- Load Data ---
-    printf("Loading training data...\n");
-    int num_classes;
-    Dataset* train_data = load_dataset(train_features_file, train_labels_file, &num_classes);
-    if (!train_data) {
-        fprintf(stderr, "Failed to load training data.\n");
-        free_gbdt_model(model);
-        return 1;
-    }
-    // Set num_classes for a new model, or verify it for a loaded model
-    if (model->params.num_trees == 0) {
-        model->params.num_classes = num_classes;
-    } else if (model->params.num_classes != num_classes) {
-        fprintf(stderr, "Error: Mismatch in number of classes between loaded model (%d) and new data (%d).\n", model->params.num_classes, num_classes);
-        free_dataset(train_data);
-        free_gbdt_model(model);
-        return 1;
-    }
-    printf("Training data loaded: %d samples, %d features, %d classes.\n", train_data->num_samples, train_data->num_features, num_classes);
+    // --- Results ---
+    printf("\n--- Grid Search Complete ---\n");
+    if (best_model) {
+        printf("Best Accuracy: %.2f%%\n", best_accuracy * 100.0);
+        printf("Best Parameters:\n");
+        printf("  - learning_rate: %f\n", best_params.learning_rate);
+        printf("  - max_depth: %d\n", best_params.max_depth);
+        printf("  - trees_built: %d (stopped early? %s)\n", best_params.num_trees, best_params.num_trees < n_estimators ? "yes" : "no");
 
-    // --- Train Model ---
-    printf("\nStarting training...\n");
-    train_gbdt(model, train_data, iterations_to_add, save_interval, model_file);
-    printf("Training finished. Final model has %d trees.\n", model->params.num_trees);
-
-    // --- Test Model ---
-    printf("\nLoading test data for evaluation...\n");
-    Dataset* test_data = load_dataset(test_features_file, test_labels_file, &num_classes);
-    if (!test_data) {
-        fprintf(stderr, "Failed to load test data.\n");
-        free_dataset(train_data);
-        free_gbdt_model(model);
-        return 1;
-    }
-    printf("Test data loaded: %d samples, %d features.\n", test_data->num_samples, test_data->num_features);
-
-    printf("\nMaking predictions on test data...\n");
-    PredictionResult* predictions = predict_gbdt(model, test_data);
-
-    if (predictions) {
-        evaluate(predictions, test_data, model);
+        printf("\nSaving best model to %s...\n", model_file);
+        save_gbdt_model(best_model, model_file);
+        printf("Model saved.\n");
+    } else {
+        printf("Grid search did not produce a valid model.\n");
     }
 
     // --- Clean up ---
     printf("\nCleaning up...\n");
-    free_prediction_result(predictions);
     free_dataset(train_data);
     free_dataset(test_data);
-    free_gbdt_model(model);
+    free_gbdt_model(best_model);
     printf("Done.\n");
 
     return 0;
