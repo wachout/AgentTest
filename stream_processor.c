@@ -59,7 +59,7 @@ int main() {
     // Set up parameters
     mfcc_params params;
     params.sample_rate = SAMPLE_RATE;
-    params.n_fft = 400;
+    params.n_fft = 512;
     params.hop_length = 160;
     params.n_mels = 128;
     params.n_mfcc = 20;
