@@ -33,10 +33,10 @@ int main(int argc, char *argv[]) {
     // 2. Set up MFCC/Melspectrogram parameters
     mfcc_params params;
     params.sample_rate = wav_data.sample_rate;
-    params.n_fft = 2048;
-    params.hop_length = 512;
+    params.n_fft = 400;
+    params.hop_length = 160;
     params.n_mels = 128;
-    params.n_mfcc = 13;
+    params.n_mfcc = 20;
     params.fmin = 0.0;
     params.fmax = wav_data.sample_rate / 2.0;
 
