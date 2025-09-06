@@ -25,12 +25,13 @@ TEST_OBJECTS = $(patsubst $(TESTDIR)/%.c, $(BUILDDIR)/%.o, $(TEST_SOURCES))
 # Executable names
 EXAMPLE_EXEC = $(BINDIR)/mfcc_example
 STREAM_EXEC = $(BINDIR)/stream_processor
+REALTIME_EXEC = $(BINDIR)/realtime_processor
 TEST_EXEC = $(BINDIR)/run_tests
 
 # Targets
 .PHONY: all clean test
 
-all: $(EXAMPLE_EXEC) $(STREAM_EXEC)
+all: $(EXAMPLE_EXEC) $(STREAM_EXEC) $(REALTIME_EXEC)
 
 # Rule for the WAV file example executable
 $(EXAMPLE_EXEC): $(LIB_OBJECTS) $(BUILDDIR)/main.o
@@ -39,6 +40,11 @@ $(EXAMPLE_EXEC): $(LIB_OBJECTS) $(BUILDDIR)/main.o
 
 # Rule for the stream processor executable
 $(STREAM_EXEC): $(LIB_OBJECTS) $(BUILDDIR)/stream_processor.o
+	@mkdir -p $(BINDIR)
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
+
+# Rule for the real-time stream processor executable
+$(REALTIME_EXEC): $(LIB_OBJECTS) $(BUILDDIR)/realtime_processor.o
 	@mkdir -p $(BINDIR)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
@@ -68,6 +74,10 @@ $(BUILDDIR)/main.o: main.c
 $(BUILDDIR)/stream_processor.o: stream_processor.c
 	@mkdir -p $(BUILDDIR)
 	$(CC) $(CFLAGS) -c stream_processor.c -o $@
+
+$(BUILDDIR)/realtime_processor.o: realtime_processor.c
+	@mkdir -p $(BUILDDIR)
+	$(CC) $(CFLAGS) -c realtime_processor.c -o $@
 
 clean:
 	rm -rf $(BUILDDIR) $(BINDIR)

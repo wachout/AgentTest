@@ -42,6 +42,40 @@ int compute_mfcc(mfcc_params* params, const double* audio_buffer, size_t buffer_
  */
 int compute_melspectrogram(mfcc_params* params, const double* audio_buffer, size_t buffer_len, double* melspec_output);
 
+/**
+ * @brief Computes the Power Spectrogram (STFT squared magnitude) for an audio signal.
+ *
+ * @param params Parameters for the computation.
+ * @param audio_buffer The input audio signal.
+ * @param buffer_len The length of the audio buffer.
+ * @param[out] spec_output The buffer to store the computed spectrogram.
+ *                         The size should be (num_frames * (fft_size/2 + 1)).
+ * @return The number of frames processed, or -1 on error.
+ */
+int compute_power_spectrogram(mfcc_params* params, const double* audio_buffer, size_t buffer_len, double* spec_output);
+
+/**
+ * @brief Helper function to find the next power of 2 for a given number.
+ *
+ * @param n The input number.
+ * @return The smallest power of 2 that is greater than or equal to n.
+ */
+unsigned int next_power_of_2(unsigned int n);
+
+/**
+ * @brief Computes one or more features in a single, efficient pass.
+ *
+ * @param params Parameters for the computation.
+ * @param audio_buffer The input audio signal.
+ * @param buffer_len The length of the audio buffer.
+ * @param[out] power_spec_output (Optional, can be NULL) Buffer for the power spectrogram.
+ * @param[out] melspec_output (Optional, can be NULL) Buffer for the Mel spectrogram.
+ * @param[out] mfcc_output (Optional, can be NULL) Buffer for the MFCC features.
+ * @return The number of frames processed, or -1 on error.
+ */
+int compute_features(mfcc_params* params, const double* audio_buffer, size_t buffer_len,
+                     double* power_spec_output, double* melspec_output, double* mfcc_output);
+
 
 /**
  * @brief Generates a Mel filterbank. The caller is responsible for allocating and freeing the filterbank memory.
