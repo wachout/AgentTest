@@ -56,8 +56,11 @@ typedef struct {
     int num_samples;
 } PredictionResult;
 
-// GBDT prediction function
+// GBDT prediction function for a dataset
 PredictionResult* predict_gbdt(const GBDTModel* model, const Dataset* test_data);
+
+// GBDT prediction function for a single sample
+PredictionResult* predict_gbdt_single(const GBDTModel* model, const double* features);
 
 // Function to free the prediction result
 void free_prediction_result(PredictionResult* result);

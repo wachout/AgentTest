@@ -123,6 +123,20 @@ int main(int argc, char* argv[]) {
         printf("Grid search did not produce a valid model.\n");
     }
 
+    // --- Demonstrate Single Prediction ---
+    if (best_model && test_data->num_samples > 0) {
+        printf("\n--- Demonstrating single prediction on the first test sample ---\n");
+        PredictionResult* single_pred = predict_gbdt_single(best_model, test_data->features[0]);
+        if (single_pred) {
+            printf("Single Prediction: Label=%d, Probs=[", single_pred->labels[0]);
+            for (int k = 0; k < best_model->params.num_classes; k++) {
+                printf("%.4f%s", single_pred->probabilities[0][k], k == best_model->params.num_classes - 1 ? "" : ", ");
+            }
+            printf("]\n");
+            free_prediction_result(single_pred);
+        }
+    }
+
     // --- Clean up ---
     printf("\nCleaning up...\n");
     free_dataset(train_data);

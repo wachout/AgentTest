@@ -220,6 +220,52 @@ PredictionResult* predict_gbdt(const GBDTModel* model, const Dataset* test_data)
     return result;
 }
 
+PredictionResult* predict_gbdt_single(const GBDTModel* model, const double* features) {
+    PredictionResult* result = (PredictionResult*)malloc(sizeof(PredictionResult));
+    if (!result) {
+        perror("Failed to allocate memory for PredictionResult");
+        return NULL;
+    }
+    result->num_samples = 1;
+    result->labels = (int*)malloc(sizeof(int));
+    result->probabilities = (double**)malloc(sizeof(double*));
+    if (!result->labels || !result->probabilities) {
+        free(result->labels); free(result->probabilities); free(result);
+        return NULL;
+    }
+    result->probabilities[0] = (double*)malloc(model->params.num_classes * sizeof(double));
+    if (!result->probabilities[0]) {
+        free(result->labels); free(result->probabilities); free(result);
+        return NULL;
+    }
+
+    double scores[model->params.num_classes];
+    memcpy(scores, model->initial_prediction, model->params.num_classes * sizeof(double));
+
+    for (int k = 0; k < model->params.num_classes; k++) {
+        for (int m = 0; m < model->params.num_trees; m++) {
+            if (model->trees[k][m]) {
+                scores[k] += model->params.learning_rate * predict_tree(model->trees[k][m], features);
+            }
+        }
+    }
+
+    softmax(scores, model->params.num_classes);
+    memcpy(result->probabilities[0], scores, model->params.num_classes * sizeof(double));
+
+    int max_class = 0;
+    double max_prob = scores[0];
+    for (int k = 1; k < model->params.num_classes; k++) {
+        if (scores[k] > max_prob) {
+            max_prob = scores[k];
+            max_class = k;
+        }
+    }
+    result->labels[0] = max_class;
+
+    return result;
+}
+
 void free_prediction_result(PredictionResult* result) {
     if (result) {
         free(result->labels);
