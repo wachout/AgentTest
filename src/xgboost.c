@@ -13,22 +13,44 @@ static void find_best_split(Dataset *dataset, int *sample_indices, int num_sampl
 static float calculate_leaf_value(float *gradients, float *hessians, int *sample_indices, int num_samples, float lambda);
 static void free_tree(DecisionTreeNode *node);
 
-XGBoostModel* xgboost_train(Dataset *dataset, XGBoostParameter params) {
-    int num_total_trees = params.num_trees * params.num_classes;
+XGBoostModel* xgboost_train(Dataset *dataset, XGBoostParameter params, XGBoostModel *model) {
+    int initial_trees = 0;
+    if (model) {
+        initial_trees = model->params.num_trees;
+    }
 
-    XGBoostModel *model = (XGBoostModel*)malloc(sizeof(XGBoostModel));
-    model->params = params;
-    model->trees = (DecisionTree**)malloc(num_total_trees * sizeof(DecisionTree*));
+    int new_total_trees = initial_trees + params.num_trees;
 
+    if (!model) {
+        model = (XGBoostModel*)malloc(sizeof(XGBoostModel));
+        model->params = params;
+        model->params.num_trees = 0; // It will be updated at the end
+        model->trees = NULL;
+    }
+
+    // Resize trees array
+    model->trees = (DecisionTree**)realloc(model->trees, new_total_trees * params.num_classes * sizeof(DecisionTree*));
+
+    // Initialize predictions (raw scores)
     float **predictions = (float**)malloc(dataset->num_rows * sizeof(float*));
     for (int i = 0; i < dataset->num_rows; i++) {
         predictions[i] = (float*)calloc(params.num_classes, sizeof(float));
     }
 
+    // If continuing training, initialize predictions with existing model
+    if (initial_trees > 0) {
+        for (int i = 0; i < dataset->num_rows; i++) {
+            for (int t = 0; t < initial_trees * params.num_classes; t++) {
+                int class_idx = t % params.num_classes;
+                predictions[i][class_idx] += model->params.learning_rate * predict_tree(model->trees[t]->root, dataset->data[i]);
+            }
+        }
+    }
+
     float *gradients = (float*)malloc(dataset->num_rows * sizeof(float));
     float *hessians = (float*)malloc(dataset->num_rows * sizeof(float));
 
-    for (int t = 0; t < params.num_trees; t++) {
+    for (int t = 0; t < params.num_trees; t++) { // Loop for the new trees
         float **probabilities = (float**)malloc(dataset->num_rows * sizeof(float*));
         for (int i = 0; i < dataset->num_rows; i++) {
             probabilities[i] = (float*)malloc(params.num_classes * sizeof(float));
@@ -48,14 +70,16 @@ XGBoostModel* xgboost_train(Dataset *dataset, XGBoostParameter params) {
                 hessians[i] = probabilities[i][c] * (1.0f - probabilities[i][c]);
             }
 
-            int *sample_indices = (int*)malloc(dataset->num_rows * sizeof(int));
-            for(int i = 0; i < dataset->num_rows; i++) {
-                sample_indices[i] = i;
+            int num_subsamples = (int)(dataset->num_rows * params.subsample);
+            int *sample_indices = (int*)malloc(num_subsamples * sizeof(int));
+            // Simple subsampling without replacement
+            for(int i = 0; i < num_subsamples; i++) {
+                sample_indices[i] = rand() % dataset->num_rows;
             }
 
-            DecisionTreeNode *root = build_tree(dataset, sample_indices, dataset->num_rows, gradients, hessians, params, 0);
+            DecisionTreeNode *root = build_tree(dataset, sample_indices, num_subsamples, gradients, hessians, params, 0);
 
-            int tree_index = t * params.num_classes + c;
+            int tree_index = (initial_trees + t) * params.num_classes + c;
             model->trees[tree_index] = (DecisionTree*)malloc(sizeof(DecisionTree));
             model->trees[tree_index]->root = root;
 
@@ -71,6 +95,8 @@ XGBoostModel* xgboost_train(Dataset *dataset, XGBoostParameter params) {
         }
         free(probabilities);
     }
+
+    model->params.num_trees = new_total_trees;
 
     for (int i = 0; i < dataset->num_rows; i++) {
         free(predictions[i]);
@@ -215,8 +241,15 @@ static void find_best_split(Dataset *dataset, int *sample_indices, int num_sampl
         thread_best_feature = -1;
         thread_best_value = 0.0f;
 
+        int num_col_samples = (int)(dataset->num_cols * params.colsample_bytree);
+        int *col_indices = (int*)malloc(num_col_samples * sizeof(int));
+        for(int i = 0; i < num_col_samples; i++) {
+            col_indices[i] = rand() % dataset->num_cols;
+        }
+
         #pragma omp for
-        for (int j = 0; j < dataset->num_cols; j++) {
+        for (int k = 0; k < num_col_samples; k++) {
+            int j = col_indices[k];
             FeatureValue *feature_values = (FeatureValue*)malloc(num_samples * sizeof(FeatureValue));
             for (int i = 0; i < num_samples; i++) {
                 int sample_idx = sample_indices[i];
@@ -262,6 +295,7 @@ static void find_best_split(Dataset *dataset, int *sample_indices, int num_sampl
                 *best_value = thread_best_value;
             }
         }
+        free(col_indices);
     }
 }
 

@@ -13,6 +13,8 @@ typedef struct {
     float lambda;           // L2 regularization term on weights
     float gamma;            // Minimum sum of instance weight (hessian) needed in a child
     int num_classes;        // Number of classes for multi-class classification
+    float subsample;        // Fraction of samples to be used for growing trees
+    float colsample_bytree; // Fraction of features to be used for growing trees
 } XGBoostParameter;
 
 // Decision Tree Node
@@ -37,7 +39,7 @@ typedef struct {
 } XGBoostModel;
 
 // Function declarations for the XGBoost algorithm
-XGBoostModel* xgboost_train(Dataset *dataset, XGBoostParameter params);
+XGBoostModel* xgboost_train(Dataset *dataset, XGBoostParameter params, XGBoostModel *model);
 void xgboost_predict(XGBoostModel *model, Dataset *dataset, int *predictions);
 void free_xgboost_model(XGBoostModel *model);
 

@@ -41,6 +41,7 @@ void print_accuracy(XGBoostModel *model, Dataset *dataset) {
 }
 
 void run_tests() {
+    srand(time(NULL));
     int num_samples = 1000;
     int num_features = 10000;
     int num_classes = 5;
@@ -57,20 +58,22 @@ void run_tests() {
     params.lambda = 1.0f;
     params.gamma = 0.0f;
     params.num_classes = num_classes;
+    params.subsample = 0.8f;
+    params.colsample_bytree = 0.8f;
 
-    printf("Starting XGBoost training...\n");
-    clock_t start = clock();
-    XGBoostModel *model = xgboost_train(dataset, params);
-    clock_t end = clock();
-    double time_spent = (double)(end - start) / CLOCKS_PER_SEC;
-    printf("Training time: %f seconds\n", time_spent);
+    printf("Starting XGBoost training for 10 rounds...\n");
+    params.num_trees = 10;
+    XGBoostModel *model = xgboost_train(dataset, params, NULL);
+    printf("--- Model after 10 rounds ---\n");
+    print_accuracy(model, dataset);
+
+    printf("\nContinuing training for another 10 rounds...\n");
+    model = xgboost_train(dataset, params, model);
+    printf("--- Model after 20 rounds ---\n");
+    print_accuracy(model, dataset);
 
     if (model) {
-        printf("Training complete.\n");
-        print_accuracy(model, dataset);
         free_xgboost_model(model);
-    } else {
-        fprintf(stderr, "Training failed.\n");
     }
 
     free_dataset(dataset);
