@@ -160,7 +160,18 @@ void process_stream() {
         AudioFeatures* raw_features = calculate_features(audio_buffer_10s, TOTAL_SAMPLES);
 
         if (raw_features) {
-            printf("Post-processing features...\n");
+            printf("\n--- Raw Feature Sizes ---\n");
+            long spec_elements = (long)raw_features->num_frames * raw_features->num_spec_bins;
+            long mel_elements = (long)raw_features->num_frames * raw_features->num_mels;
+            long mfcc_elements = (long)raw_features->num_frames * raw_features->num_mfcc;
+            printf("Power Spectrogram: %d frames x %d bins = %ld elements (%ld bytes)\n",
+                   raw_features->num_frames, raw_features->num_spec_bins, spec_elements, spec_elements * sizeof(double));
+            printf("Mel Spectrogram:   %d frames x %d bins = %ld elements (%ld bytes)\n",
+                   raw_features->num_frames, raw_features->num_mels, mel_elements, mel_elements * sizeof(double));
+            printf("MFCC:              %d frames x %d bins = %ld elements (%ld bytes)\n",
+                   raw_features->num_frames, raw_features->num_mfcc, mfcc_elements, mfcc_elements * sizeof(double));
+
+            printf("\nPost-processing features...\n");
             ProcessedFeatures* processed_features = process_features(raw_features);
 
             if (processed_features) {
