@@ -38,7 +38,7 @@ $(EXAMPLE_EXEC): $(LIB_OBJECTS) $(BUILDDIR)/main.o
 	@mkdir -p $(BINDIR)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
-# Rule for the stream processor executable
+# Rule for the old stream processor executable
 $(STREAM_EXEC): $(LIB_OBJECTS) $(BUILDDIR)/stream_processor.o
 	@mkdir -p $(BINDIR)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)

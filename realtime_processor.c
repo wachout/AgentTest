@@ -6,6 +6,8 @@
 
 #include "socket_client.h"
 #include "mfcc.h"
+#include "feature_postprocessing.h"
+#include "types.h"
 
 // --- Configuration ---
 #define SERVER_IP "192.168.35.6"
@@ -18,21 +20,13 @@
 #define SAMPLE_RATE 96000
 
 // --- Data Structures ---
-typedef struct {
-    int num_frames;
-    int num_spec_bins;
-    int num_mels;
-    int num_mfcc;
-    double* power_spectrogram;
-    double* mel_spectrogram;
-    double* mfcc;
-} AudioFeatures;
+// (AudioFeatures is now defined in mfcc.h)
 
 // --- Function Declarations ---
 int receive_one_frame_and_extract(int sockfd, int16_t* out_buffer, uint32_t* raw_frame_buffer);
 AudioFeatures* calculate_features(const int16_t* audio_buffer, int num_samples);
-int run_inference(const AudioFeatures* features);
-void cleanup_features(AudioFeatures* features);
+int run_inference(const ProcessedFeatures* features); // Now takes ProcessedFeatures
+void cleanup_features(AudioFeatures* features); // Renamed to avoid confusion
 
 // --- Function Implementations ---
 
@@ -108,16 +102,16 @@ AudioFeatures* calculate_features(const int16_t* audio_buffer, int num_samples) 
     return features;
 }
 
-int run_inference(const AudioFeatures* features) {
+int run_inference(const ProcessedFeatures* features) {
     if (!features) return -1;
     printf("--- Inference Simulation ---\n");
-    printf("Successfully received features for %d frames.\n", features->num_frames);
-    printf("Power Spectrogram (Frame 0, first 5): [%.4f, %.4f, %.4f, %.4f, %.4f...]\n",
-           features->power_spectrogram[0], features->power_spectrogram[1], features->power_spectrogram[2], features->power_spectrogram[3], features->power_spectrogram[4]);
-    printf("Mel Spectrogram (Frame 0, first 5):   [%.4f, %.4f, %.4f, %.4f, %.4f...]\n",
-           features->mel_spectrogram[0], features->mel_spectrogram[1], features->mel_spectrogram[2], features->mel_spectrogram[3], features->mel_spectrogram[4]);
-    printf("MFCC (Frame 0, first 5):            [%.2f, %.2f, %.2f, %.2f, %.2f...]\n",
-           features->mfcc[0], features->mfcc[1], features->mfcc[2], features->mfcc[3], features->mfcc[4]);
+    printf("Successfully received processed features for model.\n");
+    printf("Mel Spec (size %d, first 5): [%.4f, %.4f, %.4f, %.4f, %.4f...]\n",
+           TARGET_SIZE_MELSCRIPT, features->mel_spectrogram[0], features->mel_spectrogram[1], features->mel_spectrogram[2], features->mel_spectrogram[3], features->mel_spectrogram[4]);
+    printf("STFT Spec (size %d, first 5): [%.4f, %.4f, %.4f, %.4f, %.4f...]\n",
+           TARGET_SIZE_STFT, features->power_spectrogram[0], features->power_spectrogram[1], features->power_spectrogram[2], features->power_spectrogram[3], features->power_spectrogram[4]);
+    printf("MFCC (size %d, first 5):      [%.4f, %.4f, %.4f, %.4f, %.4f...]\n",
+           TARGET_SIZE_MFCC, features->mfcc[0], features->mfcc[1], features->mfcc[2], features->mfcc[3], features->mfcc[4]);
     return 0;
 }
 
@@ -131,7 +125,6 @@ void cleanup_features(AudioFeatures* features) {
 }
 
 void process_stream() {
-    // Allocate buffers that will be reused in the loop
     int16_t* audio_buffer_10s = (int16_t*)malloc(TOTAL_SAMPLES * sizeof(int16_t));
     uint32_t* frame_buffer = (uint32_t*)malloc(FRAME_SIZE_BYTES);
 
@@ -153,25 +146,35 @@ void process_stream() {
             continue;
         }
 
-        printf("Connection successful. Collecting data for a new 10-second chunk...\n");
+        printf("Connection successful. Collecting 10s of audio...\n");
         for (int i = 0; i < NUM_FRAMES_TO_ACCUMULATE; ++i) {
             int16_t* buffer_offset = audio_buffer_10s + (i * SAMPLES_PER_FRAME);
             int status = receive_one_frame_and_extract(sock, buffer_offset, frame_buffer);
             if (status < 0) {
-                break; // Socket error, break inner loop to reconnect
+                socket_disconnect(sock);
+                goto reconnect; // Use goto to jump to the reconnect logic
             }
         }
 
-        printf("Buffer full. Processing data...\n");
+        printf("Buffer full. Calculating raw features...\n");
+        AudioFeatures* raw_features = calculate_features(audio_buffer_10s, TOTAL_SAMPLES);
 
-        AudioFeatures* features = calculate_features(audio_buffer_10s, TOTAL_SAMPLES);
-        if (features) {
-            run_inference(features);
-            cleanup_features(features);
+        if (raw_features) {
+            printf("Post-processing features...\n");
+            ProcessedFeatures* processed_features = process_features(raw_features);
+
+            if (processed_features) {
+                run_inference(processed_features);
+                cleanup_processed_features(processed_features);
+            }
+            cleanup_features(raw_features);
         }
 
         socket_disconnect(sock);
-        printf("Cycle complete. Waiting 5 seconds before next cycle...\n");
+        printf("Cycle complete.\n");
+
+    reconnect:
+        printf("Waiting 5 seconds before next cycle...\n");
         sleep(5);
     }
 
