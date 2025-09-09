@@ -95,6 +95,21 @@ int main(int argc, char *argv[]) {
     print_accuracy(loaded_model, dataset);
 
     // --- Cleanup ---
+    printf("\n--- 4. Single Prediction Example ---\n");
+    // Create a sample feature vector (double array)
+    double sample_double_features[] = {0.1, 0.2, 0.3, 0.4};
+    int num_features = sizeof(sample_double_features) / sizeof(double);
+
+    // Convert to float array for the model
+    float *sample_float_features = (float*)malloc(num_features * sizeof(float));
+    for(int i = 0; i < num_features; i++) {
+        sample_float_features[i] = (float)sample_double_features[i];
+    }
+
+    int predicted_class = xgboost_predict_single(loaded_model, sample_float_features);
+    printf("Prediction for single sample [0.1, 0.2, 0.3, 0.4]: %d\n", predicted_class);
+
+    free(sample_float_features);
     free_xgboost_model(loaded_model);
     free_dataset(dataset);
     printf("\nCleanup complete. Exiting.\n");

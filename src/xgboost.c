@@ -206,6 +206,27 @@ static DecisionTreeNode* build_tree(Dataset *dataset, int *sample_indices, int n
     return node;
 }
 
+int xgboost_predict_single(XGBoostModel *model, float *features) {
+    int num_total_trees = model->params.num_trees * model->params.num_classes;
+    float *scores = (float*)calloc(model->params.num_classes, sizeof(float));
+
+    for (int t = 0; t < num_total_trees; t++) {
+        int class_idx = t % model->params.num_classes;
+        scores[class_idx] += model->params.learning_rate * predict_tree(model->trees[t]->root, features);
+    }
+
+    int max_class = 0;
+    float max_score = scores[0];
+    for (int c = 1; c < model->params.num_classes; c++) {
+        if (scores[c] > max_score) {
+            max_score = scores[c];
+            max_class = c;
+        }
+    }
+    free(scores);
+    return max_class;
+}
+
 typedef struct {
     float value;
     int index;

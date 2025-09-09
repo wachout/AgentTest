@@ -47,4 +47,7 @@ void free_xgboost_model(XGBoostModel *model);
 void save_model_json(XGBoostModel *model, const char *filename);
 XGBoostModel* load_model_json(const char *filename);
 
+// Function for single prediction
+int xgboost_predict_single(XGBoostModel *model, float *features);
+
 #endif
