@@ -14,16 +14,14 @@ void print_accuracy(XGBoostModel *model, Dataset *dataset) {
     xgboost_predict(model, dataset, predictions);
 
     int correct_predictions = 0;
-    printf("\nPredictions vs Actual Labels:\n");
     for (int i = 0; i < dataset->num_rows; i++) {
-        printf("Sample %d: Predicted: %d, Actual: %d\n", i, predictions[i], dataset->labels[i]);
         if (predictions[i] == dataset->labels[i]) {
             correct_predictions++;
         }
     }
 
     float accuracy = (float)correct_predictions / dataset->num_rows;
-    printf("Accuracy: %.2f%%\n", accuracy * 100);
+    printf("Model Accuracy: %.2f%% (Total trees: %d)\n", accuracy * 100, model->params.num_trees);
 
     free(predictions);
 }
@@ -31,7 +29,6 @@ void print_accuracy(XGBoostModel *model, Dataset *dataset) {
 int main(int argc, char *argv[]) {
     srand(time(NULL));
 
-    // Using default file paths, but can be overridden by command line arguments
     const char* train_file = "data/train_mc.txt";
     const char* label_file = "data/label_mc.txt";
     const char* model_file = "model.json";
@@ -42,37 +39,50 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Failed to load data.\n");
         return 1;
     }
-    printf("Dataset loaded: %d samples, %d features\n", dataset->num_rows, dataset->num_cols);
+    printf("Dataset loaded: %d samples, %d features\n\n", dataset->num_rows, dataset->num_cols);
 
+    // --- Initial Training ---
     XGBoostParameter params;
-    params.num_trees = 20;
     params.max_depth = 4;
     params.learning_rate = 0.1f;
     params.min_split_gain = 0.0f;
     params.lambda = 1.0f;
     params.gamma = 0.0f;
-    params.num_classes = 3; // Should be determined from data, but hardcoded for now
+    params.num_classes = 3;
     params.subsample = 0.8f;
     params.colsample_bytree = 0.8f;
+    params.num_trees = 10; // Train for 10 rounds initially
 
-    printf("\nStarting XGBoost training...\n");
+    printf("--- 1. Initial Training (10 rounds) ---\n");
     XGBoostModel *model = xgboost_train(dataset, params, NULL);
     if (!model) {
-        fprintf(stderr, "Training failed.\n");
+        fprintf(stderr, "Initial training failed.\n");
         free_dataset(dataset);
         return 1;
     }
-    printf("Training complete.\n");
-
-    printf("\n--- Original Model Accuracy ---\n");
     print_accuracy(model, dataset);
 
-    printf("\nSaving model to %s...\n", model_file);
+    // --- Iterative Training ---
+    printf("\n--- 2. Iterative Training (10 more rounds) ---\n");
+    params.num_trees = 10; // Train for 10 *additional* rounds
+    model = xgboost_train(dataset, params, model);
+    if (!model) {
+        fprintf(stderr, "Iterative training failed.\n");
+        free_dataset(dataset);
+        return 1;
+    }
+    print_accuracy(model, dataset);
+
+    // --- Save/Load Demonstration ---
+    printf("\n--- 3. Testing Save/Load ---\n");
+    printf("Saving model to %s...\n", model_file);
     save_model_json(model, model_file);
     printf("Model saved.\n");
+
+    // Free the original model before loading it back
     free_xgboost_model(model);
 
-    printf("\nLoading model from %s...\n", model_file);
+    printf("Loading model from %s...\n", model_file);
     XGBoostModel *loaded_model = load_model_json(model_file);
     if (!loaded_model) {
         fprintf(stderr, "Failed to load model.\n");
@@ -81,11 +91,13 @@ int main(int argc, char *argv[]) {
     }
     printf("Model loaded.\n");
 
-    printf("\n--- Loaded Model Accuracy ---\n");
+    printf("Verifying loaded model accuracy...\n");
     print_accuracy(loaded_model, dataset);
 
+    // --- Cleanup ---
     free_xgboost_model(loaded_model);
     free_dataset(dataset);
+    printf("\nCleanup complete. Exiting.\n");
 
     return 0;
 }
