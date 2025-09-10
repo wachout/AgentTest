@@ -1,0 +1,7 @@
+neo4j
+pymilvus
+transformers
+torch
+fastapi
+uvicorn[standard]
+sentence-transformers
