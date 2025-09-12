@@ -1,66 +1,116 @@
 import asyncio
 import os
+import sys
 from pprint import pprint
 from dotenv import load_dotenv
+from typing import List, Tuple, Dict, Any
 
 # Import the graph builder function from our other module
 from graph_builder import create_graph, AgentState
 
-async def main():
+# --- Configuration ---
+LONG_TEXT_THRESHOLD = 20000
+CHUNK_SIZE = 20000
+OVERLAP_SIZE = 1000
+
+def chunk_text_with_overlap(text: str, chunk_size: int, overlap: int) -> List[Tuple[str, int]]:
     """
-    The main execution function for our multi-agent text splitting system.
+    Splits a long text into overlapping chunks.
+    Returns a list of tuples, where each tuple contains the chunk of text and its starting offset.
     """
-    # Load environment variables from .env file
-    # This will load the DEEPSEEK_API_KEY
-    load_dotenv()
+    if len(text) <= chunk_size:
+        return [(text, 0)]
 
-    # Check if the API key is set
-    if not os.getenv("DEEPSEEK_API_KEY"):
-        print("ERROR: DEEPSEEK_API_KEY environment variable not set.")
-        print("Please create a .env file and add your key.")
-        return
+    chunks = []
+    offset = 0
+    while offset < len(text):
+        chunk_end = offset + chunk_size
+        chunks.append((text[offset:chunk_end], offset))
 
-    print("Reading sample text...")
-    try:
-        with open("sample_text.txt", "r", encoding="utf-8") as f:
-            text_content = f.read()
-    except FileNotFoundError:
-        print("ERROR: sample_text.txt not found. Please create it.")
-        return
+        # Move to the next chunk start position
+        offset += chunk_size - overlap
+        if offset + overlap >= len(text):
+            break
 
-    # Create the compiled LangGraph application
-    graph_app = create_graph()
+    return chunks
 
-    # Define the initial state to be passed to the graph
-    # The graph will update the other fields as it runs.
+async def analyze_chunk(graph_app, chunk_text: str) -> Dict[str, Any]:
+    """Helper function to run analysis on a single chunk."""
     initial_state: AgentState = {
-        "input_text": text_content,
+        "input_text": chunk_text,
         "chapter_splits": [],
         "paragraph_splits": [],
         "semantic_splits": [],
         "error": None,
     }
+    return await graph_app.ainvoke(initial_state)
 
-    print("\n--- Invoking Multi-Agent Graph ---")
-    # Asynchronously invoke the graph with our initial state
-    final_state = await graph_app.ainvoke(initial_state)
 
-    print("\n--- Graph Execution Complete ---")
+async def main(filename: str = "sample_text.txt"):
+    """
+    The main execution function for our multi-agent text splitting system.
+    Handles both short and long texts with chunking logic.
+    """
+    load_dotenv()
+    if not os.getenv("DEEPSEEK_API_KEY"):
+        print("ERROR: DEEPSEEK_API_KEY environment variable not set.")
+        return
 
-    if final_state.get("error"):
-        print("\nAn error occurred during graph execution:")
-        print(final_state["error"])
+    print(f"Reading text from '{filename}'...")
+    try:
+        with open(filename, "r", encoding="utf-8") as f:
+            text_content = f.read()
+    except FileNotFoundError:
+        print(f"ERROR: {filename} not found.")
+        return
+
+    graph_app = create_graph()
+
+    if len(text_content) <= LONG_TEXT_THRESHOLD:
+        print("Text is short. Analyzing as a single document.")
+        chunks_with_offsets = [(text_content, 0)]
     else:
-        print("\nFinal analysis results:")
-        # Use pprint for a more readable dictionary output
-        pprint(
-            {
-                "chapter_splits": final_state.get("chapter_splits"),
-                "paragraph_splits": final_state.get("paragraph_splits"),
-                "semantic_splits": final_state.get("semantic_splits"),
-            }
-        )
+        print(f"Text is long ({len(text_content)} chars). Splitting into overlapping chunks.")
+        chunks_with_offsets = chunk_text_with_overlap(text_content, CHUNK_SIZE, OVERLAP_SIZE)
+        print(f"Created {len(chunks_with_offsets)} chunks to analyze.")
 
-# Standard Python entry point for running async functions
+    # Create and run analysis tasks for all chunks in parallel
+    tasks = [analyze_chunk(graph_app, chunk) for chunk, offset in chunks_with_offsets]
+    print("\n--- Invoking Multi-Agent Graph on all chunks ---")
+    results = await asyncio.gather(*tasks)
+    print("\n--- Graph Execution Complete for all chunks ---")
+
+    # --- Aggregate and process results ---
+    all_chapter_splits = set()
+    all_paragraph_splits = set()
+    all_semantic_splits = set()
+
+    for i, result in enumerate(results):
+        chunk_text, offset = chunks_with_offsets[i]
+        if result.get("error"):
+            print(f"Warning: Chunk {i} failed with error: {result['error']}")
+            continue
+
+        # Convert local indices to global indices and add to sets (for auto-deduplication)
+        for local_idx in result.get("chapter_splits", []):
+            all_chapter_splits.add(offset + local_idx)
+        for local_idx in result.get("paragraph_splits", []):
+            all_paragraph_splits.add(offset + local_idx)
+        for local_idx in result.get("semantic_splits", []):
+            all_semantic_splits.add(offset + local_idx)
+
+    # Sort the final lists
+    final_results = {
+        "chapter_splits": sorted(list(all_chapter_splits)),
+        "paragraph_splits": sorted(list(all_paragraph_splits)),
+        "semantic_splits": sorted(list(all_semantic_splits)),
+    }
+
+    print("\n--- Final Aggregated Analysis Results ---")
+    pprint(final_results)
+
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    # Allows passing a filename from the command line, e.g., `python main.py long_sample_text.txt`
+    target_file = sys.argv[1] if len(sys.argv) > 1 else "sample_text.txt"
+    asyncio.run(main(filename=target_file))
