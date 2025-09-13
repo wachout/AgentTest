@@ -4,6 +4,7 @@ import operator
 from typing import List, TypedDict, Annotated, Dict
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from dotenv import load_dotenv
@@ -137,25 +138,27 @@ def extract_summary(state: AgentState) -> AgentState:
 
 def extract_toc(state: AgentState) -> AgentState:
     """
-    Extracts the table of contents as a JSON object.
+    Extracts the table of contents as a JSON object using a more robust parsing method.
     """
     print("---(Node: Extracting Table of Contents)---")
     text = state.get("text", "")
     if not text:
         return {"error": ["No text provided for ToC extraction."]}
 
+    # Instantiate a JSON parser
+    parser = JsonOutputParser()
+
     prompt = ChatPromptTemplate.from_messages([
-        ("system", "You are a specialist in document structure analysis. Your goal is to find and parse the table of contents (目录) from the text."),
-        ("user", "Analyze the following text and extract its table of contents. If a ToC is present, format it as a hierarchical JSON object. The JSON should represent the structure with keys for titles and nested objects for sub-sections. If no ToC is found, return an empty JSON object.\n\nText:\n{text}")
+        ("system", "You are an expert document parser. Your task is to extract the table of contents (目录) and format it as a valid JSON object. Do NOT output any text or explanation before or after the JSON. Your entire output must be only the JSON object itself."),
+        ("user", "Analyze the following text and extract its table of contents. Format it as a hierarchical JSON object where keys are section titles and values can be nested objects for sub-sections. If no ToC is found, return an empty JSON object like {{}}.\n\nText:\n{text}\n\nJSON Output:")
     ])
 
-    structured_llm = llm.with_structured_output(TableOfContents)
-    chain = prompt | structured_llm
+    chain = prompt | llm | parser
 
     try:
-        response = chain.invoke({"text": text})
+        response_json = chain.invoke({"text": text})
         print(f"   ToC extracted.")
-        return {"toc": response.toc}
+        return {"toc": response_json}
     except Exception as e:
         print(f"   Error extracting ToC: {e}")
         return {"error": [f"Failed to extract ToC: {e}"]}

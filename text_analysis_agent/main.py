@@ -40,11 +40,24 @@ workflow.add_edge("preprocess", "extract_authors")
 # We need a joining node to wait for all parallel tasks to complete.
 # Let's add a simple collector node.
 def collector_node(state: AgentState) -> AgentState:
-    """A simple node to act as a join point for parallel edges."""
+    """
+    A simple node that acts as a synchronization point for the parallel branches.
+
+    Regarding state merging: LangGraph automatically merges the state updates from
+    the parallel nodes. When each node updates a *different* key in the AgentState
+    (e.g., one updates 'summary', another updates 'toc'), the updates are combined
+    into the final state dictionary.
+
+    If multiple nodes were to update the *same* key, we would need a special
+    reducer function (like the `operator.add` we use for the 'error' key) to tell
+    LangGraph how to combine the values.
+
+    This node itself doesn't need to perform any merging logic; its purpose is
+    simply to ensure that all parallel extraction tasks have completed before
+    the graph proceeds to the END.
+    """
     print("---(Node: Collector)---")
-    # No-op, just collects the state from parallel branches.
-    # The state is automatically merged by LangGraph.
-    print("   All extraction tasks complete.")
+    print("   All extraction tasks complete. State has been merged.")
     return {}
 
 workflow.add_node("collector", collector_node)
