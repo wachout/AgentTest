@@ -1,10 +1,10 @@
 import os
 import sys
 import json
+import re
 from typing import List, TypedDict
 from langchain.docstore.document import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-import re
 from langgraph.graph import StateGraph, START, END
 
 def parse_json_toc(toc_data: dict) -> List[str]:
@@ -54,6 +54,7 @@ class GraphState(TypedDict):
     document_text: str
     toc_data: dict
     chunks: List[Document]
+    verification_status: str
 
 def split_node(state: GraphState):
     """
@@ -67,6 +68,31 @@ def split_node(state: GraphState):
     chunks = split_text_by_headings(document_text, headings)
     return {"chunks": chunks}
 
+def verify_integrity_node(state: GraphState):
+    """
+    Node to verify the integrity of the split by reassembling the chunks.
+    """
+    print("--- Verifying Splitting Integrity... ---")
+    original_text = state["document_text"]
+    chunks = state["chunks"]
+
+    # Reassemble the text from chunks
+    reassembled_text = "".join(doc.page_content for doc in chunks)
+
+    # Normalize both texts by removing all whitespace for a robust comparison
+    original_normalized = re.sub(r'\s+', '', original_text)
+    reassembled_normalized = re.sub(r'\s+', '', reassembled_text)
+
+    if original_normalized == reassembled_normalized:
+        status = "Success: Reassembled text matches original text."
+    else:
+        status = "Failure: Reassembled text does not match original text."
+        # Optional: Print lengths for debugging
+        # print(f"Original length (normalized): {len(original_normalized)}")
+        # print(f"Reassembled length (normalized): {len(reassembled_normalized)}")
+
+    return {"verification_status": status}
+
 def main():
     """
     Main function to set up and run the text splitting workflow.
@@ -74,8 +100,11 @@ def main():
     # 1. Define the workflow
     workflow = StateGraph(GraphState)
     workflow.add_node("split", split_node)
+    workflow.add_node("verify", verify_integrity_node)
+
     workflow.add_edge(START, "split")
-    workflow.add_edge("split", END)
+    workflow.add_edge("split", "verify")
+    workflow.add_edge("verify", END)
     app = workflow.compile()
 
     # 2. Prepare the input data from files
@@ -103,6 +132,7 @@ def main():
         print(chunk.page_content)
     print("\n-----------------------------------------")
     print(f"Total chunks created: {len(final_state['chunks'])}")
+    print(f"Integrity Check: {final_state['verification_status']}")
 
 
 if __name__ == "__main__":
