@@ -26,7 +26,8 @@ def split_text_by_headings(document_text: str, headings: List[str]) -> List[Docu
         print("--- Document is long, using recursive character splitter. ---")
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=1000, length_function=len)
         chunks = text_splitter.split_text(document_text)
-        return [Document(page_content=chunk) for chunk in chunks]
+        # For long documents, we don't need to check for empty sections in the same way.
+        return [Document(page_content=chunk) for chunk in chunks if chunk.strip()]
     else:
         print("--- Document is short, using headings for splitting. ---")
         if not headings:
@@ -37,14 +38,29 @@ def split_text_by_headings(document_text: str, headings: List[str]) -> List[Docu
         chunks = re.split(f'({pattern})', document_text)
 
         documents = []
-        if chunks[0]:
+        num_empty_sections = 0
+
+        # Handle the text before the first heading
+        if chunks[0] and chunks[0].strip():
             documents.append(Document(page_content=chunks[0].strip()))
 
+        # Process the rest of the chunks
         for i in range(1, len(chunks), 2):
             heading = chunks[i]
             text = chunks[i+1] if (i+1) < len(chunks) else ""
+
+            # A section is considered "empty" if it has a heading but no text content.
+            if not text.strip():
+                num_empty_sections += 1
+
+            # We still append the document, as a heading by itself might be meaningful.
+            # The final filter will remove any truly empty strings if they somehow occur.
             documents.append(Document(page_content=(heading + text).strip()))
 
+        if num_empty_sections > 0:
+            print(f"--- Warning: Found {num_empty_sections} heading(s) with no descriptive content following them. ---")
+
+        # Final safety filter to remove any chunks that became completely empty after stripping.
         return [doc for doc in documents if doc.page_content]
 
 class GraphState(TypedDict):
