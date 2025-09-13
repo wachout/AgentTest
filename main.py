@@ -34,6 +34,30 @@ def chunk_text_with_overlap(text: str, chunk_size: int, overlap: int) -> List[Tu
 
     return chunks
 
+def split_text_by_indices(text: str, indices: List[int]) -> List[str]:
+    """
+    Splits a text into segments based on a list of starting indices.
+    """
+    if not indices:
+        return [text]
+
+    segments = []
+    # Ensure indices are sorted and unique, and 0 is present
+    indices = sorted(list(set([0] + indices)))
+
+    # Add the end of the text to the indices list to create the last segment
+    if len(text) not in indices:
+        indices.append(len(text))
+
+    for i in range(len(indices) - 1):
+        start_idx = indices[i]
+        end_idx = indices[i+1]
+        segment = text[start_idx:end_idx]
+        if segment: # Avoid adding empty strings
+            segments.append(segment.strip())
+
+    return segments
+
 async def analyze_chunk(graph_app, chunk_text: str) -> Dict[str, Any]:
     """Helper function to run analysis on a single chunk."""
     initial_state: AgentState = {
@@ -99,15 +123,34 @@ async def main(filename: str = "sample_text.txt"):
         for local_idx in result.get("semantic_splits", []):
             all_semantic_splits.add(offset + local_idx)
 
-    # Sort the final lists
-    final_results = {
+    # Get the final sorted lists of indices
+    final_indices = {
         "chapter_splits": sorted(list(all_chapter_splits)),
         "paragraph_splits": sorted(list(all_paragraph_splits)),
         "semantic_splits": sorted(list(all_semantic_splits)),
     }
 
-    print("\n--- Final Aggregated Analysis Results ---")
-    pprint(final_results)
+    # --- Convert final indices to text segments ---
+    print("\n--- Final Aggregated Analysis Results (as text segments) ---")
+
+    final_segments = {
+        "chapter_segments": split_text_by_indices(text_content, final_indices["chapter_splits"]),
+        "paragraph_segments": split_text_by_indices(text_content, final_indices["paragraph_splits"]),
+        "semantic_segments": split_text_by_indices(text_content, final_indices["semantic_splits"]),
+    }
+
+    # Pretty print the results, but limit long lists for readability
+    for key, value in final_segments.items():
+        print(f"\n--- {key} ({len(value)} segments) ---")
+        # Print first 5 segments and the last one if the list is long
+        if len(value) > 6:
+            for i, segment in enumerate(value[:5]):
+                print(f"[{i}]: {segment[:100]}...") # Print first 100 chars
+            print("...")
+            print(f"[{len(value)-1}]: {value[-1][:100]}...")
+        else:
+            for i, segment in enumerate(value):
+                print(f"[{i}]: {segment[:100]}...")
 
 
 if __name__ == "__main__":
