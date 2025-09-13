@@ -1,0 +1,13 @@
+langchain
+langgraph
+langchain-openai
+langchain-community
+tiktoken
+faiss-cpu
+langchain-text-splitters
+unstructured
+fastapi
+uvicorn
+python-dotenv
+streamlit
+sentence-transformers
