@@ -3,6 +3,7 @@ from langgraph.graph import StateGraph, START, END
 from agents import (
     AgentState,
     preprocess_text,
+    extract_title,
     extract_summary,
     extract_toc,
     extract_metadata,
@@ -16,6 +17,7 @@ workflow = StateGraph(AgentState)
 
 # Add the nodes to the graph
 workflow.add_node("preprocess", preprocess_text)
+workflow.add_node("extract_title", extract_title)
 workflow.add_node("extract_summary", extract_summary)
 workflow.add_node("extract_toc", extract_toc)
 workflow.add_node("extract_metadata", extract_metadata)
@@ -27,6 +29,7 @@ workflow.add_node("extract_authors", extract_authors)
 workflow.add_edge(START, "preprocess")
 
 # After preprocessing, run all extraction nodes in parallel
+workflow.add_edge("preprocess", "extract_title")
 workflow.add_edge("preprocess", "extract_summary")
 workflow.add_edge("preprocess", "extract_toc")
 workflow.add_edge("preprocess", "extract_metadata")
@@ -46,6 +49,7 @@ def collector_node(state: AgentState) -> AgentState:
 
 workflow.add_node("collector", collector_node)
 
+workflow.add_edge("extract_title", "collector")
 workflow.add_edge("extract_summary", "collector")
 workflow.add_edge("extract_toc", "collector")
 workflow.add_edge("extract_metadata", "collector")

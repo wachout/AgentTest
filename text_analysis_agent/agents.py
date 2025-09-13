@@ -17,6 +17,7 @@ class AgentState(TypedDict):
     Represents the state of our multi-agent analysis.
     """
     text: str # The original input text
+    title: str # The extracted document title
     chunks: List[str] # Chunks of the text if it's too long
     summary: str # The extracted summary
     toc: Dict # The extracted table of contents as JSON
@@ -81,6 +82,31 @@ def preprocess_text(state: AgentState) -> AgentState:
         print("Text is short enough, no chunking needed.")
 
     return {"chunks": chunks}
+
+
+def extract_title(state: AgentState) -> AgentState:
+    """
+    Extracts the main title from the document.
+    """
+    print("---(Node: Extracting Title)---")
+    text = state.get("text", "")
+    if not text:
+        return {"error": ["No text provided to extract title."]}
+
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", "You are an expert in document analysis. Your task is to find and return the main title of the document."),
+        ("user", "Please extract the main title from the following document. The title is usually at the very top and is the most prominent headline. Return only the title text.\n\nDocument:\n{text}")
+    ])
+
+    chain = prompt | llm
+    try:
+        response = chain.invoke({"text": text})
+        title = response.content.strip()
+        print(f"   Title extracted: {title}")
+        return {"title": title}
+    except Exception as e:
+        print(f"   Error extracting title: {e}")
+        return {"error": [f"Failed to extract title: {e}"]}
 
 
 def extract_summary(state: AgentState) -> AgentState:
