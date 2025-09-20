@@ -1,0 +1,684 @@
+2025-09-20 03:13:01,460 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:13:01,462 - lightrag - INFO - [_] Process 3876 KV load full_docs with 0 records
+2025-09-20 03:13:01,462 - lightrag - INFO - [_] Process 3876 KV load text_chunks with 0 records
+2025-09-20 03:13:01,462 - lightrag - INFO - [_] Process 3876 KV load full_entities with 0 records
+2025-09-20 03:13:01,462 - lightrag - INFO - [_] Process 3876 KV load full_relations with 0 records
+2025-09-20 03:13:01,463 - lightrag - INFO - [_] Process 3876 KV load llm_response_cache with 0 records
+2025-09-20 03:13:01,463 - lightrag - INFO - [_] Process 3876 doc status load doc_status with 0 records
+2025-09-20 03:13:20,242 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:13:20,243 - lightrag - INFO - [_] Process 4083 KV load full_docs with 0 records
+2025-09-20 03:13:20,243 - lightrag - INFO - [_] Process 4083 KV load text_chunks with 0 records
+2025-09-20 03:13:20,243 - lightrag - INFO - [_] Process 4083 KV load full_entities with 0 records
+2025-09-20 03:13:20,243 - lightrag - INFO - [_] Process 4083 KV load full_relations with 0 records
+2025-09-20 03:13:20,244 - lightrag - INFO - [_] Process 4083 KV load llm_response_cache with 0 records
+2025-09-20 03:13:20,244 - lightrag - INFO - [_] Process 4083 doc status load doc_status with 0 records
+2025-09-20 03:13:47,976 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:13:47,977 - lightrag - INFO - [_] Process 4418 KV load full_docs with 0 records
+2025-09-20 03:13:47,977 - lightrag - INFO - [_] Process 4418 KV load text_chunks with 0 records
+2025-09-20 03:13:47,977 - lightrag - INFO - [_] Process 4418 KV load full_entities with 0 records
+2025-09-20 03:13:47,977 - lightrag - INFO - [_] Process 4418 KV load full_relations with 0 records
+2025-09-20 03:13:47,977 - lightrag - INFO - [_] Process 4418 KV load llm_response_cache with 0 records
+2025-09-20 03:13:47,977 - lightrag - INFO - [_] Process 4418 doc status load doc_status with 0 records
+2025-09-20 03:13:47,979 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:13:47,979 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:13:47,979 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:13:47,982 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:13:49,450 - lightrag - ERROR - Embedding func: Error in decorated function for task 139967791299072_397.886481716: multi-dimensional sub-views are not implemented
+2025-09-20 03:13:49,460 - lightrag - ERROR - Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1590, in process_document
+    await asyncio.gather(*first_stage_tasks)
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/kg/nano_vector_db_impl.py", line 119, in upsert
+    embeddings_list = await asyncio.gather(*embedding_tasks)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 836, in wait_func
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 540, in worker
+    result = await asyncio.wait_for(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 347, in __call__
+    return await self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/extract_graph.py", line 38, in qwen_embedding_func
+    return [item.embedding for item in response.data]
+                                       ^^^^^^^^^^^^^
+NotImplementedError: multi-dimensional sub-views are not implemented
+
+2025-09-20 03:13:49,460 - lightrag - ERROR - Failed to extract document 1/1: unknown_source
+2025-09-20 03:13:49,462 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:14:11,603 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:14:11,604 - lightrag - INFO - [_] Process 4630 KV load full_docs with 1 records
+2025-09-20 03:14:11,604 - lightrag - INFO - [_] Process 4630 KV load text_chunks with 0 records
+2025-09-20 03:14:11,604 - lightrag - INFO - [_] Process 4630 KV load full_entities with 0 records
+2025-09-20 03:14:11,605 - lightrag - INFO - [_] Process 4630 KV load full_relations with 0 records
+2025-09-20 03:14:11,605 - lightrag - INFO - [_] Process 4630 KV load llm_response_cache with 0 records
+2025-09-20 03:14:11,605 - lightrag - INFO - [_] Process 4630 doc status load doc_status with 1 records
+2025-09-20 03:14:11,606 - lightrag - WARNING - Ignoring document ID (already exists): wandering_earth_sample (unknown_source)
+2025-09-20 03:14:11,606 - lightrag - WARNING - No new unique documents were found.
+2025-09-20 03:14:11,606 - lightrag - INFO - Reset 1 documents from PROCESSING/FAILED to PENDING status
+2025-09-20 03:14:11,606 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:14:11,607 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:14:11,607 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:14:11,612 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:14:12,943 - lightrag - ERROR - Embedding func: Error in decorated function for task 140495929588224_421.516331967: multi-dimensional sub-views are not implemented
+2025-09-20 03:14:12,946 - lightrag - ERROR - Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1590, in process_document
+    await asyncio.gather(*first_stage_tasks)
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/kg/nano_vector_db_impl.py", line 119, in upsert
+    embeddings_list = await asyncio.gather(*embedding_tasks)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 836, in wait_func
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 540, in worker
+    result = await asyncio.wait_for(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 347, in __call__
+    return await self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/extract_graph.py", line 38, in qwen_embedding_func
+    return [item.embedding for item in response.data]
+                                       ^^^^^^^^^^^^^
+NotImplementedError: multi-dimensional sub-views are not implemented
+
+2025-09-20 03:14:12,946 - lightrag - ERROR - Failed to extract document 1/1: unknown_source
+2025-09-20 03:14:12,948 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:14:45,971 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:14:45,972 - lightrag - INFO - [_] Process 4973 KV load full_docs with 1 records
+2025-09-20 03:14:45,972 - lightrag - INFO - [_] Process 4973 KV load text_chunks with 0 records
+2025-09-20 03:14:45,973 - lightrag - INFO - [_] Process 4973 KV load full_entities with 0 records
+2025-09-20 03:14:45,973 - lightrag - INFO - [_] Process 4973 KV load full_relations with 0 records
+2025-09-20 03:14:45,973 - lightrag - INFO - [_] Process 4973 KV load llm_response_cache with 0 records
+2025-09-20 03:14:45,973 - lightrag - INFO - [_] Process 4973 doc status load doc_status with 1 records
+2025-09-20 03:14:45,974 - lightrag - WARNING - Ignoring document ID (already exists): wandering_earth_sample (unknown_source)
+2025-09-20 03:14:45,974 - lightrag - WARNING - No new unique documents were found.
+2025-09-20 03:14:45,975 - lightrag - INFO - Reset 1 documents from PROCESSING/FAILED to PENDING status
+2025-09-20 03:14:45,975 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:14:45,975 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:14:45,975 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:14:45,978 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:14:47,399 - lightrag - ERROR - Embedding func: Error in decorated function for task 139670781049344_455.882081323: multi-dimensional sub-views are not implemented
+2025-09-20 03:14:47,402 - lightrag - ERROR - Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1590, in process_document
+    await asyncio.gather(*first_stage_tasks)
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/kg/nano_vector_db_impl.py", line 119, in upsert
+    embeddings_list = await asyncio.gather(*embedding_tasks)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 836, in wait_func
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 540, in worker
+    result = await asyncio.wait_for(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 347, in __call__
+    return await self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/extract_graph.py", line 54, in qwen_embedding_func
+    return [item.embedding for item in response.data]
+                                       ^^^^^^^^^^^^^
+NotImplementedError: multi-dimensional sub-views are not implemented
+
+2025-09-20 03:14:47,402 - lightrag - ERROR - Failed to extract document 1/1: unknown_source
+2025-09-20 03:14:47,404 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:15:13,886 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:15:13,887 - lightrag - INFO - [_] Process 5185 KV load full_docs with 1 records
+2025-09-20 03:15:13,887 - lightrag - INFO - [_] Process 5185 KV load text_chunks with 0 records
+2025-09-20 03:15:13,887 - lightrag - INFO - [_] Process 5185 KV load full_entities with 0 records
+2025-09-20 03:15:13,887 - lightrag - INFO - [_] Process 5185 KV load full_relations with 0 records
+2025-09-20 03:15:13,888 - lightrag - INFO - [_] Process 5185 KV load llm_response_cache with 0 records
+2025-09-20 03:15:13,888 - lightrag - INFO - [_] Process 5185 doc status load doc_status with 1 records
+2025-09-20 03:15:13,889 - lightrag - WARNING - Ignoring document ID (already exists): wandering_earth_sample (unknown_source)
+2025-09-20 03:15:13,889 - lightrag - WARNING - No new unique documents were found.
+2025-09-20 03:15:13,889 - lightrag - INFO - Reset 1 documents from PROCESSING/FAILED to PENDING status
+2025-09-20 03:15:13,889 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:15:13,890 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:15:13,890 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:15:13,892 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:15:15,514 - lightrag - ERROR - Embedding func: Error in decorated function for task 140265047882240_483.796225999: multi-dimensional sub-views are not implemented
+2025-09-20 03:15:15,518 - lightrag - ERROR - Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1590, in process_document
+    await asyncio.gather(*first_stage_tasks)
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/kg/nano_vector_db_impl.py", line 119, in upsert
+    embeddings_list = await asyncio.gather(*embedding_tasks)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 836, in wait_func
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 540, in worker
+    result = await asyncio.wait_for(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 347, in __call__
+    return await self.func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/app/extract_graph.py", line 54, in qwen_embedding_func
+    return [item.embedding for item in response.data]
+                                       ^^^^^^^^^^^^^
+NotImplementedError: multi-dimensional sub-views are not implemented
+
+2025-09-20 03:15:15,518 - lightrag - ERROR - Failed to extract document 1/1: unknown_source
+2025-09-20 03:15:15,519 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:15:44,625 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:15:44,626 - lightrag - INFO - [_] Process 5528 KV load full_docs with 0 records
+2025-09-20 03:15:44,626 - lightrag - INFO - [_] Process 5528 KV load text_chunks with 0 records
+2025-09-20 03:15:44,626 - lightrag - INFO - [_] Process 5528 KV load full_entities with 0 records
+2025-09-20 03:15:44,626 - lightrag - INFO - [_] Process 5528 KV load full_relations with 0 records
+2025-09-20 03:15:44,626 - lightrag - INFO - [_] Process 5528 KV load llm_response_cache with 0 records
+2025-09-20 03:15:44,627 - lightrag - INFO - [_] Process 5528 doc status load doc_status with 0 records
+2025-09-20 03:15:44,628 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:15:44,628 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:15:44,628 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:15:44,630 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:15:46,068 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-20 03:15:46,069 - lightrag - ERROR - LLM func: Error in decorated function for task 139860438978944_515.972590266: openai_complete_if_cache() got multiple values for argument 'model'
+2025-09-20 03:15:46,069 - lightrag - ERROR - Failed to extract entities and relationships: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+2025-09-20 03:15:46,080 - lightrag - ERROR - Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2183, in _process_with_semaphore
+    return await _process_single_content(chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2076, in _process_single_content
+    final_result, timestamp = await use_llm_func_with_cache(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 1686, in use_llm_func_with_cache
+    res: str = await use_llm_func(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 836, in wait_func
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 540, in worker
+    result = await asyncio.wait_for(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/app/extract_graph.py", line 20, in qwen_llm_func
+    return await openai_complete(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/llm/openai.py", line 469, in openai_complete
+    return await openai_complete_if_cache(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 189, in async_wrapped
+    return await copy(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 111, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 153, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/_utils.py", line 99, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 114, in __call__
+    result = await fn(*args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^
+TypeError: openai_complete_if_cache() got multiple values for argument 'model'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2187, in _process_with_semaphore
+    raise prefixed_exception from e
+TypeError: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1598, in process_document
+    await entity_relation_task
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1823, in _process_extract_entities
+    raise e
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1808, in _process_extract_entities
+    chunk_results = await extract_entities(
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2229, in extract_entities
+    raise prefixed_exception from first_exception
+TypeError: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+
+2025-09-20 03:15:46,080 - lightrag - ERROR - Failed to extract document 1/1: unknown_source
+2025-09-20 03:15:46,082 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:16:14,567 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:16:14,569 - lightrag - INFO - [_] Process 5740 KV load full_docs with 0 records
+2025-09-20 03:16:14,569 - lightrag - INFO - [_] Process 5740 KV load text_chunks with 0 records
+2025-09-20 03:16:14,569 - lightrag - INFO - [_] Process 5740 KV load full_entities with 0 records
+2025-09-20 03:16:14,569 - lightrag - INFO - [_] Process 5740 KV load full_relations with 0 records
+2025-09-20 03:16:14,570 - lightrag - INFO - [_] Process 5740 KV load llm_response_cache with 0 records
+2025-09-20 03:16:14,570 - lightrag - INFO - [_] Process 5740 doc status load doc_status with 0 records
+2025-09-20 03:16:14,572 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:16:14,572 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:16:14,572 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:16:14,577 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:16:16,859 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-20 03:16:16,859 - lightrag - ERROR - LLM func: Error in decorated function for task 140527969866112_546.763117793: openai_complete_if_cache() got multiple values for argument 'model'
+2025-09-20 03:16:16,859 - lightrag - ERROR - Failed to extract entities and relationships: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+2025-09-20 03:16:16,876 - lightrag - ERROR - Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2183, in _process_with_semaphore
+    return await _process_single_content(chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2076, in _process_single_content
+    final_result, timestamp = await use_llm_func_with_cache(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 1686, in use_llm_func_with_cache
+    res: str = await use_llm_func(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 836, in wait_func
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 540, in worker
+    result = await asyncio.wait_for(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/app/extract_graph.py", line 20, in qwen_llm_func
+    return await openai_complete(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/llm/openai.py", line 469, in openai_complete
+    return await openai_complete_if_cache(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 189, in async_wrapped
+    return await copy(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 111, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 153, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/_utils.py", line 99, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 114, in __call__
+    result = await fn(*args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^
+TypeError: openai_complete_if_cache() got multiple values for argument 'model'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2187, in _process_with_semaphore
+    raise prefixed_exception from e
+TypeError: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1598, in process_document
+    await entity_relation_task
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1823, in _process_extract_entities
+    raise e
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1808, in _process_extract_entities
+    chunk_results = await extract_entities(
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2229, in extract_entities
+    raise prefixed_exception from first_exception
+TypeError: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+
+2025-09-20 03:16:16,876 - lightrag - ERROR - Failed to extract document 1/1: unknown_source
+2025-09-20 03:16:16,878 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:16:46,790 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:16:46,791 - lightrag - INFO - [_] Process 6083 KV load full_docs with 0 records
+2025-09-20 03:16:46,791 - lightrag - INFO - [_] Process 6083 KV load text_chunks with 0 records
+2025-09-20 03:16:46,791 - lightrag - INFO - [_] Process 6083 KV load full_entities with 0 records
+2025-09-20 03:16:46,792 - lightrag - INFO - [_] Process 6083 KV load full_relations with 0 records
+2025-09-20 03:16:46,792 - lightrag - INFO - [_] Process 6083 KV load llm_response_cache with 0 records
+2025-09-20 03:16:46,792 - lightrag - INFO - [_] Process 6083 doc status load doc_status with 0 records
+2025-09-20 03:16:46,794 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:16:46,794 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:16:46,794 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:16:46,796 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:16:48,499 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-20 03:16:48,499 - lightrag - ERROR - LLM func: Error in decorated function for task 139651519762816_578.403120866: openai_complete_if_cache() got multiple values for argument 'model'
+2025-09-20 03:16:48,499 - lightrag - ERROR - Failed to extract entities and relationships: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+2025-09-20 03:16:48,515 - lightrag - ERROR - Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2183, in _process_with_semaphore
+    return await _process_single_content(chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2076, in _process_single_content
+    final_result, timestamp = await use_llm_func_with_cache(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 1686, in use_llm_func_with_cache
+    res: str = await use_llm_func(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 836, in wait_func
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 540, in worker
+    result = await asyncio.wait_for(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/app/extract_graph.py", line 28, in qwen_llm_func
+    return await openai_complete(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/llm/openai.py", line 469, in openai_complete
+    return await openai_complete_if_cache(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 189, in async_wrapped
+    return await copy(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 111, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 153, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/_utils.py", line 99, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 114, in __call__
+    result = await fn(*args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^
+TypeError: openai_complete_if_cache() got multiple values for argument 'model'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2187, in _process_with_semaphore
+    raise prefixed_exception from e
+TypeError: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1598, in process_document
+    await entity_relation_task
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1823, in _process_extract_entities
+    raise e
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1808, in _process_extract_entities
+    chunk_results = await extract_entities(
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2229, in extract_entities
+    raise prefixed_exception from first_exception
+TypeError: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+
+2025-09-20 03:16:48,515 - lightrag - ERROR - Failed to extract document 1/1: unknown_source
+2025-09-20 03:16:48,518 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:17:21,352 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:17:21,353 - lightrag - INFO - [_] Process 6296 KV load full_docs with 0 records
+2025-09-20 03:17:21,353 - lightrag - INFO - [_] Process 6296 KV load text_chunks with 0 records
+2025-09-20 03:17:21,353 - lightrag - INFO - [_] Process 6296 KV load full_entities with 0 records
+2025-09-20 03:17:21,354 - lightrag - INFO - [_] Process 6296 KV load full_relations with 0 records
+2025-09-20 03:17:21,354 - lightrag - INFO - [_] Process 6296 KV load llm_response_cache with 0 records
+2025-09-20 03:17:21,354 - lightrag - INFO - [_] Process 6296 doc status load doc_status with 0 records
+2025-09-20 03:17:21,355 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:17:21,355 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:17:21,356 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:17:21,358 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:17:22,779 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-20 03:17:22,780 - lightrag - ERROR - LLM func: Error in decorated function for task 140405084066176_612.683612325: openai_complete_if_cache() got multiple values for argument 'model'
+2025-09-20 03:17:22,780 - lightrag - ERROR - Failed to extract entities and relationships: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+2025-09-20 03:17:22,795 - lightrag - ERROR - Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2183, in _process_with_semaphore
+    return await _process_single_content(chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2076, in _process_single_content
+    final_result, timestamp = await use_llm_func_with_cache(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 1686, in use_llm_func_with_cache
+    res: str = await use_llm_func(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 836, in wait_func
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 540, in worker
+    result = await asyncio.wait_for(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/app/extract_graph.py", line 28, in qwen_llm_func
+    return await openai_complete(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/llm/openai.py", line 469, in openai_complete
+    return await openai_complete_if_cache(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 189, in async_wrapped
+    return await copy(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 111, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 153, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/_utils.py", line 99, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 114, in __call__
+    result = await fn(*args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^
+TypeError: openai_complete_if_cache() got multiple values for argument 'model'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2187, in _process_with_semaphore
+    raise prefixed_exception from e
+TypeError: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1598, in process_document
+    await entity_relation_task
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1823, in _process_extract_entities
+    raise e
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1808, in _process_extract_entities
+    chunk_results = await extract_entities(
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2229, in extract_entities
+    raise prefixed_exception from first_exception
+TypeError: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: openai_complete_if_cache() got multiple values for argument 'model'
+
+2025-09-20 03:17:22,795 - lightrag - ERROR - Failed to extract document 1/1: unknown_source
+2025-09-20 03:17:22,798 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:18:20,559 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:18:20,561 - lightrag - INFO - [_] Process 6770 KV load full_docs with 0 records
+2025-09-20 03:18:20,561 - lightrag - INFO - [_] Process 6770 KV load text_chunks with 0 records
+2025-09-20 03:18:20,561 - lightrag - INFO - [_] Process 6770 KV load full_entities with 0 records
+2025-09-20 03:18:20,561 - lightrag - INFO - [_] Process 6770 KV load full_relations with 0 records
+2025-09-20 03:18:20,562 - lightrag - INFO - [_] Process 6770 KV load llm_response_cache with 0 records
+2025-09-20 03:18:20,562 - lightrag - INFO - [_] Process 6770 doc status load doc_status with 0 records
+2025-09-20 03:18:20,563 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:18:20,563 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:18:20,563 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:18:20,566 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:18:22,098 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-20 03:18:22,138 - lightrag - ERROR - OpenAI API Call Failed,
+Model: qwen-max,
+Params: {'context': None}, Got: AsyncCompletions.create() got an unexpected keyword argument 'context'
+2025-09-20 03:18:22,138 - lightrag - ERROR - LLM func: Error in decorated function for task 140338354802880_672.002670393: AsyncCompletions.create() got an unexpected keyword argument 'context'
+2025-09-20 03:18:22,139 - lightrag - ERROR - Failed to extract entities and relationships: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: AsyncCompletions.create() got an unexpected keyword argument 'context'
+2025-09-20 03:18:22,145 - lightrag - ERROR - Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2183, in _process_with_semaphore
+    return await _process_single_content(chunk)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2076, in _process_single_content
+    final_result, timestamp = await use_llm_func_with_cache(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 1686, in use_llm_func_with_cache
+    res: str = await use_llm_func(
+               ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 836, in wait_func
+    return await future
+           ^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/utils.py", line 540, in worker
+    result = await asyncio.wait_for(
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/app/extract_graph.py", line 30, in qwen_llm_func
+    return await openai_complete_if_cache(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 189, in async_wrapped
+    return await copy(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 111, in __call__
+    do = await self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 153, in iter
+    result = await action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/_utils.py", line 99, in inner
+    return call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/__init__.py", line 400, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/tenacity/asyncio/__init__.py", line 114, in __call__
+    result = await fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/llm/openai.py", line 211, in openai_complete_if_cache
+    response = await openai_async_client.chat.completions.create(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/openai/_utils/_utils.py", line 286, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+TypeError: AsyncCompletions.create() got an unexpected keyword argument 'context'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2187, in _process_with_semaphore
+    raise prefixed_exception from e
+TypeError: chunk-81923ba451c8105558b3e33b2238ddfd: AsyncCompletions.create() got an unexpected keyword argument 'context'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1598, in process_document
+    await entity_relation_task
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1823, in _process_extract_entities
+    raise e
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/lightrag.py", line 1808, in _process_extract_entities
+    chunk_results = await extract_entities(
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jules/.pyenv/versions/3.12.11/lib/python3.12/site-packages/lightrag/operate.py", line 2229, in extract_entities
+    raise prefixed_exception from first_exception
+TypeError: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: AsyncCompletions.create() got an unexpected keyword argument 'context'
+
+2025-09-20 03:18:22,145 - lightrag - ERROR - Failed to extract document 1/1: unknown_source
+2025-09-20 03:18:22,148 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:19:13,774 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:19:13,777 - lightrag - INFO - [_] Process 7170 KV load full_docs with 0 records
+2025-09-20 03:19:13,777 - lightrag - INFO - [_] Process 7170 KV load text_chunks with 0 records
+2025-09-20 03:19:13,777 - lightrag - INFO - [_] Process 7170 KV load full_entities with 0 records
+2025-09-20 03:19:13,777 - lightrag - INFO - [_] Process 7170 KV load full_relations with 0 records
+2025-09-20 03:19:13,778 - lightrag - INFO - [_] Process 7170 KV load llm_response_cache with 0 records
+2025-09-20 03:19:13,778 - lightrag - INFO - [_] Process 7170 doc status load doc_status with 0 records
+2025-09-20 03:19:13,779 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:19:13,779 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:19:13,780 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:19:13,782 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:19:15,024 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-20 03:19:40,885 - lightrag - INFO -  == LLM cache == saving: default:extract:5d9cc6061b48669f7749946b62bb7e49
+2025-09-20 03:19:47,136 - lightrag - INFO -  == LLM cache == saving: default:extract:4f30baa451661ba22a7c028b457495a6
+2025-09-20 03:19:47,137 - lightrag - INFO - Chunk 1 of 1 extracted 11 Ent + 9 Rel
+2025-09-20 03:19:47,137 - lightrag - INFO - Merging stage 1/1: unknown_source
+2025-09-20 03:19:47,137 - lightrag - INFO - Phase 1: Processing 11 entities from wandering_earth_sample (async: 8)
+2025-09-20 03:19:49,519 - lightrag - INFO - Phase 2: Processing 9 relations from wandering_earth_sample (async: 8)
+2025-09-20 03:19:55,005 - lightrag - INFO - Phase 3: Updating final 11(11+0) entities and  9 relations from wandering_earth_sample
+2025-09-20 03:19:55,006 - lightrag - INFO - Completed merging: 11 entities, 0 extra entities, 9 relations
+2025-09-20 03:19:55,014 - lightrag - INFO - [_] Writing graph with 11 nodes, 9 edges
+2025-09-20 03:19:55,042 - lightrag - INFO - In memory DB persist to disk
+2025-09-20 03:19:55,042 - lightrag - INFO - Completed processing file 1/1: unknown_source
+2025-09-20 03:19:55,042 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:21:17,003 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:21:17,004 - lightrag - INFO - [_] Process 7810 KV load full_docs with 0 records
+2025-09-20 03:21:17,004 - lightrag - INFO - [_] Process 7810 KV load text_chunks with 0 records
+2025-09-20 03:21:17,004 - lightrag - INFO - [_] Process 7810 KV load full_entities with 0 records
+2025-09-20 03:21:17,004 - lightrag - INFO - [_] Process 7810 KV load full_relations with 0 records
+2025-09-20 03:21:17,005 - lightrag - INFO - [_] Process 7810 KV load llm_response_cache with 0 records
+2025-09-20 03:21:17,005 - lightrag - INFO - [_] Process 7810 doc status load doc_status with 0 records
+2025-09-20 03:21:17,006 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:21:17,006 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:21:17,007 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:21:17,009 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:21:18,321 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-20 03:21:51,638 - lightrag - INFO -  == LLM cache == saving: default:extract:5d9cc6061b48669f7749946b62bb7e49
+2025-09-20 03:22:00,123 - lightrag - INFO -  == LLM cache == saving: default:extract:c03dc76919975d24f0ad5aaddef2e490
+2025-09-20 03:22:00,123 - lightrag - INFO - Chunk 1 of 1 extracted 11 Ent + 8 Rel
+2025-09-20 03:22:00,124 - lightrag - INFO - Merging stage 1/1: unknown_source
+2025-09-20 03:22:00,124 - lightrag - INFO - Phase 1: Processing 11 entities from wandering_earth_sample (async: 8)
+2025-09-20 03:22:02,339 - lightrag - INFO - Phase 2: Processing 8 relations from wandering_earth_sample (async: 8)
+2025-09-20 03:22:05,989 - lightrag - INFO - Phase 3: Updating final 11(11+0) entities and  8 relations from wandering_earth_sample
+2025-09-20 03:22:05,990 - lightrag - INFO - Completed merging: 11 entities, 0 extra entities, 8 relations
+2025-09-20 03:22:05,996 - lightrag - INFO - [_] Writing graph with 11 nodes, 8 edges
+2025-09-20 03:22:06,023 - lightrag - INFO - In memory DB persist to disk
+2025-09-20 03:22:06,023 - lightrag - INFO - Completed processing file 1/1: unknown_source
+2025-09-20 03:22:06,023 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-20 03:23:39,846 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-20 03:23:39,860 - lightrag - INFO - [_] Process 8390 KV load full_docs with 0 records
+2025-09-20 03:23:39,860 - lightrag - INFO - [_] Process 8390 KV load text_chunks with 0 records
+2025-09-20 03:23:39,861 - lightrag - INFO - [_] Process 8390 KV load full_entities with 0 records
+2025-09-20 03:23:39,861 - lightrag - INFO - [_] Process 8390 KV load full_relations with 0 records
+2025-09-20 03:23:39,861 - lightrag - INFO - [_] Process 8390 KV load llm_response_cache with 0 records
+2025-09-20 03:23:39,861 - lightrag - INFO - [_] Process 8390 doc status load doc_status with 0 records
+2025-09-20 03:23:39,863 - lightrag - INFO - Processing 1 document(s)
+2025-09-20 03:23:39,863 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-20 03:23:39,863 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-20 03:23:39,868 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-20 03:23:42,089 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-20 03:24:12,101 - lightrag - INFO -  == LLM cache == saving: default:extract:5d9cc6061b48669f7749946b62bb7e49
+2025-09-20 03:24:21,105 - lightrag - INFO -  == LLM cache == saving: default:extract:a5221b6fcd166fdec899bdb36a601659
+2025-09-20 03:24:21,106 - lightrag - INFO - Chunk 1 of 1 extracted 10 Ent + 8 Rel
+2025-09-20 03:24:21,106 - lightrag - INFO - Merging stage 1/1: unknown_source
+2025-09-20 03:24:21,106 - lightrag - INFO - Phase 1: Processing 10 entities from wandering_earth_sample (async: 8)
+2025-09-20 03:24:23,502 - lightrag - INFO - Phase 2: Processing 8 relations from wandering_earth_sample (async: 8)
+2025-09-20 03:24:27,674 - lightrag - INFO - Phase 3: Updating final 11(10+1) entities and  8 relations from wandering_earth_sample
+2025-09-20 03:24:27,675 - lightrag - INFO - Completed merging: 10 entities, 1 extra entities, 8 relations
+2025-09-20 03:24:27,683 - lightrag - INFO - [_] Writing graph with 11 nodes, 8 edges
+2025-09-20 03:24:27,690 - lightrag - INFO - In memory DB persist to disk
+2025-09-20 03:24:27,690 - lightrag - INFO - Completed processing file 1/1: unknown_source
+2025-09-20 03:24:27,690 - lightrag - INFO - Enqueued document processing pipeline stoped
