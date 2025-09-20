@@ -2,23 +2,23 @@ import asyncio
 import os
 import sys
 import re
+import json
 from pprint import pprint
 from dotenv import load_dotenv
 from typing import List, Tuple, Dict, Any
 
-# Import the graph builder function from our other module
+# Import our custom modules
 from graph_builder import create_graph, AgentState
+from knowledge_extractor import create_knowledge_extractor
+from dataclasses import asdict
 
 # --- Configuration ---
 LONG_TEXT_THRESHOLD = 20000
 CHUNK_SIZE = 20000
 OVERLAP_SIZE = 1000
 
+# All helper functions remain the same as before...
 def preprocess_html_blocks(text: str) -> Tuple[str, List[Dict[str, Any]]]:
-    """
-    Finds, merges, and replaces HTML blocks with placeholders.
-    The lookup map now includes sanitized text positions for easier post-processing.
-    """
     html_spans = [m.span() for m in re.finditer(r'<html>.*?</html>', text, re.DOTALL | re.IGNORECASE)]
     if not html_spans:
         return text, []
@@ -40,58 +40,34 @@ def preprocess_html_blocks(text: str) -> Tuple[str, List[Dict[str, Any]]]:
     current_sanitized_pos = 0
     for i, (start, end) in enumerate(merged_spans):
         placeholder = f"[--HTML_BLOCK_{i}--]"
-
-        # Add the text part before the HTML block
         pre_html_text = text[last_original_end:start]
         sanitized_text_parts.append(pre_html_text)
         current_sanitized_pos += len(pre_html_text)
-
-        # Add the placeholder
         sanitized_text_parts.append(placeholder)
-
         lookup_map.append({
             "placeholder": placeholder,
             "original_content_len": end - start,
             "sanitized_content_len": len(placeholder),
             "sanitized_start": current_sanitized_pos,
         })
-
         current_sanitized_pos += len(placeholder)
         last_original_end = end
-
     sanitized_text_parts.append(text[last_original_end:])
     return "".join(sanitized_text_parts), lookup_map
 
-
 def chunk_text_with_overlap(text: str, chunk_size: int, overlap: int) -> List[Tuple[str, int]]:
-    """
-    Splits a long text into overlapping chunks.
-    Returns a list of tuples, where each tuple contains the chunk of text and its starting offset.
-    """
-    if len(text) <= chunk_size:
-        return [(text, 0)]
-
+    if len(text) <= chunk_size: return [(text, 0)]
     chunks = []
     offset = 0
     while offset < len(text):
         chunk_end = offset + chunk_size
         chunks.append((text[offset:chunk_end], offset))
-
-        # Move to the next chunk start position
         offset += chunk_size - overlap
-        if offset + overlap >= len(text):
-            break
-
+        if offset + overlap >= len(text): break
     return chunks
 
-def convert_sanitized_indices_to_global(
-    sanitized_indices: List[int],
-    lookup_map: List[Dict[str, Any]]
-) -> List[int]:
-    """Converts indices from the sanitized text back to global original-text indices."""
-    if not lookup_map:
-        return sanitized_indices
-
+def convert_sanitized_indices_to_global(sanitized_indices: List[int], lookup_map: List[Dict[str, Any]]) -> List[int]:
+    if not lookup_map: return sanitized_indices
     global_indices = []
     for sanitized_idx in sanitized_indices:
         offset = 0
@@ -99,91 +75,90 @@ def convert_sanitized_indices_to_global(
             if block['sanitized_start'] < sanitized_idx:
                 offset += block['original_content_len'] - block['sanitized_content_len']
         global_indices.append(sanitized_idx + offset)
-
     return global_indices
 
 def split_text_by_indices(text: str, indices: List[int]) -> List[str]:
-    """Splits a text into segments based on a list of starting indices."""
-    if not indices:
-        return [text]
-
+    if not indices: return [text]
     segments = []
     indices = sorted(list(set([0] + indices)))
-    if len(text) not in indices:
-        indices.append(len(text))
-
+    if len(text) not in indices: indices.append(len(text))
     for i in range(len(indices) - 1):
         start_idx, end_idx = indices[i], indices[i+1]
         segment = text[start_idx:end_idx]
-        if segment:
-            segments.append(segment.strip())
-
+        if segment: segments.append(segment.strip())
     return segments
 
 async def analyze_chunk(graph_app, chunk_text: str) -> Dict[str, Any]:
-    """Helper function to run analysis on a single chunk."""
     initial_state: AgentState = {"input_text": chunk_text, "chapter_splits": [], "paragraph_splits": [], "semantic_splits": [], "error": None}
     return await graph_app.ainvoke(initial_state)
 
 async def main(filename: str = "sample_text.txt"):
-    """Main execution function with pre-processing and post-processing for HTML."""
+    """Main execution function with knowledge extraction."""
     load_dotenv()
-    if not os.getenv("DEEPSEEK_API_KEY"):
-        print("ERROR: DEEPSEEK_API_KEY environment variable not set.")
+    deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
+    if not deepseek_api_key:
+        print("ERROR: DEEPSEEK_API_KEY not set in .env file.")
         return
 
+    # Set environment variables for the OpenAI client library used by lightrag
+    os.environ["OPENAI_API_KEY"] = deepseek_api_key
+    os.environ["OPENAI_BASE_URL"] = "https://api.deepseek.com/v1"
+
+    # --- Step 1: Read and Pre-process Text ---
     print(f"Reading text from '{filename}'...")
     try:
-        with open(filename, "r", encoding="utf-8") as f:
-            original_text = f.read()
+        with open(filename, "r", encoding="utf-8") as f: original_text = f.read()
     except FileNotFoundError:
-        print(f"ERROR: {filename} not found.")
-        return
+        print(f"ERROR: {filename} not found."); return
 
-    print("Step 1: Pre-processing text to handle HTML blocks...")
+    print("Pre-processing text to handle HTML blocks...")
     sanitized_text, lookup_map = preprocess_html_blocks(original_text)
 
+    # --- Step 2: Analyze for Split Points ---
     graph_app = create_graph()
+    print("Analyzing text for split points (chunking if necessary)...")
+    chunks_with_offsets = chunk_text_with_overlap(sanitized_text, CHUNK_SIZE, OVERLAP_SIZE) if len(sanitized_text) > LONG_TEXT_THRESHOLD else [(sanitized_text, 0)]
 
-    print("Step 2: Analyzing text (chunking if necessary)...")
-    if len(sanitized_text) <= LONG_TEXT_THRESHOLD:
-        chunks_with_offsets = [(sanitized_text, 0)]
-    else:
-        chunks_with_offsets = chunk_text_with_overlap(sanitized_text, CHUNK_SIZE, OVERLAP_SIZE)
+    split_tasks = [analyze_chunk(graph_app, chunk) for chunk, offset in chunks_with_offsets]
+    split_results = await asyncio.gather(*split_tasks)
 
-    tasks = [analyze_chunk(graph_app, chunk) for chunk, offset in chunks_with_offsets]
-    results = await asyncio.gather(*tasks)
-
-    print("Step 3: Aggregating and converting indices...")
+    # --- Step 3: Aggregate and Convert Indices ---
+    print("Aggregating and converting indices...")
     agg_sanitized_indices = {"chapters": set(), "paragraphs": set(), "semantics": set()}
-    for i, result in enumerate(results):
+    for i, result in enumerate(split_results):
         _, offset = chunks_with_offsets[i]
         for local_idx in result.get("chapter_splits", []): agg_sanitized_indices["chapters"].add(offset + local_idx)
         for local_idx in result.get("paragraph_splits", []): agg_sanitized_indices["paragraphs"].add(offset + local_idx)
         for local_idx in result.get("semantic_splits", []): agg_sanitized_indices["semantics"].add(offset + local_idx)
 
-    final_global_indices = {
-        "chapter_splits": convert_sanitized_indices_to_global(sorted(list(agg_sanitized_indices["chapters"])), lookup_map),
-        "paragraph_splits": convert_sanitized_indices_to_global(sorted(list(agg_sanitized_indices["paragraphs"])), lookup_map),
-        "semantic_splits": convert_sanitized_indices_to_global(sorted(list(agg_sanitized_indices["semantics"])), lookup_map),
-    }
+    final_global_indices = {key: convert_sanitized_indices_to_global(sorted(list(val)), lookup_map) for key, val in agg_sanitized_indices.items()}
 
-    print("Step 4: Generating final text segments...")
-    final_segments = {
-        "chapter_segments": split_text_by_indices(original_text, final_global_indices["chapter_splits"]),
-        "paragraph_segments": split_text_by_indices(original_text, final_global_indices["paragraph_splits"]),
-        "semantic_segments": split_text_by_indices(original_text, final_global_indices["semantic_splits"]),
-    }
+    # --- Step 4: Split Text into Segments ---
+    print("Generating final text segments...")
+    final_segments = {key: split_text_by_indices(original_text, val) for key, val in final_global_indices.items()}
 
-    print("\n--- Final Analysis Results (as text segments) ---")
-    for key, value in final_segments.items():
-        print(f"\n--- {key} ({len(value)} segments) ---")
-        if len(value) > 6:
-            for i, segment in enumerate(value[:5]): print(f"[{i}]: {segment[:100].strip()}...")
-            print("...")
-            print(f"[{len(value)-1}]: {value[-1][:100].strip()}...")
-        else:
-            for i, segment in enumerate(value): print(f"[{i}]: {segment[:100].strip()}...")
+    # --- Step 5: Extract Knowledge from Segments ---
+    print("Extracting knowledge from each text segment...")
+    extractor = create_knowledge_extractor()
+    final_output = {}
+
+    for key, segments in final_segments.items():
+        print(f"-> Processing {len(segments)} segments for '{key}'...")
+        # Run extraction in parallel for all segments of a given type
+        extraction_tasks = [extractor.extract(seg) for seg in segments]
+        knowledge_graphs = await asyncio.gather(*extraction_tasks)
+
+        # Combine segments with their extracted knowledge
+        final_output[key] = [
+            {"segment_text": seg, "knowledge_graph": asdict(kg) if kg else None}
+            for seg, kg in zip(segments, knowledge_graphs)
+        ]
+
+    # --- Step 6: Print Final Rich Output ---
+    print("\n--- Final Structured Analysis Results ---")
+    # Use json.dumps for a clean, readable, and complete nested print
+    print(json.dumps(final_output, indent=2, ensure_ascii=False))
+
 
 if __name__ == "__main__":
     target_file = sys.argv[1] if len(sys.argv) > 1 else "sample_text.txt"
