@@ -1,56 +1,71 @@
 import sys
 import json
+import re
 from bs4 import BeautifulSoup
 
 def convert_html_table_to_json(html_content):
     """
-    Parses an HTML string, extracts the first table, and converts it to a JSON array of objects.
+    Parses an HTML string, extracts the first table, and converts it to a list of dicts.
     The first row of the table is assumed to be the header.
     """
     soup = BeautifulSoup(html_content, 'html.parser')
     table = soup.find('table')
     if not table:
-        return json.dumps([])
+        return []
 
-    headers = [header.text.strip() for header in table.find_all('th' if table.find('th') else 'td', recursive=False if table.find('th') else True)[:len(table.find('tr').find_all('td'))]]
+    rows = table.find_all('tr')
+    if not rows:
+        return []
 
-    # If the first row was all `<td>`s, it will be duplicated, so we skip it
-    rows_to_process = table.find_all('tr')[1:]
+    headers = [header.text.strip() for header in rows[0].find_all('td')]
 
     data = []
-    for row in rows_to_process:
+    for row in rows[1:]:
         cells = row.find_all('td')
-        if len(cells) == len(headers): # Ensure row is not malformed
+        if len(cells) == len(headers):
             row_data = {headers[i]: cells[i].text.strip() for i in range(len(headers))}
             data.append(row_data)
 
-    return json.dumps(data, indent=4, ensure_ascii=False)
+    return data
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print("Usage: python html_to_json.py <path_to_html_file>")
+        print("Usage: python html_to_json.py <path_to_text_file>")
         sys.exit(1)
 
     file_path = sys.argv[1]
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
-            html = f.read()
+            content = f.read()
 
-        # The user's provided HTML is fragmented. We need to find all tables.
-        # We'll use a simple split strategy for this case.
-        html_parts = html.split('<html><body>')
-        all_json_outputs = []
+        all_tables_data = []
 
-        for part in html_parts:
-            if '<table>' in part:
-                full_html = f"<html><body>{part}"
-                json_output = convert_html_table_to_json(full_html)
-                # We need to parse the json string back to a python object to merge them
-                json_data = json.loads(json_output)
-                if json_data:
-                    all_json_outputs.extend(json_data)
+        def replacer(match):
+            """
+            This function is called for each <html>...</html> match.
+            It converts the table to JSON, adds it to our master list,
+            and returns the JSON string for replacement.
+            """
+            html_block = match.group(0)
+            table_data = convert_html_table_to_json(html_block)
+            if table_data:
+                all_tables_data.extend(table_data)
+                # Return a compact JSON string for in-place replacement
+                return json.dumps(table_data, ensure_ascii=False)
+            # If no table is found, return the original block
+            return html_block
 
-        print(json.dumps(all_json_outputs, indent=4, ensure_ascii=False))
+        # Use re.sub with our replacer function to get the modified text
+        modified_text = re.sub('<html>.*?</html>', replacer, content, flags=re.DOTALL)
+
+        # Prepare the final structured output
+        final_output = {
+            "combined_json_tables": all_tables_data,
+            "modified_text": modified_text
+        }
+
+        # Print the final JSON object
+        print(json.dumps(final_output, indent=4, ensure_ascii=False))
 
     except FileNotFoundError:
         print(f"Error: File not found at {file_path}")

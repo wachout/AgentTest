@@ -1,0 +1,10 @@
+Here is the first table about the project schedule.
+It is embedded in this text file.
+
+<html><body><table><tr><td></td><td>起止时间</td><td>研究内容</td><td>考核指标</td></tr><tr><td>35 kV 11 0k V</td><td>2024.06~08</td><td>成立标准修订工作组，组织召开标准启 动暨第一次标准编写会，完成修订意见 汇总。</td><td>形成标准修订意见汇总表</td></tr><tr><td>变 电 站 自 动</td><td>2024.09~10</td><td>组织召开第二次标准编写会，逐条过修 订意见，形成标准征求意见稿。</td><td>形成标准征求意见稿</td></tr><tr><td>化 系 统 验 收 规 范</td><td>2024.11~12</td><td>组织召开第三次标准编写会，对征求意 见稿进行再次讨论，核查细节，形成送 审终稿并编写编制说明。</td><td>1）形成标准送审稿； 2）2024年12月底前，完成 审计、决算等相关工作。</td></tr></table></body></html>
+
+And here is the second table, which contains budget information.
+
+<html><body><table><tr><td>科目名称</td><td>预算总金额</td><td>国网陕西省电力有限公司</td></tr><tr><td>（一）直接费</td><td>7.7</td><td>7.7</td></tr><tr><td>1.人工费</td><td>0</td><td>0</td></tr><tr><td>（1）专职研究人员人工费</td><td>0</td><td>0</td></tr><tr><td>（2）劳务外包人员人工费</td><td>0</td><td>0</td></tr><tr><td>（3）临时性研究人员人工费</td><td>0</td><td>0</td></tr><tr><td>2.设备使用费</td><td>0</td><td>0</td></tr><tr><td>（1）仪器设备使用费</td><td>0</td><td>0</td></tr><tr><td>（2）软件使用费</td><td>0</td><td>0</td></tr><tr><td>3.业务费</td><td>5.7</td><td>5.7</td></tr><tr><td>（1）材料费</td><td>0</td><td>0</td></tr><tr><td>（2）资料、印刷及知识产权费</td><td>0.05</td><td>0.05</td></tr><tr><td>（3）会议、差旅及国际合作交 流费</td><td>5.65</td><td>5.65</td></tr><tr><td>4.场地使用费</td><td>0</td><td>0</td></tr><tr><td>（1）场地物业费</td><td>0</td><td>0</td></tr><tr><td>（2）场地使用租金</td><td>0</td><td>0</td></tr><tr><td>5.专家咨询费</td><td>2</td><td>2</td></tr><tr><td>（二）间接费</td><td>0.3</td><td>0.3</td></tr><tr><td>（三）外委支出费</td><td>0</td><td>0</td></tr><tr><td>1.外委研究支出费</td><td>0</td><td>0</td></tr><tr><td>2.仪器设备租赁费</td><td>0</td><td>0</td></tr><tr><td>3.外协测试试验与加工费</td><td>0</td><td>0</td></tr><tr><td>（四）税金</td><td>0</td><td>0</td></tr><tr><td>合计</td><td>8</td><td>8</td></tr></table></body></html>
+
+This is the end of the file.
