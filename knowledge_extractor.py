@@ -29,12 +29,10 @@ class KnowledgeGraph(DataClass):
 
 # Implement the KnowledgeExtractor class
 class KnowledgeExtractor:
-    def __init__(self, llm_client: ModelClient):
-        # 1. Create the parser instance first to get its formatting instructions.
+    def __init__(self, llm_client: ModelClient, model_kwargs: dict):
         json_parser = JsonOutputParser(data_class=KnowledgeGraph, return_data_class=True)
         format_instructions = json_parser.format_instructions()
 
-        # 2. Create a more robust prompt template that includes the schema and strict instructions.
         prompt_template = (
             "You are a helpful assistant that extracts information into a knowledge graph.\n"
             "Your task is to analyze the provided text and extract entities, relations, and keywords.\n"
@@ -47,12 +45,11 @@ class KnowledgeExtractor:
             f"{format_instructions}"
         )
 
-        # 3. Instantiate the Generator with the robust prompt and the parser.
         self.generator = Generator(
             model_client=llm_client,
             template=prompt_template,
             output_processors=json_parser,
-            model_kwargs={"model": "deepseek-coder", "temperature": 0.2} # Lower temp for more deterministic JSON
+            model_kwargs=model_kwargs
         )
 
     async def extract(self, text: str) -> Optional[KnowledgeGraph]:
@@ -66,6 +63,36 @@ class KnowledgeExtractor:
             print(f"  - ERROR during knowledge extraction: {e}")
             return None
 
-def create_knowledge_extractor() -> KnowledgeExtractor:
-    llm_client = OpenAIClient(api_key=os.getenv("DEEPSEEK_API_KEY"))
-    return KnowledgeExtractor(llm_client=llm_client)
+def create_knowledge_extractor(llm_provider: str = "deepseek") -> KnowledgeExtractor:
+    """
+    Initializes and returns a KnowledgeExtractor instance based on the specified provider.
+    """
+    if llm_provider == "alibaba":
+        print("Using Alibaba Tongyi (qwen3-32b) model.")
+        api_key = os.getenv("ALIBABA_API_KEY")
+        base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+        model = "qwen3-32b"
+        temperature = 0.7
+    else: # Default to deepseek
+        print("Using DeepSeek (deepseek-reasoner) model.")
+        api_key = os.getenv("DEEPSEEK_API_KEY")
+        base_url = "https://api.deepseek.com/v1"
+        model = "deepseek-reasoner"
+        temperature = 0.6
+
+    if not api_key:
+        raise ValueError(f"API key for {llm_provider} not found in .env file.")
+
+    # Set environment variables for the lightrag OpenAIClient to use
+    os.environ["OPENAI_API_KEY"] = api_key
+    os.environ["OPENAI_BASE_URL"] = base_url
+
+    llm_client = OpenAIClient(api_key=api_key) # api_key is still needed for the constructor
+
+    model_kwargs = {"model": model, "temperature": temperature}
+
+    # Add provider-specific parameters
+    if llm_provider == "alibaba":
+        model_kwargs["extra_body"] = {"enable_thinking": False}
+
+    return KnowledgeExtractor(llm_client=llm_client, model_kwargs=model_kwargs)

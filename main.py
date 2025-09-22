@@ -20,36 +20,24 @@ OVERLAP_SIZE = 1000
 # All helper functions remain the same as before...
 def preprocess_html_blocks(text: str) -> Tuple[str, List[Dict[str, Any]]]:
     html_spans = [m.span() for m in re.finditer(r'<html>.*?</html>', text, re.DOTALL | re.IGNORECASE)]
-    if not html_spans:
-        return text, []
-
+    if not html_spans: return text, []
     merged_spans = []
     if html_spans:
         current_start, current_end = html_spans[0]
         for next_start, next_end in html_spans[1:]:
-            if re.fullmatch(r'\s*', text[current_end:next_start]):
-                current_end = next_end
+            if re.fullmatch(r'\s*', text[current_end:next_start]): current_end = next_end
             else:
                 merged_spans.append((current_start, current_end))
                 current_start, current_end = next_start, next_end
         merged_spans.append((current_start, current_end))
-
-    sanitized_text_parts = []
-    lookup_map = []
-    last_original_end = 0
-    current_sanitized_pos = 0
+    sanitized_text_parts, lookup_map, last_original_end, current_sanitized_pos = [], [], 0, 0
     for i, (start, end) in enumerate(merged_spans):
         placeholder = f"[--HTML_BLOCK_{i}--]"
         pre_html_text = text[last_original_end:start]
         sanitized_text_parts.append(pre_html_text)
         current_sanitized_pos += len(pre_html_text)
         sanitized_text_parts.append(placeholder)
-        lookup_map.append({
-            "placeholder": placeholder,
-            "original_content_len": end - start,
-            "sanitized_content_len": len(placeholder),
-            "sanitized_start": current_sanitized_pos,
-        })
+        lookup_map.append({"placeholder": placeholder, "original_content_len": end - start, "sanitized_content_len": len(placeholder), "sanitized_start": current_sanitized_pos})
         current_sanitized_pos += len(placeholder)
         last_original_end = end
     sanitized_text_parts.append(text[last_original_end:])
@@ -57,11 +45,9 @@ def preprocess_html_blocks(text: str) -> Tuple[str, List[Dict[str, Any]]]:
 
 def chunk_text_with_overlap(text: str, chunk_size: int, overlap: int) -> List[Tuple[str, int]]:
     if len(text) <= chunk_size: return [(text, 0)]
-    chunks = []
-    offset = 0
+    chunks, offset = [], 0
     while offset < len(text):
-        chunk_end = offset + chunk_size
-        chunks.append((text[offset:chunk_end], offset))
+        chunks.append((text[offset:offset + chunk_size], offset))
         offset += chunk_size - overlap
         if offset + overlap >= len(text): break
     return chunks
@@ -79,12 +65,10 @@ def convert_sanitized_indices_to_global(sanitized_indices: List[int], lookup_map
 
 def split_text_by_indices(text: str, indices: List[int]) -> List[str]:
     if not indices: return [text]
-    segments = []
-    indices = sorted(list(set([0] + indices)))
+    segments, indices = [], sorted(list(set([0] + indices)))
     if len(text) not in indices: indices.append(len(text))
     for i in range(len(indices) - 1):
-        start_idx, end_idx = indices[i], indices[i+1]
-        segment = text[start_idx:end_idx]
+        segment = text[indices[i]:indices[i+1]]
         if segment: segments.append(segment.strip())
     return segments
 
@@ -92,19 +76,10 @@ async def analyze_chunk(graph_app, chunk_text: str) -> Dict[str, Any]:
     initial_state: AgentState = {"input_text": chunk_text, "chapter_splits": [], "paragraph_splits": [], "semantic_splits": [], "error": None}
     return await graph_app.ainvoke(initial_state)
 
-async def main(filename: str = "sample_text.txt"):
+async def main(filename: str = "sample_text.txt", llm_provider: str = "deepseek"):
     """Main execution function with knowledge extraction."""
     load_dotenv()
-    deepseek_api_key = os.getenv("DEEPSEEK_API_KEY")
-    if not deepseek_api_key:
-        print("ERROR: DEEPSEEK_API_KEY not set in .env file.")
-        return
 
-    # Set environment variables for the OpenAI client library used by lightrag
-    os.environ["OPENAI_API_KEY"] = deepseek_api_key
-    os.environ["OPENAI_BASE_URL"] = "https://api.deepseek.com/v1"
-
-    # --- Step 1: Read and Pre-process Text ---
     print(f"Reading text from '{filename}'...")
     try:
         with open(filename, "r", encoding="utf-8") as f: original_text = f.read()
@@ -114,7 +89,6 @@ async def main(filename: str = "sample_text.txt"):
     print("Pre-processing text to handle HTML blocks...")
     sanitized_text, lookup_map = preprocess_html_blocks(original_text)
 
-    # --- Step 2: Analyze for Split Points ---
     graph_app = create_graph()
     print("Analyzing text for split points (chunking if necessary)...")
     chunks_with_offsets = chunk_text_with_overlap(sanitized_text, CHUNK_SIZE, OVERLAP_SIZE) if len(sanitized_text) > LONG_TEXT_THRESHOLD else [(sanitized_text, 0)]
@@ -122,7 +96,6 @@ async def main(filename: str = "sample_text.txt"):
     split_tasks = [analyze_chunk(graph_app, chunk) for chunk, offset in chunks_with_offsets]
     split_results = await asyncio.gather(*split_tasks)
 
-    # --- Step 3: Aggregate and Convert Indices ---
     print("Aggregating and converting indices...")
     agg_sanitized_indices = {"chapters": set(), "paragraphs": set(), "semantics": set()}
     for i, result in enumerate(split_results):
@@ -133,33 +106,40 @@ async def main(filename: str = "sample_text.txt"):
 
     final_global_indices = {key: convert_sanitized_indices_to_global(sorted(list(val)), lookup_map) for key, val in agg_sanitized_indices.items()}
 
-    # --- Step 4: Split Text into Segments ---
     print("Generating final text segments...")
     final_segments = {key: split_text_by_indices(original_text, val) for key, val in final_global_indices.items()}
 
-    # --- Step 5: Extract Knowledge from Segments ---
-    print("Extracting knowledge from each text segment...")
-    extractor = create_knowledge_extractor()
+    print(f"Extracting knowledge from each text segment using '{llm_provider}'...")
+    extractor = create_knowledge_extractor(llm_provider=llm_provider)
     final_output = {}
 
     for key, segments in final_segments.items():
         print(f"-> Processing {len(segments)} segments for '{key}'...")
-        # Run extraction in parallel for all segments of a given type
         extraction_tasks = [extractor.extract(seg) for seg in segments]
         knowledge_graphs = await asyncio.gather(*extraction_tasks)
 
-        # Combine segments with their extracted knowledge
-        final_output[key] = [
-            {"segment_text": seg, "knowledge_graph": asdict(kg) if kg else None}
-            for seg, kg in zip(segments, knowledge_graphs)
-        ]
+        final_output[key] = [{"segment_text": seg, "knowledge_graph": asdict(kg) if kg else None} for seg, kg in zip(segments, knowledge_graphs)]
 
-    # --- Step 6: Print Final Rich Output ---
     print("\n--- Final Structured Analysis Results ---")
-    # Use json.dumps for a clean, readable, and complete nested print
     print(json.dumps(final_output, indent=2, ensure_ascii=False))
 
-
 if __name__ == "__main__":
-    target_file = sys.argv[1] if len(sys.argv) > 1 else "sample_text.txt"
-    asyncio.run(main(filename=target_file))
+    llm_provider = "deepseek"
+    target_file = "sample_text.txt"
+
+    args = sys.argv[1:]
+    if args and not args[0].startswith('--'):
+        target_file = args.pop(0)
+
+    if "--llm" in args:
+        try:
+            llm_index = args.index("--llm")
+            llm_provider = args[llm_index + 1]
+            if llm_provider not in ["deepseek", "alibaba"]:
+                print(f"Error: Invalid LLM provider '{llm_provider}'. Choose 'deepseek' or 'alibaba'.")
+                sys.exit(1)
+        except IndexError:
+            print("Error: --llm flag requires an argument ('deepseek' or 'alibaba').")
+            sys.exit(1)
+
+    asyncio.run(main(filename=target_file, llm_provider=llm_provider))
