@@ -78,7 +78,7 @@ async def analyze_chunk(graph_app, chunk_text: str) -> Dict[str, Any]:
 
 async def main(filename: str = "sample_text.txt", llm_provider: str = "deepseek"):
     """Main execution function with knowledge extraction."""
-    load_dotenv()
+    # Environment variables are expected to be set in the shell.
 
     print(f"Reading text from '{filename}'...")
     try:

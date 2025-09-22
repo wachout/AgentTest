@@ -4,32 +4,37 @@ import sys
 import json
 from dotenv import load_dotenv
 from dataclasses import asdict
+from typing import Dict, Any, Optional
 
 from knowledge_extractor import create_knowledge_extractor
 
-async def analyze_text(text_to_analyze: str, llm_provider: str = "deepseek"):
+async def analyze_text(text_to_analyze: str, llm_provider: str = "deepseek") -> Optional[Dict[str, Any]]:
     """
-    Analyzes a single piece of text and prints the extracted knowledge graph.
+    Core async function to analyze text and return a knowledge graph dictionary.
     """
     if not text_to_analyze:
-        print("Error: No text provided for analysis.")
-        print("Usage: python3 analyze_snippet.py \"<your text here>\" [--llm <deepseek|alibaba>]")
-        return
+        return None
 
-    print("Loading environment...")
-    load_dotenv()
+    # This function is now designed to be called by other modules,
+    # so we assume the environment is already loaded by the entry point.
 
-    print(f"Initializing knowledge extractor with '{llm_provider}' provider...")
     extractor = create_knowledge_extractor(llm_provider=llm_provider)
-
-    print("\n--- Extracting Knowledge from Snippet ---")
     knowledge_graph = await extractor.extract(text_to_analyze)
 
-    print("\n--- Extraction Complete ---")
     if knowledge_graph:
-        print(json.dumps(asdict(knowledge_graph), indent=2, ensure_ascii=False))
-    else:
-        print("Could not extract a knowledge graph from the provided text.")
+        return asdict(knowledge_graph)
+    return None
+
+def analyze_snippet_sync(text_to_analyze: str, llm_provider: str = "deepseek") -> Optional[Dict[str, Any]]:
+    """
+    Synchronous wrapper for the analysis function.
+    This makes it easy to call from non-async code.
+    It handles the asyncio event loop.
+    """
+    print("Initializing knowledge extractor...")
+    # Environment variables are now expected to be set in the shell environment
+    # before running the script.
+    return asyncio.run(analyze_text(text_to_analyze, llm_provider))
 
 
 if __name__ == "__main__":
@@ -52,7 +57,14 @@ if __name__ == "__main__":
             sys.exit(1)
 
     if input_text:
-        asyncio.run(analyze_text(input_text, llm_provider=llm_provider))
+        # Call the synchronous wrapper
+        result = analyze_snippet_sync(input_text, llm_provider=llm_provider)
+
+        print("\n--- Extraction Complete ---")
+        if result:
+            print(json.dumps(result, indent=2, ensure_ascii=False))
+        else:
+            print("Could not extract a knowledge graph from the provided text.")
     else:
         print("Error: No text provided.")
         print("Usage: python3 analyze_snippet.py \"<your text here>\" [--llm <deepseek|alibaba>]")
