@@ -1,16 +1,16 @@
 {
-  "chunk-81923ba451c8105558b3e33b2238ddfd": {
+  "chunk-f8c1c8684ce0bec748240ccfd5fda56b": {
     "tokens": 149,
-    "content": "《流浪地球》是刘慈欣创作的科幻小说。故事的核心是太阳即将氦闪，毁灭太阳系。为了生存，人类联合政府启动了“流浪地球”计划，在地球表面建造了一万座巨大的行星发动机，推动地球离开太阳系，前往半人马座比邻星，开启一场长达2500年的星际流浪。主角刘启是一名年轻的航天员，他的父亲刘培强是国际空间站的宇航员。他们在木星引力危机中，为了拯救地球，做出了巨大的牺牲。",
+    "content": "《流浪地球》是刘慈欣创作的科幻小说。\n故事的核心是太阳即将氦闪，毁灭太阳系。为了生存，人类联合政府启动了“流浪地球”计划，在地球表面建造了一万座巨大的行星发动机，推动地球离开太阳系，前往半人马座比邻星，开启一场长达2500年的星际流浪。\n主角刘启是一名年轻的航天员，他的父亲刘培强是国际空间站的宇航员。他们在木星引力危机中，为了拯救地球，做出了巨大的牺牲。",
     "chunk_order_index": 0,
     "full_doc_id": "input_text",
     "file_path": "unknown_source",
     "llm_cache_list": [
-      "default:extract:5d9cc6061b48669f7749946b62bb7e49",
-      "default:extract:19768c0a7154952c088c6d8d3a797ece"
+      "default:extract:1ce90d1e467812813f113d0f98c1cd92",
+      "default:extract:b365f6a30b3239a0afe83f96b4b2dba0"
     ],
-    "create_time": 1758512971,
-    "update_time": 1758513035,
-    "_id": "chunk-81923ba451c8105558b3e33b2238ddfd"
+    "create_time": 1758521058,
+    "update_time": 1758521118,
+    "_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b"
   }
 }

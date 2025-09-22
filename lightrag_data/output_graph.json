@@ -1,0 +1,201 @@
+{
+    "directed": false,
+    "multigraph": false,
+    "graph": {
+        "node_default": {},
+        "edge_default": {}
+    },
+    "nodes": [
+        {
+            "entity_id": "流浪地球",
+            "entity_type": "Content",
+            "description": "《流浪地球》是刘慈欣创作的科幻小说，讲述了人类为了生存而启动的“流浪地球”计划。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521118,
+            "id": "流浪地球"
+        },
+        {
+            "entity_id": "刘慈欣",
+            "entity_type": "Person",
+            "description": "刘慈欣是《流浪地球》的作者，是一位科幻小说作家。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521118,
+            "id": "刘慈欣"
+        },
+        {
+            "entity_id": "太阳",
+            "entity_type": "Naturalobject",
+            "description": "太阳即将氦闪，对太阳系构成威胁，促使人类启动了“流浪地球”计划。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521118,
+            "id": "太阳"
+        },
+        {
+            "entity_id": "太阳系",
+            "entity_type": "Location",
+            "description": "太阳系是地球原本所在的星系，由于太阳即将氦闪而面临毁灭。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521118,
+            "id": "太阳系"
+        },
+        {
+            "entity_id": "半人马座比邻星",
+            "entity_type": "Location",
+            "description": "半人马座比邻星是地球在“流浪地球”计划中的目的地，预计需要2500年的星际旅行才能到达。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521118,
+            "id": "半人马座比邻星"
+        },
+        {
+            "entity_id": "行星发动机",
+            "entity_type": "Artifact",
+            "description": "行星发动机是在地球表面建造的一万座巨大的发动机，用于推动地球离开太阳系。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521118,
+            "id": "行星发动机"
+        },
+        {
+            "entity_id": "国际空间站",
+            "entity_type": "Artifact",
+            "description": "国际空间站是刘培强工作的场所，他是一名宇航员。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521118,
+            "id": "国际空间站"
+        },
+        {
+            "entity_id": "刘启",
+            "entity_type": "Person",
+            "description": "刘启是《流浪地球》的主角，是一名年轻的航天员，他的父亲是刘培强。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521118,
+            "id": "刘启"
+        },
+        {
+            "entity_id": "刘培强",
+            "entity_type": "Person",
+            "description": "刘培强是刘启的父亲，是国际空间站的宇航员，在木星引力危机中做出了巨大牺牲。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521119,
+            "id": "刘培强"
+        },
+        {
+            "entity_id": "木星",
+            "entity_type": "Naturalobject",
+            "description": "木星是地球在星际旅行中遇到的一个重要天体，其引力危机对地球构成了威胁。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521119,
+            "id": "木星"
+        },
+        {
+            "entity_id": "氦闪",
+            "entity_type": "Concept",
+            "description": "氦闪是太阳即将发生的一种现象，对太阳系构成威胁。",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521119,
+            "id": "氦闪"
+        }
+    ],
+    "links": [
+        {
+            "weight": 1.0,
+            "description": "刘慈欣创作了科幻小说《流浪地球》。",
+            "keywords": "创作,科幻小说",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521121,
+            "source": "流浪地球",
+            "target": "刘慈欣"
+        },
+        {
+            "weight": 1.0,
+            "description": "太阳即将氦闪，这是《流浪地球》故事的背景设定。",
+            "keywords": "氦闪,背景",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521122,
+            "source": "流浪地球",
+            "target": "太阳"
+        },
+        {
+            "weight": 1.0,
+            "description": "太阳系面临毁灭，促使人类启动了“流浪地球”计划。",
+            "keywords": "毁灭,背景",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521123,
+            "source": "流浪地球",
+            "target": "太阳系"
+        },
+        {
+            "weight": 1.0,
+            "description": "半人马座比邻星是地球在“流浪地球”计划中的目的地。",
+            "keywords": "星际旅行,目标",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521125,
+            "source": "流浪地球",
+            "target": "半人马座比邻星"
+        },
+        {
+            "weight": 1.0,
+            "description": "行星发动机是推动地球离开太阳系的关键技术。",
+            "keywords": "技术,推动",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521126,
+            "source": "流浪地球",
+            "target": "行星发动机"
+        },
+        {
+            "weight": 1.0,
+            "description": "太阳即将发生的氦闪对太阳系构成威胁。",
+            "keywords": "天文现象,威胁",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521123,
+            "source": "太阳",
+            "target": "氦闪"
+        },
+        {
+            "weight": 1.0,
+            "description": "刘培强是国际空间站的宇航员。",
+            "keywords": "宇航员,工作地点",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521122,
+            "source": "国际空间站",
+            "target": "刘培强"
+        },
+        {
+            "weight": 1.0,
+            "description": "刘启是刘培强的儿子。",
+            "keywords": "家庭关系,父子",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521121,
+            "source": "刘启",
+            "target": "刘培强"
+        },
+        {
+            "weight": 1.0,
+            "description": "刘启和他的父亲刘培强在木星引力危机中做出了巨大牺牲。",
+            "keywords": "危机,牺牲",
+            "source_id": "chunk-f8c1c8684ce0bec748240ccfd5fda56b",
+            "file_path": "unknown_source",
+            "created_at": 1758521122,
+            "source": "刘启",
+            "target": "木星"
+        }
+    ]
+}

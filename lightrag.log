@@ -779,3 +779,28 @@ TypeError: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: AsyncCompletions.crea
 2025-09-22 03:50:43,785 - lightrag - INFO - Completed processing file 1/1: unknown_source
 2025-09-22 03:50:43,785 - lightrag - INFO - Enqueued document processing pipeline stoped
 2025-09-22 03:50:43,785 - lightrag - INFO - Successfully finalized 10 storages
+2025-09-22 06:04:18,074 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-22 06:04:18,078 - lightrag - INFO - [_] Process 9775 KV load full_docs with 0 records
+2025-09-22 06:04:18,078 - lightrag - INFO - [_] Process 9775 KV load text_chunks with 0 records
+2025-09-22 06:04:18,079 - lightrag - INFO - [_] Process 9775 KV load full_entities with 0 records
+2025-09-22 06:04:18,079 - lightrag - INFO - [_] Process 9775 KV load full_relations with 0 records
+2025-09-22 06:04:18,080 - lightrag - INFO - [_] Process 9775 KV load llm_response_cache with 0 records
+2025-09-22 06:04:18,080 - lightrag - INFO - [_] Process 9775 doc status load doc_status with 0 records
+2025-09-22 06:04:18,082 - lightrag - INFO - Processing 1 document(s)
+2025-09-22 06:04:18,082 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-22 06:04:18,082 - lightrag - INFO - Processing d-id: input_text
+2025-09-22 06:04:18,088 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-22 06:04:19,754 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-22 06:05:12,247 - lightrag - INFO -  == LLM cache == saving: default:extract:1ce90d1e467812813f113d0f98c1cd92
+2025-09-22 06:05:18,273 - lightrag - INFO -  == LLM cache == saving: default:extract:b365f6a30b3239a0afe83f96b4b2dba0
+2025-09-22 06:05:18,273 - lightrag - INFO - Chunk 1 of 1 extracted 11 Ent + 9 Rel
+2025-09-22 06:05:18,274 - lightrag - INFO - Merging stage 1/1: unknown_source
+2025-09-22 06:05:18,274 - lightrag - INFO - Phase 1: Processing 11 entities from input_text (async: 8)
+2025-09-22 06:05:21,705 - lightrag - INFO - Phase 2: Processing 9 relations from input_text (async: 8)
+2025-09-22 06:05:27,472 - lightrag - INFO - Phase 3: Updating final 11(11+0) entities and  9 relations from input_text
+2025-09-22 06:05:27,472 - lightrag - INFO - Completed merging: 11 entities, 0 extra entities, 9 relations
+2025-09-22 06:05:27,490 - lightrag - INFO - [_] Writing graph with 11 nodes, 9 edges
+2025-09-22 06:05:27,493 - lightrag - INFO - In memory DB persist to disk
+2025-09-22 06:05:27,493 - lightrag - INFO - Completed processing file 1/1: unknown_source
+2025-09-22 06:05:27,493 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-22 06:05:27,493 - lightrag - INFO - Successfully finalized 10 storages
