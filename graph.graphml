@@ -1,0 +1,2978 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d2" for="edge" attr.name="label" attr.type="string" />
+  <key id="d1" for="node" attr.name="description" attr.type="string" />
+  <key id="d0" for="node" attr.name="type" attr.type="string" />
+  <graph edgedefault="directed">
+    <node id="黑夜">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="秋天">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="春天">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="星星">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="冬天">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="地球">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="刹车">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="时代">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="四十二年">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="计划">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="政府">
+      <data key="d0">Entity</data>
+      <data key="d1">联合</data>
+    </node>
+    <node id="三年">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="妈妈">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="三夜">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="全家">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="情景">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="地平线">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="太阳">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="日落">
+      <data key="d0">Entity</data>
+      <data key="d1">最后</data>
+    </node>
+    <node id="三天">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="十几年">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="东半球">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="时间">
+      <data key="d0">Entity</data>
+      <data key="d1">长</data>
+    </node>
+    <node id="光芒">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="黄昏">
+      <data key="d0">Entity</data>
+      <data key="d1">永远</data>
+    </node>
+    <node id="半边天">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="北半球">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="昏暗">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="发动机">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="美洲">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="亚洲">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="结构">
+      <data key="d0">Entity</data>
+      <data key="d1">完整</data>
+    </node>
+    <node id="大陆">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="推力">
+      <data key="d0">Entity</data>
+      <data key="d1">巨大</data>
+    </node>
+    <node id="板块">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="平原">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="美洲大陆">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="地方">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="等离子">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="体光柱">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="几百台">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="灯管">
+      <data key="d0">Entity</data>
+      <data key="d1">巨大</data>
+    </node>
+    <node id="柱子">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="蓝白色">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="巨柱">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="日光">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="顶天立地">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="雅典">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="卫城">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="强光">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="神殿">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="宫殿">
+      <data key="d0">Entity</data>
+      <data key="d1">巨大</data>
+    </node>
+    <node id="世界">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="细菌">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="地板">
+      <data key="d0">Entity</data>
+      <data key="d1">巨大</data>
+    </node>
+    <node id="样子">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="巨殿">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="光柱">
+      <data key="d0">Entity</data>
+      <data key="d1">巨型</data>
+    </node>
+    <node id="分量">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="自转">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="天空中">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="角度">
+      <data key="d0">Entity</data>
+      <data key="d1">一定</data>
+    </node>
+    <node id="喷射">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="切线">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="精神">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="环境">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="南半球">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="景象">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="酷热">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="户外">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="冷却服">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="气温">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="乌云时">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="暴雨">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="噩梦">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="天空">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="散射">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="光晕">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="火山岩">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="色彩">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="爷爷">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="大雨">
+      <data key="d0">Entity</data>
+      <data key="d1">下</data>
+    </node>
+    <node id="雨点">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="外面">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="烤热">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="身上">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="超高温">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="月亮">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="这一切">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="神往">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="人类">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="历史">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="前太阳时代">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="黄金">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="教师">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="小学">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="孩子">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="旅行">
+      <data key="d0">Entity</data>
+      <data key="d1">环球</data>
+    </node>
+    <node id="课程">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="光度">
+      <data key="d0">Entity</data>
+      <data key="d1">光柱</data>
+    </node>
+    <node id="行星">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="姿态">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="调整">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="状态">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="六岁">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="三岁">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="静止">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="太行山">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="石家庄">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="太行山山脉">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="西边">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="小土丘">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="金属">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="山脉">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="距离">
+      <data key="d0">Entity</data>
+      <data key="d1">近</data>
+    </node>
+    <node id="高山">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="珠峰">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="姑娘">
+      <data key="d0">Entity</data>
+      <data key="d1">漂亮</data>
+    </node>
+    <node id="上帝">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="班主任">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="高度">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="老师">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="喷灯">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="小星">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="大地">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="振动">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="阴影">
+      <data key="d0">Entity</data>
+      <data key="d1">巨大</data>
+    </node>
+    <node id="华北794号">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="华北">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="沿盘">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="电梯">
+      <data key="d0">Entity</data>
+      <data key="d1">巨型</data>
+    </node>
+    <node id="公路">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="汽车">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="钢铁">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="首尾">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="长车队">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="混在">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="左边">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="峭壁">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="青色">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="右边">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="卡车">
+      <data key="d0">Entity</data>
+      <data key="d1">自卸</data>
+    </node>
+    <node id="岩石">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="车队">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="车上">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="反射">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="细节">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="青光">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="面罩">
+      <data key="d0">Entity</data>
+      <data key="d1">氧气</data>
+    </node>
+    <node id="压缩机">
+      <data key="d0">Entity</data>
+      <data key="d1">微型</data>
+    </node>
+    <node id="颜色">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="剧增">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="温度">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="进料口">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="一车车">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="声音">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="石块">
+      <data key="d0">Entity</data>
+      <data key="d1">大</data>
+    </node>
+    <node id="幽幽">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="红光">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="大洞">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="燃料">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="学问">
+      <data key="d0">Entity</data>
+      <data key="d1">深</data>
+    </node>
+    <node id="重元素">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="力量">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="全功率">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="机器">
+      <data key="d0">Entity</data>
+      <data key="d1">大</data>
+    </node>
+    <node id="头顶">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="顶峰">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="巨墙">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="高处">
+      <data key="d0">Entity</data>
+      <data key="d1">无限</data>
+    </node>
+    <node id="蓝光">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="等离子体">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="直径">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="上伸">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="谜语">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="哲学">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="右无限远">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="左无限远">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="身边">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="寒战">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="谜底">
+      <data key="d0">Entity</data>
+      <data key="d1">可怕</data>
+    </node>
+    <node id="嘴凑">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="耳边">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="几秒钟">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="怀里">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="肩上">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="巨峰">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="吐出">
+      <data key="d0">Entity</data>
+      <data key="d1">巨峰</data>
+    </node>
+    <node id="森林">
+      <data key="d0">Entity</data>
+    </node>
+    <node id="宇宙">
+      <data key="d0">Entity</data>
+    </node>
+    <edge source="黑夜" target="秋天">
+      <data key="d2" />
+    </edge>
+    <edge source="黑夜" target="春天">
+      <data key="d2" />
+    </edge>
+    <edge source="黑夜" target="星星">
+      <data key="d2" />
+    </edge>
+    <edge source="黑夜" target="冬天">
+      <data key="d2" />
+    </edge>
+    <edge source="秋天" target="春天">
+      <data key="d2" />
+    </edge>
+    <edge source="秋天" target="星星">
+      <data key="d2" />
+    </edge>
+    <edge source="秋天" target="冬天">
+      <data key="d2" />
+    </edge>
+    <edge source="春天" target="星星">
+      <data key="d2" />
+    </edge>
+    <edge source="春天" target="冬天">
+      <data key="d2" />
+    </edge>
+    <edge source="星星" target="冬天">
+      <data key="d2" />
+    </edge>
+    <edge source="星星" target="这一切">
+      <data key="d2" />
+    </edge>
+    <edge source="星星" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="星星" target="刹车">
+      <data key="d2" />
+    </edge>
+    <edge source="星星" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="刹车">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="四十二年">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="计划">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="政府">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="北半球">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="昏暗">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="黄昏">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="结构">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="板块">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="平原">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="美洲大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="光柱">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="分量">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="自转">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="天空中">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="角度">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="喷射">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="切线">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="等离子">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="外面">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="烤热">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="身上">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="超高温">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="行星">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="姿态">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="世界">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="调整">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="状态">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="六岁">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="三岁">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="静止">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="天空">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="太行山山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="西边">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="小土丘">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="金属">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="距离">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="反射">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="细节">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="青光">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="大地">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="燃料">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="岩石">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="老师">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="华北">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="力量">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="华北794号">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="人类">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="全功率">
+      <data key="d2" />
+    </edge>
+    <edge source="地球" target="机器">
+      <data key="d2" />
+    </edge>
+    <edge source="刹车" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="四十二年" target="计划">
+      <data key="d2" />
+    </edge>
+    <edge source="四十二年" target="政府">
+      <data key="d2" />
+    </edge>
+    <edge source="四十二年" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="计划" target="政府">
+      <data key="d2" />
+    </edge>
+    <edge source="计划" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="政府" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="妈妈" target="三夜">
+      <data key="d2" />
+    </edge>
+    <edge source="妈妈" target="全家">
+      <data key="d2" />
+    </edge>
+    <edge source="妈妈" target="情景">
+      <data key="d2" />
+    </edge>
+    <edge source="妈妈" target="地平线">
+      <data key="d2" />
+    </edge>
+    <edge source="妈妈" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="妈妈" target="日落">
+      <data key="d2" />
+    </edge>
+    <edge source="妈妈" target="三天">
+      <data key="d2" />
+    </edge>
+    <edge source="三夜" target="全家">
+      <data key="d2" />
+    </edge>
+    <edge source="三夜" target="情景">
+      <data key="d2" />
+    </edge>
+    <edge source="三夜" target="地平线">
+      <data key="d2" />
+    </edge>
+    <edge source="三夜" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="三夜" target="日落">
+      <data key="d2" />
+    </edge>
+    <edge source="三夜" target="三天">
+      <data key="d2" />
+    </edge>
+    <edge source="全家" target="情景">
+      <data key="d2" />
+    </edge>
+    <edge source="全家" target="地平线">
+      <data key="d2" />
+    </edge>
+    <edge source="全家" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="全家" target="日落">
+      <data key="d2" />
+    </edge>
+    <edge source="全家" target="三天">
+      <data key="d2" />
+    </edge>
+    <edge source="情景" target="地平线">
+      <data key="d2" />
+    </edge>
+    <edge source="情景" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="情景" target="日落">
+      <data key="d2" />
+    </edge>
+    <edge source="情景" target="三天">
+      <data key="d2" />
+    </edge>
+    <edge source="地平线" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="地平线" target="日落">
+      <data key="d2" />
+    </edge>
+    <edge source="地平线" target="三天">
+      <data key="d2" />
+    </edge>
+    <edge source="地平线" target="光芒">
+      <data key="d2" />
+    </edge>
+    <edge source="地平线" target="黄昏">
+      <data key="d2" />
+    </edge>
+    <edge source="地平线" target="半边天">
+      <data key="d2" />
+    </edge>
+    <edge source="地平线" target="巨峰">
+      <data key="d2" />
+    </edge>
+    <edge source="地平线" target="大地">
+      <data key="d2" />
+    </edge>
+    <edge source="太阳" target="日落">
+      <data key="d2" />
+    </edge>
+    <edge source="太阳" target="三天">
+      <data key="d2" />
+    </edge>
+    <edge source="太阳" target="黄昏">
+      <data key="d2" />
+    </edge>
+    <edge source="太阳" target="半边天">
+      <data key="d2" />
+    </edge>
+    <edge source="太阳" target="刹车">
+      <data key="d2" />
+    </edge>
+    <edge source="太阳" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="太阳" target="历史">
+      <data key="d2" />
+    </edge>
+    <edge source="太阳" target="前太阳时代">
+      <data key="d2" />
+    </edge>
+    <edge source="太阳" target="黄金">
+      <data key="d2" />
+    </edge>
+    <edge source="日落" target="三天">
+      <data key="d2" />
+    </edge>
+    <edge source="十几年" target="东半球">
+      <data key="d2" />
+    </edge>
+    <edge source="十几年" target="时间">
+      <data key="d2" />
+    </edge>
+    <edge source="十几年" target="地平线">
+      <data key="d2" />
+    </edge>
+    <edge source="十几年" target="光芒">
+      <data key="d2" />
+    </edge>
+    <edge source="十几年" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="十几年" target="黄昏">
+      <data key="d2" />
+    </edge>
+    <edge source="十几年" target="半边天">
+      <data key="d2" />
+    </edge>
+    <edge source="东半球" target="时间">
+      <data key="d2" />
+    </edge>
+    <edge source="东半球" target="地平线">
+      <data key="d2" />
+    </edge>
+    <edge source="东半球" target="光芒">
+      <data key="d2" />
+    </edge>
+    <edge source="东半球" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="东半球" target="黄昏">
+      <data key="d2" />
+    </edge>
+    <edge source="东半球" target="半边天">
+      <data key="d2" />
+    </edge>
+    <edge source="时间" target="地平线">
+      <data key="d2" />
+    </edge>
+    <edge source="时间" target="光芒">
+      <data key="d2" />
+    </edge>
+    <edge source="时间" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="时间" target="黄昏">
+      <data key="d2" />
+    </edge>
+    <edge source="时间" target="半边天">
+      <data key="d2" />
+    </edge>
+    <edge source="时间" target="电梯">
+      <data key="d2" />
+    </edge>
+    <edge source="时间" target="公路">
+      <data key="d2" />
+    </edge>
+    <edge source="时间" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="光芒" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="光芒" target="黄昏">
+      <data key="d2" />
+    </edge>
+    <edge source="光芒" target="半边天">
+      <data key="d2" />
+    </edge>
+    <edge source="黄昏" target="半边天">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="昏暗">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="黄昏">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="精神">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="环境">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="南半球">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="星星">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="这一切">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="刹车">
+      <data key="d2" />
+    </edge>
+    <edge source="北半球" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="昏暗" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="昏暗" target="黄昏">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="黄昏">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="板块">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="平原">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="美洲大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="几百台">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="天空中">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="角度">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="喷射">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="切线">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="冷却服">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="气温">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="乌云时">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="暴雨">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="噩梦">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="超高温">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="距离">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="喷灯">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="珠峰">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="大地">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="全功率">
+      <data key="d2" />
+    </edge>
+    <edge source="发动机" target="机器">
+      <data key="d2" />
+    </edge>
+    <edge source="美洲" target="亚洲">
+      <data key="d2" />
+    </edge>
+    <edge source="美洲" target="地球">
+      <data key="d2" />
+    </edge>
+    <edge source="美洲" target="结构">
+      <data key="d2" />
+    </edge>
+    <edge source="美洲" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="美洲" target="大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="美洲" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="美洲" target="板块">
+      <data key="d2" />
+    </edge>
+    <edge source="美洲" target="平原">
+      <data key="d2" />
+    </edge>
+    <edge source="美洲" target="美洲大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="亚洲" target="地球">
+      <data key="d2" />
+    </edge>
+    <edge source="亚洲" target="结构">
+      <data key="d2" />
+    </edge>
+    <edge source="亚洲" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="亚洲" target="大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="亚洲" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="亚洲" target="板块">
+      <data key="d2" />
+    </edge>
+    <edge source="亚洲" target="平原">
+      <data key="d2" />
+    </edge>
+    <edge source="亚洲" target="美洲大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="结构" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="结构" target="大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="结构" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="结构" target="板块">
+      <data key="d2" />
+    </edge>
+    <edge source="大陆" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="大陆" target="板块">
+      <data key="d2" />
+    </edge>
+    <edge source="大陆" target="平原">
+      <data key="d2" />
+    </edge>
+    <edge source="大陆" target="美洲大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="推力" target="板块">
+      <data key="d2" />
+    </edge>
+    <edge source="推力" target="切线">
+      <data key="d2" />
+    </edge>
+    <edge source="平原" target="美洲大陆">
+      <data key="d2" />
+    </edge>
+    <edge source="平原" target="左无限远">
+      <data key="d2" />
+    </edge>
+    <edge source="地方" target="等离子">
+      <data key="d2" />
+    </edge>
+    <edge source="地方" target="体光柱">
+      <data key="d2" />
+    </edge>
+    <edge source="地方" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="地方" target="几百台">
+      <data key="d2" />
+    </edge>
+    <edge source="等离子" target="体光柱">
+      <data key="d2" />
+    </edge>
+    <edge source="等离子" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="等离子" target="几百台">
+      <data key="d2" />
+    </edge>
+    <edge source="等离子" target="光柱">
+      <data key="d2" />
+    </edge>
+    <edge source="等离子" target="外面">
+      <data key="d2" />
+    </edge>
+    <edge source="等离子" target="烤热">
+      <data key="d2" />
+    </edge>
+    <edge source="等离子" target="身上">
+      <data key="d2" />
+    </edge>
+    <edge source="等离子" target="超高温">
+      <data key="d2" />
+    </edge>
+    <edge source="体光柱" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="体光柱" target="几百台">
+      <data key="d2" />
+    </edge>
+    <edge source="灯管" target="柱子">
+      <data key="d2" />
+    </edge>
+    <edge source="灯管" target="蓝白色">
+      <data key="d2" />
+    </edge>
+    <edge source="灯管" target="巨柱">
+      <data key="d2" />
+    </edge>
+    <edge source="灯管" target="日光">
+      <data key="d2" />
+    </edge>
+    <edge source="灯管" target="顶天立地">
+      <data key="d2" />
+    </edge>
+    <edge source="灯管" target="雅典">
+      <data key="d2" />
+    </edge>
+    <edge source="灯管" target="卫城">
+      <data key="d2" />
+    </edge>
+    <edge source="灯管" target="强光">
+      <data key="d2" />
+    </edge>
+    <edge source="灯管" target="神殿">
+      <data key="d2" />
+    </edge>
+    <edge source="灯管" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="柱子" target="蓝白色">
+      <data key="d2" />
+    </edge>
+    <edge source="柱子" target="巨柱">
+      <data key="d2" />
+    </edge>
+    <edge source="柱子" target="日光">
+      <data key="d2" />
+    </edge>
+    <edge source="柱子" target="顶天立地">
+      <data key="d2" />
+    </edge>
+    <edge source="柱子" target="雅典">
+      <data key="d2" />
+    </edge>
+    <edge source="柱子" target="卫城">
+      <data key="d2" />
+    </edge>
+    <edge source="柱子" target="强光">
+      <data key="d2" />
+    </edge>
+    <edge source="柱子" target="神殿">
+      <data key="d2" />
+    </edge>
+    <edge source="柱子" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝白色" target="巨柱">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝白色" target="日光">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝白色" target="顶天立地">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝白色" target="雅典">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝白色" target="卫城">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝白色" target="强光">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝白色" target="神殿">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝白色" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="巨柱" target="日光">
+      <data key="d2" />
+    </edge>
+    <edge source="巨柱" target="顶天立地">
+      <data key="d2" />
+    </edge>
+    <edge source="巨柱" target="雅典">
+      <data key="d2" />
+    </edge>
+    <edge source="巨柱" target="卫城">
+      <data key="d2" />
+    </edge>
+    <edge source="巨柱" target="强光">
+      <data key="d2" />
+    </edge>
+    <edge source="巨柱" target="神殿">
+      <data key="d2" />
+    </edge>
+    <edge source="巨柱" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="日光" target="顶天立地">
+      <data key="d2" />
+    </edge>
+    <edge source="日光" target="雅典">
+      <data key="d2" />
+    </edge>
+    <edge source="日光" target="卫城">
+      <data key="d2" />
+    </edge>
+    <edge source="日光" target="强光">
+      <data key="d2" />
+    </edge>
+    <edge source="日光" target="神殿">
+      <data key="d2" />
+    </edge>
+    <edge source="日光" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="顶天立地" target="雅典">
+      <data key="d2" />
+    </edge>
+    <edge source="顶天立地" target="卫城">
+      <data key="d2" />
+    </edge>
+    <edge source="顶天立地" target="强光">
+      <data key="d2" />
+    </edge>
+    <edge source="顶天立地" target="神殿">
+      <data key="d2" />
+    </edge>
+    <edge source="顶天立地" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="雅典" target="卫城">
+      <data key="d2" />
+    </edge>
+    <edge source="雅典" target="强光">
+      <data key="d2" />
+    </edge>
+    <edge source="雅典" target="神殿">
+      <data key="d2" />
+    </edge>
+    <edge source="雅典" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="卫城" target="强光">
+      <data key="d2" />
+    </edge>
+    <edge source="卫城" target="神殿">
+      <data key="d2" />
+    </edge>
+    <edge source="卫城" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="强光" target="神殿">
+      <data key="d2" />
+    </edge>
+    <edge source="强光" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="强光" target="光柱">
+      <data key="d2" />
+    </edge>
+    <edge source="强光" target="散射">
+      <data key="d2" />
+    </edge>
+    <edge source="强光" target="光晕">
+      <data key="d2" />
+    </edge>
+    <edge source="强光" target="火山岩">
+      <data key="d2" />
+    </edge>
+    <edge source="强光" target="色彩">
+      <data key="d2" />
+    </edge>
+    <edge source="神殿" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="细菌">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="地板">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="样子">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="调整">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="状态">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="六岁">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="三岁">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="静止">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="世界" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="细菌" target="地板">
+      <data key="d2" />
+    </edge>
+    <edge source="细菌" target="样子">
+      <data key="d2" />
+    </edge>
+    <edge source="细菌" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="地板" target="样子">
+      <data key="d2" />
+    </edge>
+    <edge source="地板" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="样子" target="宫殿">
+      <data key="d2" />
+    </edge>
+    <edge source="巨殿" target="地球">
+      <data key="d2" />
+    </edge>
+    <edge source="巨殿" target="光柱">
+      <data key="d2" />
+    </edge>
+    <edge source="巨殿" target="分量">
+      <data key="d2" />
+    </edge>
+    <edge source="巨殿" target="自转">
+      <data key="d2" />
+    </edge>
+    <edge source="巨殿" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="巨殿" target="天空中">
+      <data key="d2" />
+    </edge>
+    <edge source="巨殿" target="角度">
+      <data key="d2" />
+    </edge>
+    <edge source="巨殿" target="喷射">
+      <data key="d2" />
+    </edge>
+    <edge source="巨殿" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="巨殿" target="切线">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="分量">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="自转">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="天空中">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="角度">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="喷射">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="切线">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="乌云时">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="气温">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="暴雨">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="噩梦">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="散射">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="光晕">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="火山岩">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="色彩">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="外面">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="烤热">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="身上">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="超高温">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="巨墙">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="高处">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="蓝光">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="等离子体">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="直径">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="上伸">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="森林">
+      <data key="d2" />
+    </edge>
+    <edge source="光柱" target="宇宙">
+      <data key="d2" />
+    </edge>
+    <edge source="分量" target="自转">
+      <data key="d2" />
+    </edge>
+    <edge source="分量" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="分量" target="天空中">
+      <data key="d2" />
+    </edge>
+    <edge source="分量" target="角度">
+      <data key="d2" />
+    </edge>
+    <edge source="分量" target="喷射">
+      <data key="d2" />
+    </edge>
+    <edge source="分量" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="分量" target="切线">
+      <data key="d2" />
+    </edge>
+    <edge source="自转" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="自转" target="天空中">
+      <data key="d2" />
+    </edge>
+    <edge source="自转" target="角度">
+      <data key="d2" />
+    </edge>
+    <edge source="自转" target="喷射">
+      <data key="d2" />
+    </edge>
+    <edge source="自转" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="自转" target="切线">
+      <data key="d2" />
+    </edge>
+    <edge source="天空中" target="角度">
+      <data key="d2" />
+    </edge>
+    <edge source="天空中" target="喷射">
+      <data key="d2" />
+    </edge>
+    <edge source="天空中" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="天空中" target="切线">
+      <data key="d2" />
+    </edge>
+    <edge source="角度" target="喷射">
+      <data key="d2" />
+    </edge>
+    <edge source="角度" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="角度" target="切线">
+      <data key="d2" />
+    </edge>
+    <edge source="喷射" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="喷射" target="切线">
+      <data key="d2" />
+    </edge>
+    <edge source="精神" target="环境">
+      <data key="d2" />
+    </edge>
+    <edge source="精神" target="南半球">
+      <data key="d2" />
+    </edge>
+    <edge source="环境" target="南半球">
+      <data key="d2" />
+    </edge>
+    <edge source="景象" target="酷热">
+      <data key="d2" />
+    </edge>
+    <edge source="景象" target="户外">
+      <data key="d2" />
+    </edge>
+    <edge source="景象" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="景象" target="冷却服">
+      <data key="d2" />
+    </edge>
+    <edge source="景象" target="气温">
+      <data key="d2" />
+    </edge>
+    <edge source="景象" target="光柱">
+      <data key="d2" />
+    </edge>
+    <edge source="景象" target="乌云时">
+      <data key="d2" />
+    </edge>
+    <edge source="景象" target="暴雨">
+      <data key="d2" />
+    </edge>
+    <edge source="景象" target="噩梦">
+      <data key="d2" />
+    </edge>
+    <edge source="酷热" target="户外">
+      <data key="d2" />
+    </edge>
+    <edge source="酷热" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="酷热" target="冷却服">
+      <data key="d2" />
+    </edge>
+    <edge source="酷热" target="气温">
+      <data key="d2" />
+    </edge>
+    <edge source="户外" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="户外" target="冷却服">
+      <data key="d2" />
+    </edge>
+    <edge source="户外" target="气温">
+      <data key="d2" />
+    </edge>
+    <edge source="冷却服" target="气温">
+      <data key="d2" />
+    </edge>
+    <edge source="气温" target="暴雨">
+      <data key="d2" />
+    </edge>
+    <edge source="气温" target="噩梦">
+      <data key="d2" />
+    </edge>
+    <edge source="乌云时" target="气温">
+      <data key="d2" />
+    </edge>
+    <edge source="乌云时" target="暴雨">
+      <data key="d2" />
+    </edge>
+    <edge source="乌云时" target="噩梦">
+      <data key="d2" />
+    </edge>
+    <edge source="暴雨" target="噩梦">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="强光">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="光柱">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="散射">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="光晕">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="火山岩">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="色彩">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="太行山山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="西边">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="小土丘">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="金属">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="距离">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="吐出">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="森林">
+      <data key="d2" />
+    </edge>
+    <edge source="天空" target="宇宙">
+      <data key="d2" />
+    </edge>
+    <edge source="散射" target="光晕">
+      <data key="d2" />
+    </edge>
+    <edge source="散射" target="火山岩">
+      <data key="d2" />
+    </edge>
+    <edge source="散射" target="色彩">
+      <data key="d2" />
+    </edge>
+    <edge source="光晕" target="火山岩">
+      <data key="d2" />
+    </edge>
+    <edge source="光晕" target="色彩">
+      <data key="d2" />
+    </edge>
+    <edge source="火山岩" target="色彩">
+      <data key="d2" />
+    </edge>
+    <edge source="爷爷" target="大雨">
+      <data key="d2" />
+    </edge>
+    <edge source="雨点" target="地球">
+      <data key="d2" />
+    </edge>
+    <edge source="雨点" target="等离子">
+      <data key="d2" />
+    </edge>
+    <edge source="雨点" target="光柱">
+      <data key="d2" />
+    </edge>
+    <edge source="雨点" target="外面">
+      <data key="d2" />
+    </edge>
+    <edge source="雨点" target="烤热">
+      <data key="d2" />
+    </edge>
+    <edge source="雨点" target="身上">
+      <data key="d2" />
+    </edge>
+    <edge source="雨点" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="雨点" target="超高温">
+      <data key="d2" />
+    </edge>
+    <edge source="外面" target="烤热">
+      <data key="d2" />
+    </edge>
+    <edge source="外面" target="身上">
+      <data key="d2" />
+    </edge>
+    <edge source="外面" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="外面" target="超高温">
+      <data key="d2" />
+    </edge>
+    <edge source="烤热" target="身上">
+      <data key="d2" />
+    </edge>
+    <edge source="烤热" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="烤热" target="超高温">
+      <data key="d2" />
+    </edge>
+    <edge source="身上" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="身上" target="超高温">
+      <data key="d2" />
+    </edge>
+    <edge source="月亮" target="北半球">
+      <data key="d2" />
+    </edge>
+    <edge source="月亮" target="星星">
+      <data key="d2" />
+    </edge>
+    <edge source="月亮" target="这一切">
+      <data key="d2" />
+    </edge>
+    <edge source="月亮" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="月亮" target="刹车">
+      <data key="d2" />
+    </edge>
+    <edge source="月亮" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="这一切" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="这一切" target="刹车">
+      <data key="d2" />
+    </edge>
+    <edge source="这一切" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="神往" target="人类">
+      <data key="d2" />
+    </edge>
+    <edge source="神往" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="神往" target="历史">
+      <data key="d2" />
+    </edge>
+    <edge source="神往" target="前太阳时代">
+      <data key="d2" />
+    </edge>
+    <edge source="神往" target="黄金">
+      <data key="d2" />
+    </edge>
+    <edge source="神往" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="人类" target="太阳">
+      <data key="d2" />
+    </edge>
+    <edge source="人类" target="历史">
+      <data key="d2" />
+    </edge>
+    <edge source="人类" target="前太阳时代">
+      <data key="d2" />
+    </edge>
+    <edge source="人类" target="黄金">
+      <data key="d2" />
+    </edge>
+    <edge source="人类" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="人类" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="人类" target="全功率">
+      <data key="d2" />
+    </edge>
+    <edge source="人类" target="机器">
+      <data key="d2" />
+    </edge>
+    <edge source="人类" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="历史" target="前太阳时代">
+      <data key="d2" />
+    </edge>
+    <edge source="历史" target="黄金">
+      <data key="d2" />
+    </edge>
+    <edge source="历史" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="前太阳时代" target="黄金">
+      <data key="d2" />
+    </edge>
+    <edge source="前太阳时代" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="黄金" target="时代">
+      <data key="d2" />
+    </edge>
+    <edge source="教师" target="小学">
+      <data key="d2" />
+    </edge>
+    <edge source="教师" target="孩子">
+      <data key="d2" />
+    </edge>
+    <edge source="教师" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="教师" target="课程">
+      <data key="d2" />
+    </edge>
+    <edge source="小学" target="孩子">
+      <data key="d2" />
+    </edge>
+    <edge source="小学" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="小学" target="课程">
+      <data key="d2" />
+    </edge>
+    <edge source="孩子" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="孩子" target="课程">
+      <data key="d2" />
+    </edge>
+    <edge source="孩子" target="珠峰">
+      <data key="d2" />
+    </edge>
+    <edge source="旅行" target="课程">
+      <data key="d2" />
+    </edge>
+    <edge source="旅行" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="地球">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="行星">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="姿态">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="世界">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="调整">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="状态">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="六岁">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="三岁">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="静止">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="压缩机">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="面罩">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="颜色">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="剧增">
+      <data key="d2" />
+    </edge>
+    <edge source="光度" target="温度">
+      <data key="d2" />
+    </edge>
+    <edge source="行星" target="姿态">
+      <data key="d2" />
+    </edge>
+    <edge source="行星" target="世界">
+      <data key="d2" />
+    </edge>
+    <edge source="行星" target="调整">
+      <data key="d2" />
+    </edge>
+    <edge source="行星" target="状态">
+      <data key="d2" />
+    </edge>
+    <edge source="行星" target="六岁">
+      <data key="d2" />
+    </edge>
+    <edge source="行星" target="三岁">
+      <data key="d2" />
+    </edge>
+    <edge source="行星" target="静止">
+      <data key="d2" />
+    </edge>
+    <edge source="行星" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="行星" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="行星" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="姿态" target="世界">
+      <data key="d2" />
+    </edge>
+    <edge source="姿态" target="调整">
+      <data key="d2" />
+    </edge>
+    <edge source="姿态" target="状态">
+      <data key="d2" />
+    </edge>
+    <edge source="姿态" target="六岁">
+      <data key="d2" />
+    </edge>
+    <edge source="姿态" target="三岁">
+      <data key="d2" />
+    </edge>
+    <edge source="姿态" target="静止">
+      <data key="d2" />
+    </edge>
+    <edge source="姿态" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="姿态" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="姿态" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="调整" target="状态">
+      <data key="d2" />
+    </edge>
+    <edge source="调整" target="六岁">
+      <data key="d2" />
+    </edge>
+    <edge source="调整" target="三岁">
+      <data key="d2" />
+    </edge>
+    <edge source="调整" target="静止">
+      <data key="d2" />
+    </edge>
+    <edge source="调整" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="调整" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="调整" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="状态" target="六岁">
+      <data key="d2" />
+    </edge>
+    <edge source="状态" target="三岁">
+      <data key="d2" />
+    </edge>
+    <edge source="状态" target="静止">
+      <data key="d2" />
+    </edge>
+    <edge source="状态" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="状态" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="状态" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="六岁" target="三岁">
+      <data key="d2" />
+    </edge>
+    <edge source="六岁" target="静止">
+      <data key="d2" />
+    </edge>
+    <edge source="六岁" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="六岁" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="六岁" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="三岁" target="静止">
+      <data key="d2" />
+    </edge>
+    <edge source="三岁" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="三岁" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="三岁" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="静止" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="静止" target="旅行">
+      <data key="d2" />
+    </edge>
+    <edge source="静止" target="三年">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="石家庄">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="地球">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="天空">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="太行山山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="西边">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="小土丘">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="金属">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="距离">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="卡车">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="岩石">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="车队">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山" target="车上">
+      <data key="d2" />
+    </edge>
+    <edge source="石家庄" target="地球">
+      <data key="d2" />
+    </edge>
+    <edge source="石家庄" target="天空">
+      <data key="d2" />
+    </edge>
+    <edge source="石家庄" target="太行山山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="石家庄" target="西边">
+      <data key="d2" />
+    </edge>
+    <edge source="石家庄" target="小土丘">
+      <data key="d2" />
+    </edge>
+    <edge source="石家庄" target="金属">
+      <data key="d2" />
+    </edge>
+    <edge source="石家庄" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="石家庄" target="山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="石家庄" target="距离">
+      <data key="d2" />
+    </edge>
+    <edge source="石家庄" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山山脉" target="西边">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山山脉" target="小土丘">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山山脉" target="金属">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山山脉" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山山脉" target="山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山山脉" target="距离">
+      <data key="d2" />
+    </edge>
+    <edge source="太行山山脉" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="西边" target="小土丘">
+      <data key="d2" />
+    </edge>
+    <edge source="西边" target="金属">
+      <data key="d2" />
+    </edge>
+    <edge source="西边" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="西边" target="山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="西边" target="距离">
+      <data key="d2" />
+    </edge>
+    <edge source="西边" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="小土丘" target="金属">
+      <data key="d2" />
+    </edge>
+    <edge source="小土丘" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="小土丘" target="山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="小土丘" target="距离">
+      <data key="d2" />
+    </edge>
+    <edge source="小土丘" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="金属" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="金属" target="山脉">
+      <data key="d2" />
+    </edge>
+    <edge source="金属" target="距离">
+      <data key="d2" />
+    </edge>
+    <edge source="金属" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="金属" target="峭壁">
+      <data key="d2" />
+    </edge>
+    <edge source="金属" target="青色">
+      <data key="d2" />
+    </edge>
+    <edge source="金属" target="右边">
+      <data key="d2" />
+    </edge>
+    <edge source="金属" target="地平线">
+      <data key="d2" />
+    </edge>
+    <edge source="金属" target="巨峰">
+      <data key="d2" />
+    </edge>
+    <edge source="金属" target="大地">
+      <data key="d2" />
+    </edge>
+    <edge source="山脉" target="距离">
+      <data key="d2" />
+    </edge>
+    <edge source="山脉" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="距离" target="高山">
+      <data key="d2" />
+    </edge>
+    <edge source="姑娘" target="上帝">
+      <data key="d2" />
+    </edge>
+    <edge source="姑娘" target="班主任">
+      <data key="d2" />
+    </edge>
+    <edge source="姑娘" target="高度">
+      <data key="d2" />
+    </edge>
+    <edge source="姑娘" target="老师">
+      <data key="d2" />
+    </edge>
+    <edge source="姑娘" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="姑娘" target="喷灯">
+      <data key="d2" />
+    </edge>
+    <edge source="姑娘" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="姑娘" target="珠峰">
+      <data key="d2" />
+    </edge>
+    <edge source="上帝" target="班主任">
+      <data key="d2" />
+    </edge>
+    <edge source="上帝" target="高度">
+      <data key="d2" />
+    </edge>
+    <edge source="上帝" target="老师">
+      <data key="d2" />
+    </edge>
+    <edge source="上帝" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="上帝" target="喷灯">
+      <data key="d2" />
+    </edge>
+    <edge source="上帝" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="上帝" target="珠峰">
+      <data key="d2" />
+    </edge>
+    <edge source="班主任" target="高度">
+      <data key="d2" />
+    </edge>
+    <edge source="班主任" target="老师">
+      <data key="d2" />
+    </edge>
+    <edge source="班主任" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="班主任" target="喷灯">
+      <data key="d2" />
+    </edge>
+    <edge source="班主任" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="班主任" target="珠峰">
+      <data key="d2" />
+    </edge>
+    <edge source="高度" target="老师">
+      <data key="d2" />
+    </edge>
+    <edge source="高度" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="高度" target="喷灯">
+      <data key="d2" />
+    </edge>
+    <edge source="高度" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="高度" target="珠峰">
+      <data key="d2" />
+    </edge>
+    <edge source="老师" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="老师" target="喷灯">
+      <data key="d2" />
+    </edge>
+    <edge source="老师" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="老师" target="珠峰">
+      <data key="d2" />
+    </edge>
+    <edge source="老师" target="身边">
+      <data key="d2" />
+    </edge>
+    <edge source="老师" target="寒战">
+      <data key="d2" />
+    </edge>
+    <edge source="喷灯" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="喷灯" target="珠峰">
+      <data key="d2" />
+    </edge>
+    <edge source="小星" target="珠峰">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="振动">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="阴影">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="地球">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="华北">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="力量">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="华北794号">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="人类">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="全功率">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="机器">
+      <data key="d2" />
+    </edge>
+    <edge source="大地" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="振动" target="阴影">
+      <data key="d2" />
+    </edge>
+    <edge source="华北794号" target="华北">
+      <data key="d2" />
+    </edge>
+    <edge source="华北794号" target="人类">
+      <data key="d2" />
+    </edge>
+    <edge source="华北794号" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="华北794号" target="全功率">
+      <data key="d2" />
+    </edge>
+    <edge source="华北794号" target="机器">
+      <data key="d2" />
+    </edge>
+    <edge source="华北794号" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="华北" target="力量">
+      <data key="d2" />
+    </edge>
+    <edge source="华北" target="华北794号">
+      <data key="d2" />
+    </edge>
+    <edge source="华北" target="人类">
+      <data key="d2" />
+    </edge>
+    <edge source="华北" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="华北" target="全功率">
+      <data key="d2" />
+    </edge>
+    <edge source="华北" target="机器">
+      <data key="d2" />
+    </edge>
+    <edge source="华北" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="沿盘" target="时间">
+      <data key="d2" />
+    </edge>
+    <edge source="沿盘" target="电梯">
+      <data key="d2" />
+    </edge>
+    <edge source="沿盘" target="公路">
+      <data key="d2" />
+    </edge>
+    <edge source="沿盘" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="电梯" target="公路">
+      <data key="d2" />
+    </edge>
+    <edge source="电梯" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="公路" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="公路" target="混在">
+      <data key="d2" />
+    </edge>
+    <edge source="汽车" target="混在">
+      <data key="d2" />
+    </edge>
+    <edge source="汽车" target="顶峰">
+      <data key="d2" />
+    </edge>
+    <edge source="钢铁" target="首尾">
+      <data key="d2" />
+    </edge>
+    <edge source="钢铁" target="长车队">
+      <data key="d2" />
+    </edge>
+    <edge source="钢铁" target="公路">
+      <data key="d2" />
+    </edge>
+    <edge source="钢铁" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="钢铁" target="混在">
+      <data key="d2" />
+    </edge>
+    <edge source="首尾" target="长车队">
+      <data key="d2" />
+    </edge>
+    <edge source="首尾" target="公路">
+      <data key="d2" />
+    </edge>
+    <edge source="首尾" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="首尾" target="混在">
+      <data key="d2" />
+    </edge>
+    <edge source="长车队" target="公路">
+      <data key="d2" />
+    </edge>
+    <edge source="长车队" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="长车队" target="混在">
+      <data key="d2" />
+    </edge>
+    <edge source="左边" target="金属">
+      <data key="d2" />
+    </edge>
+    <edge source="左边" target="峭壁">
+      <data key="d2" />
+    </edge>
+    <edge source="左边" target="青色">
+      <data key="d2" />
+    </edge>
+    <edge source="左边" target="右边">
+      <data key="d2" />
+    </edge>
+    <edge source="峭壁" target="青色">
+      <data key="d2" />
+    </edge>
+    <edge source="峭壁" target="右边">
+      <data key="d2" />
+    </edge>
+    <edge source="青色" target="右边">
+      <data key="d2" />
+    </edge>
+    <edge source="卡车" target="岩石">
+      <data key="d2" />
+    </edge>
+    <edge source="卡车" target="车队">
+      <data key="d2" />
+    </edge>
+    <edge source="卡车" target="车上">
+      <data key="d2" />
+    </edge>
+    <edge source="岩石" target="车队">
+      <data key="d2" />
+    </edge>
+    <edge source="岩石" target="车上">
+      <data key="d2" />
+    </edge>
+    <edge source="岩石" target="老师">
+      <data key="d2" />
+    </edge>
+    <edge source="岩石" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="车队" target="车上">
+      <data key="d2" />
+    </edge>
+    <edge source="反射" target="细节">
+      <data key="d2" />
+    </edge>
+    <edge source="反射" target="青光">
+      <data key="d2" />
+    </edge>
+    <edge source="反射" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="反射" target="大地">
+      <data key="d2" />
+    </edge>
+    <edge source="反射" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="细节" target="青光">
+      <data key="d2" />
+    </edge>
+    <edge source="细节" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="细节" target="大地">
+      <data key="d2" />
+    </edge>
+    <edge source="细节" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="青光" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="青光" target="大地">
+      <data key="d2" />
+    </edge>
+    <edge source="青光" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="面罩" target="老师">
+      <data key="d2" />
+    </edge>
+    <edge source="面罩" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="面罩" target="颜色">
+      <data key="d2" />
+    </edge>
+    <edge source="面罩" target="剧增">
+      <data key="d2" />
+    </edge>
+    <edge source="面罩" target="温度">
+      <data key="d2" />
+    </edge>
+    <edge source="压缩机" target="面罩">
+      <data key="d2" />
+    </edge>
+    <edge source="压缩机" target="颜色">
+      <data key="d2" />
+    </edge>
+    <edge source="压缩机" target="剧增">
+      <data key="d2" />
+    </edge>
+    <edge source="压缩机" target="温度">
+      <data key="d2" />
+    </edge>
+    <edge source="颜色" target="剧增">
+      <data key="d2" />
+    </edge>
+    <edge source="颜色" target="温度">
+      <data key="d2" />
+    </edge>
+    <edge source="剧增" target="温度">
+      <data key="d2" />
+    </edge>
+    <edge source="进料口" target="一车车">
+      <data key="d2" />
+    </edge>
+    <edge source="进料口" target="声音">
+      <data key="d2" />
+    </edge>
+    <edge source="进料口" target="石块">
+      <data key="d2" />
+    </edge>
+    <edge source="进料口" target="幽幽">
+      <data key="d2" />
+    </edge>
+    <edge source="进料口" target="红光">
+      <data key="d2" />
+    </edge>
+    <edge source="进料口" target="大洞">
+      <data key="d2" />
+    </edge>
+    <edge source="一车车" target="声音">
+      <data key="d2" />
+    </edge>
+    <edge source="一车车" target="石块">
+      <data key="d2" />
+    </edge>
+    <edge source="一车车" target="幽幽">
+      <data key="d2" />
+    </edge>
+    <edge source="一车车" target="红光">
+      <data key="d2" />
+    </edge>
+    <edge source="一车车" target="大洞">
+      <data key="d2" />
+    </edge>
+    <edge source="声音" target="石块">
+      <data key="d2" />
+    </edge>
+    <edge source="声音" target="幽幽">
+      <data key="d2" />
+    </edge>
+    <edge source="声音" target="红光">
+      <data key="d2" />
+    </edge>
+    <edge source="声音" target="大洞">
+      <data key="d2" />
+    </edge>
+    <edge source="石块" target="幽幽">
+      <data key="d2" />
+    </edge>
+    <edge source="石块" target="红光">
+      <data key="d2" />
+    </edge>
+    <edge source="石块" target="大洞">
+      <data key="d2" />
+    </edge>
+    <edge source="幽幽" target="红光">
+      <data key="d2" />
+    </edge>
+    <edge source="幽幽" target="大洞">
+      <data key="d2" />
+    </edge>
+    <edge source="红光" target="大洞">
+      <data key="d2" />
+    </edge>
+    <edge source="燃料" target="岩石">
+      <data key="d2" />
+    </edge>
+    <edge source="燃料" target="老师">
+      <data key="d2" />
+    </edge>
+    <edge source="燃料" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="学问" target="重元素">
+      <data key="d2" />
+    </edge>
+    <edge source="力量" target="华北794号">
+      <data key="d2" />
+    </edge>
+    <edge source="力量" target="人类">
+      <data key="d2" />
+    </edge>
+    <edge source="力量" target="发动机">
+      <data key="d2" />
+    </edge>
+    <edge source="力量" target="全功率">
+      <data key="d2" />
+    </edge>
+    <edge source="力量" target="机器">
+      <data key="d2" />
+    </edge>
+    <edge source="力量" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="全功率" target="机器">
+      <data key="d2" />
+    </edge>
+    <edge source="全功率" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="机器" target="推力">
+      <data key="d2" />
+    </edge>
+    <edge source="头顶" target="汽车">
+      <data key="d2" />
+    </edge>
+    <edge source="头顶" target="顶峰">
+      <data key="d2" />
+    </edge>
+    <edge source="巨墙" target="高处">
+      <data key="d2" />
+    </edge>
+    <edge source="巨墙" target="蓝光">
+      <data key="d2" />
+    </edge>
+    <edge source="巨墙" target="等离子体">
+      <data key="d2" />
+    </edge>
+    <edge source="巨墙" target="直径">
+      <data key="d2" />
+    </edge>
+    <edge source="巨墙" target="上伸">
+      <data key="d2" />
+    </edge>
+    <edge source="高处" target="蓝光">
+      <data key="d2" />
+    </edge>
+    <edge source="高处" target="等离子体">
+      <data key="d2" />
+    </edge>
+    <edge source="高处" target="直径">
+      <data key="d2" />
+    </edge>
+    <edge source="高处" target="上伸">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝光" target="等离子体">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝光" target="直径">
+      <data key="d2" />
+    </edge>
+    <edge source="蓝光" target="上伸">
+      <data key="d2" />
+    </edge>
+    <edge source="等离子体" target="直径">
+      <data key="d2" />
+    </edge>
+    <edge source="等离子体" target="上伸">
+      <data key="d2" />
+    </edge>
+    <edge source="直径" target="上伸">
+      <data key="d2" />
+    </edge>
+    <edge source="谜语" target="哲学">
+      <data key="d2" />
+    </edge>
+    <edge source="谜语" target="老师">
+      <data key="d2" />
+    </edge>
+    <edge source="谜语" target="身边">
+      <data key="d2" />
+    </edge>
+    <edge source="谜语" target="寒战">
+      <data key="d2" />
+    </edge>
+    <edge source="谜语" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="哲学" target="老师">
+      <data key="d2" />
+    </edge>
+    <edge source="右无限远" target="平原">
+      <data key="d2" />
+    </edge>
+    <edge source="右无限远" target="左无限远">
+      <data key="d2" />
+    </edge>
+    <edge source="身边" target="寒战">
+      <data key="d2" />
+    </edge>
+    <edge source="身边" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="寒战" target="小星">
+      <data key="d2" />
+    </edge>
+    <edge source="谜底" target="嘴凑">
+      <data key="d2" />
+    </edge>
+    <edge source="谜底" target="耳边">
+      <data key="d2" />
+    </edge>
+    <edge source="嘴凑" target="耳边">
+      <data key="d2" />
+    </edge>
+    <edge source="几秒钟" target="怀里">
+      <data key="d2" />
+    </edge>
+    <edge source="肩上" target="金属">
+      <data key="d2" />
+    </edge>
+    <edge source="肩上" target="地平线">
+      <data key="d2" />
+    </edge>
+    <edge source="肩上" target="巨峰">
+      <data key="d2" />
+    </edge>
+    <edge source="肩上" target="大地">
+      <data key="d2" />
+    </edge>
+    <edge source="巨峰" target="大地">
+      <data key="d2" />
+    </edge>
+    <edge source="吐出" target="光柱">
+      <data key="d2" />
+    </edge>
+    <edge source="吐出" target="森林">
+      <data key="d2" />
+    </edge>
+    <edge source="吐出" target="宇宙">
+      <data key="d2" />
+    </edge>
+    <edge source="森林" target="宇宙">
+      <data key="d2" />
+    </edge>
+  </graph>
+</graphml>
