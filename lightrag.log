@@ -682,3 +682,100 @@ TypeError: C[1/1]: chunk-81923ba451c8105558b3e33b2238ddfd: AsyncCompletions.crea
 2025-09-20 03:24:27,690 - lightrag - INFO - In memory DB persist to disk
 2025-09-20 03:24:27,690 - lightrag - INFO - Completed processing file 1/1: unknown_source
 2025-09-20 03:24:27,690 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-22 02:15:01,272 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-22 02:15:01,276 - lightrag - INFO - [_] Process 8828 KV load full_docs with 0 records
+2025-09-22 02:15:01,276 - lightrag - INFO - [_] Process 8828 KV load text_chunks with 0 records
+2025-09-22 02:15:01,277 - lightrag - INFO - [_] Process 8828 KV load full_entities with 0 records
+2025-09-22 02:15:01,277 - lightrag - INFO - [_] Process 8828 KV load full_relations with 0 records
+2025-09-22 02:15:01,277 - lightrag - INFO - [_] Process 8828 KV load llm_response_cache with 0 records
+2025-09-22 02:15:01,278 - lightrag - INFO - [_] Process 8828 doc status load doc_status with 0 records
+2025-09-22 02:15:01,280 - lightrag - INFO - Processing 1 document(s)
+2025-09-22 02:15:01,280 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-22 02:15:01,280 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-22 02:15:01,286 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-22 02:15:02,781 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-22 02:15:52,142 - lightrag - INFO -  == LLM cache == saving: default:extract:5d9cc6061b48669f7749946b62bb7e49
+2025-09-22 02:16:02,509 - lightrag - INFO -  == LLM cache == saving: default:extract:68f4d06e0d0e03d9c16d9ae6fd2494e4
+2025-09-22 02:16:02,510 - lightrag - INFO - Chunk 1 of 1 extracted 11 Ent + 10 Rel
+2025-09-22 02:16:02,510 - lightrag - INFO - Merging stage 1/1: unknown_source
+2025-09-22 02:16:02,510 - lightrag - INFO - Phase 1: Processing 11 entities from wandering_earth_sample (async: 8)
+2025-09-22 02:16:04,724 - lightrag - INFO - Phase 2: Processing 10 relations from wandering_earth_sample (async: 8)
+2025-09-22 02:16:11,065 - lightrag - INFO - Phase 3: Updating final 11(11+0) entities and  10 relations from wandering_earth_sample
+2025-09-22 02:16:11,065 - lightrag - INFO - Completed merging: 11 entities, 0 extra entities, 10 relations
+2025-09-22 02:16:11,075 - lightrag - INFO - [_] Writing graph with 11 nodes, 10 edges
+2025-09-22 02:16:11,103 - lightrag - INFO - In memory DB persist to disk
+2025-09-22 02:16:11,103 - lightrag - INFO - Completed processing file 1/1: unknown_source
+2025-09-22 02:16:11,103 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-22 02:16:55,156 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-22 02:16:55,158 - lightrag - INFO - [_] Process 9205 KV load full_docs with 0 records
+2025-09-22 02:16:55,158 - lightrag - INFO - [_] Process 9205 KV load text_chunks with 0 records
+2025-09-22 02:16:55,159 - lightrag - INFO - [_] Process 9205 KV load full_entities with 0 records
+2025-09-22 02:16:55,160 - lightrag - INFO - [_] Process 9205 KV load full_relations with 0 records
+2025-09-22 02:16:55,161 - lightrag - INFO - [_] Process 9205 KV load llm_response_cache with 0 records
+2025-09-22 02:16:55,161 - lightrag - INFO - [_] Process 9205 doc status load doc_status with 0 records
+2025-09-22 02:16:55,163 - lightrag - INFO - Processing 1 document(s)
+2025-09-22 02:16:55,163 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-22 02:16:55,163 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-22 02:16:55,168 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-22 02:16:56,626 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-22 02:17:30,610 - lightrag - INFO -  == LLM cache == saving: default:extract:5d9cc6061b48669f7749946b62bb7e49
+2025-09-22 02:17:41,922 - lightrag - INFO -  == LLM cache == saving: default:extract:e0a05e6668fc03cb62d5102aaf276d19
+2025-09-22 02:17:41,924 - lightrag - INFO - Chunk 1 of 1 extracted 11 Ent + 8 Rel
+2025-09-22 02:17:41,924 - lightrag - INFO - Merging stage 1/1: unknown_source
+2025-09-22 02:17:41,925 - lightrag - INFO - Phase 1: Processing 11 entities from wandering_earth_sample (async: 8)
+2025-09-22 02:17:44,848 - lightrag - INFO - Phase 2: Processing 8 relations from wandering_earth_sample (async: 8)
+2025-09-22 02:17:49,704 - lightrag - INFO - Phase 3: Updating final 11(11+0) entities and  8 relations from wandering_earth_sample
+2025-09-22 02:17:49,705 - lightrag - INFO - Completed merging: 11 entities, 0 extra entities, 8 relations
+2025-09-22 02:17:49,721 - lightrag - INFO - [_] Writing graph with 11 nodes, 8 edges
+2025-09-22 02:17:49,725 - lightrag - INFO - In memory DB persist to disk
+2025-09-22 02:17:49,725 - lightrag - INFO - Completed processing file 1/1: unknown_source
+2025-09-22 02:17:49,725 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-22 02:18:33,515 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-22 02:18:33,518 - lightrag - INFO - [_] Process 9579 KV load full_docs with 0 records
+2025-09-22 02:18:33,518 - lightrag - INFO - [_] Process 9579 KV load text_chunks with 0 records
+2025-09-22 02:18:33,519 - lightrag - INFO - [_] Process 9579 KV load full_entities with 0 records
+2025-09-22 02:18:33,519 - lightrag - INFO - [_] Process 9579 KV load full_relations with 0 records
+2025-09-22 02:18:33,519 - lightrag - INFO - [_] Process 9579 KV load llm_response_cache with 0 records
+2025-09-22 02:18:33,520 - lightrag - INFO - [_] Process 9579 doc status load doc_status with 0 records
+2025-09-22 02:18:33,521 - lightrag - INFO - Processing 1 document(s)
+2025-09-22 02:18:33,521 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-22 02:18:33,521 - lightrag - INFO - Processing d-id: wandering_earth_sample
+2025-09-22 02:18:33,523 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-22 02:18:35,124 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-22 02:19:04,042 - lightrag - INFO -  == LLM cache == saving: default:extract:5d9cc6061b48669f7749946b62bb7e49
+2025-09-22 02:19:11,380 - lightrag - INFO -  == LLM cache == saving: default:extract:731d8cb332c6914cd36beaff48877371
+2025-09-22 02:19:11,381 - lightrag - INFO - Chunk 1 of 1 extracted 10 Ent + 10 Rel
+2025-09-22 02:19:11,381 - lightrag - INFO - Merging stage 1/1: unknown_source
+2025-09-22 02:19:11,382 - lightrag - INFO - Phase 1: Processing 10 entities from wandering_earth_sample (async: 8)
+2025-09-22 02:19:14,146 - lightrag - INFO - Phase 2: Processing 10 relations from wandering_earth_sample (async: 8)
+2025-09-22 02:19:19,634 - lightrag - INFO - Phase 3: Updating final 10(10+0) entities and  10 relations from wandering_earth_sample
+2025-09-22 02:19:19,634 - lightrag - INFO - Completed merging: 10 entities, 0 extra entities, 10 relations
+2025-09-22 02:19:19,643 - lightrag - INFO - [_] Writing graph with 10 nodes, 10 edges
+2025-09-22 02:19:19,672 - lightrag - INFO - In memory DB persist to disk
+2025-09-22 02:19:19,672 - lightrag - INFO - Completed processing file 1/1: unknown_source
+2025-09-22 02:19:19,673 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-22 03:49:31,433 - lightrag - INFO - [_] Created new empty graph fiel: ./lightrag_data/graph_chunk_entity_relation.graphml
+2025-09-22 03:49:31,437 - lightrag - INFO - [_] Process 9299 KV load full_docs with 0 records
+2025-09-22 03:49:31,437 - lightrag - INFO - [_] Process 9299 KV load text_chunks with 0 records
+2025-09-22 03:49:31,438 - lightrag - INFO - [_] Process 9299 KV load full_entities with 0 records
+2025-09-22 03:49:31,438 - lightrag - INFO - [_] Process 9299 KV load full_relations with 0 records
+2025-09-22 03:49:31,439 - lightrag - INFO - [_] Process 9299 KV load llm_response_cache with 0 records
+2025-09-22 03:49:31,439 - lightrag - INFO - [_] Process 9299 doc status load doc_status with 0 records
+2025-09-22 03:49:31,441 - lightrag - INFO - Processing 1 document(s)
+2025-09-22 03:49:31,441 - lightrag - INFO - Extracting stage 1/1: unknown_source
+2025-09-22 03:49:31,441 - lightrag - INFO - Processing d-id: input_text
+2025-09-22 03:49:31,447 - lightrag - INFO - Embedding func: 8 new workers initialized (Timeouts: Func: 30s, Worker: 60s, Health Check: 75s)
+2025-09-22 03:49:33,106 - lightrag - INFO - LLM func: 4 new workers initialized (Timeouts: Func: 180s, Worker: 360s, Health Check: 375s)
+2025-09-22 03:50:16,000 - lightrag - INFO -  == LLM cache == saving: default:extract:5d9cc6061b48669f7749946b62bb7e49
+2025-09-22 03:50:35,915 - lightrag - INFO -  == LLM cache == saving: default:extract:19768c0a7154952c088c6d8d3a797ece
+2025-09-22 03:50:35,916 - lightrag - INFO - Chunk 1 of 1 extracted 9 Ent + 8 Rel
+2025-09-22 03:50:35,916 - lightrag - INFO - Merging stage 1/1: unknown_source
+2025-09-22 03:50:35,916 - lightrag - INFO - Phase 1: Processing 9 entities from input_text (async: 8)
+2025-09-22 03:50:38,886 - lightrag - INFO - Phase 2: Processing 8 relations from input_text (async: 8)
+2025-09-22 03:50:43,766 - lightrag - INFO - Phase 3: Updating final 9(9+0) entities and  8 relations from input_text
+2025-09-22 03:50:43,766 - lightrag - INFO - Completed merging: 9 entities, 0 extra entities, 8 relations
+2025-09-22 03:50:43,775 - lightrag - INFO - [_] Writing graph with 9 nodes, 8 edges
+2025-09-22 03:50:43,785 - lightrag - INFO - In memory DB persist to disk
+2025-09-22 03:50:43,785 - lightrag - INFO - Completed processing file 1/1: unknown_source
+2025-09-22 03:50:43,785 - lightrag - INFO - Enqueued document processing pipeline stoped
+2025-09-22 03:50:43,785 - lightrag - INFO - Successfully finalized 10 storages

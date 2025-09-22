@@ -1,21 +1,19 @@
 {
-  "wandering_earth_sample": {
+  "input_text": {
     "entity_names": [
-      "刘培强",
-      "太阳",
-      "半人马座比邻星",
       "国际空间站",
+      "刘启",
       "行星发动机",
-      "木星引力危机",
-      "地球",
-      "太阳系",
       "流浪地球",
+      "太阳",
       "刘慈欣",
-      "刘启"
+      "刘培强",
+      "半人马座比邻星",
+      "木星"
     ],
-    "count": 11,
-    "create_time": 1758338667,
-    "update_time": 1758338667,
-    "_id": "wandering_earth_sample"
+    "count": 9,
+    "create_time": 1758513043,
+    "update_time": 1758513043,
+    "_id": "input_text"
   }
 }

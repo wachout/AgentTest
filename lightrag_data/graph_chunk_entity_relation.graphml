@@ -16,18 +16,18 @@
     <node id="流浪地球">
       <data key="d0">流浪地球</data>
       <data key="d1">Content</data>
-      <data key="d2">《流浪地球》是刘慈欣创作的科幻小说，讲述了人类为了生存而启动的“流浪地球”计划。</data>
+      <data key="d2">《流浪地球》是刘慈欣创作的科幻小说，描述了人类为了生存而推动地球离开太阳系的故事。</data>
       <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d4">unknown_source</data>
-      <data key="d5">1758338661</data>
+      <data key="d5">1758513035</data>
     </node>
     <node id="刘慈欣">
       <data key="d0">刘慈欣</data>
       <data key="d1">Person</data>
-      <data key="d2">刘慈欣是《流浪地球》这部科幻小说的作者。</data>
+      <data key="d2">刘慈欣是《流浪地球》的作者，是一位科幻小说作家。</data>
       <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d4">unknown_source</data>
-      <data key="d5">1758338661</data>
+      <data key="d5">1758513035</data>
     </node>
     <node id="太阳">
       <data key="d0">太阳</data>
@@ -35,71 +35,55 @@
       <data key="d2">太阳即将发生氦闪，威胁到太阳系的生存。</data>
       <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d4">unknown_source</data>
-      <data key="d5">1758338661</data>
-    </node>
-    <node id="太阳系">
-      <data key="d0">太阳系</data>
-      <data key="d1">Location</data>
-      <data key="d2">太阳系是地球所在的星系，因太阳即将氦闪而面临毁灭。</data>
-      <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
-      <data key="d4">unknown_source</data>
-      <data key="d5">1758338661</data>
+      <data key="d5">1758513035</data>
     </node>
     <node id="半人马座比邻星">
       <data key="d0">半人马座比邻星</data>
       <data key="d1">Location</data>
-      <data key="d2">半人马座比邻星是地球计划前往的新星系，距离地球约4.2光年。</data>
+      <data key="d2">半人马座比邻星是地球计划前往的目标恒星。</data>
       <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d4">unknown_source</data>
-      <data key="d5">1758338661</data>
+      <data key="d5">1758513035</data>
     </node>
     <node id="行星发动机">
       <data key="d0">行星发动机</data>
       <data key="d1">Artifact</data>
-      <data key="d2">行星发动机是建造在地球表面的巨大装置，用于推动地球离开太阳系。</data>
+      <data key="d2">行星发动机是在地球表面建造的一万座巨大的发动机，用于推动地球离开太阳系。</data>
       <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d4">unknown_source</data>
-      <data key="d5">1758338661</data>
+      <data key="d5">1758513035</data>
     </node>
     <node id="国际空间站">
       <data key="d0">国际空间站</data>
       <data key="d1">Artifact</data>
-      <data key="d2">国际空间站是刘培强工作的地点，他在那里担任宇航员。</data>
+      <data key="d2">国际空间站是刘培强工作的地点，他是一名宇航员。</data>
       <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d4">unknown_source</data>
-      <data key="d5">1758338661</data>
+      <data key="d5">1758513035</data>
     </node>
     <node id="刘启">
       <data key="d0">刘启</data>
       <data key="d1">Person</data>
-      <data key="d2">刘启是《流浪地球》中的主角，是一名年轻的航天员。</data>
+      <data key="d2">刘启是故事的主角，是一名年轻的航天员。</data>
       <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d4">unknown_source</data>
-      <data key="d5">1758338661</data>
+      <data key="d5">1758513035</data>
     </node>
     <node id="刘培强">
       <data key="d0">刘培强</data>
       <data key="d1">Person</data>
-      <data key="d2">刘培强是刘启的父亲，是国际空间站的宇航员。</data>
+      <data key="d2">刘培强是刘启的父亲，是一名国际空间站的宇航员。</data>
       <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d4">unknown_source</data>
-      <data key="d5">1758338662</data>
+      <data key="d5">1758513035</data>
     </node>
-    <node id="木星引力危机">
-      <data key="d0">木星引力危机</data>
-      <data key="d1">Event</data>
-      <data key="d2">木星引力危机是《流浪地球》中的一场危机，威胁到地球的安全。</data>
+    <node id="木星">
+      <data key="d0">木星</data>
+      <data key="d1">Naturalobject</data>
+      <data key="d2">木星是故事中提到的一个天体，地球在流浪过程中遭遇了木星引力危机。</data>
       <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d4">unknown_source</data>
-      <data key="d5">1758338662</data>
-    </node>
-    <node id="地球">
-      <data key="d0">地球</data>
-      <data key="d3">chunk-81923ba451c8105558b3e33b2238ddfd</data>
-      <data key="d2">地球表面建造了一万座巨大的行星发动机，用于推动地球离开太阳系。</data>
-      <data key="d1">UNKNOWN</data>
-      <data key="d4">unknown_source</data>
-      <data key="d5">1758338663</data>
+      <data key="d5">1758513037</data>
     </node>
     <edge source="流浪地球" target="刘慈欣">
       <data key="d6">1.0</data>
@@ -107,63 +91,63 @@
       <data key="d8">创作,科幻小说</data>
       <data key="d9">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d10">unknown_source</data>
-      <data key="d11">1758338663</data>
+      <data key="d11">1758513038</data>
     </edge>
-    <edge source="太阳" target="太阳系">
+    <edge source="流浪地球" target="太阳">
       <data key="d6">1.0</data>
-      <data key="d7">太阳即将发生的氦闪将毁灭整个太阳系。</data>
+      <data key="d7">太阳即将发生的氦闪威胁到太阳系的生存，引发了“流浪地球”计划。</data>
       <data key="d8">毁灭,氦闪</data>
       <data key="d9">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d10">unknown_source</data>
-      <data key="d11">1758338663</data>
+      <data key="d11">1758513039</data>
     </edge>
-    <edge source="半人马座比邻星" target="地球">
+    <edge source="流浪地球" target="半人马座比邻星">
       <data key="d6">1.0</data>
-      <data key="d7">地球计划前往半人马座比邻星，开启一场长达2500年的星际流浪。</data>
-      <data key="d8">星际流浪,目的地</data>
+      <data key="d7">“流浪地球”计划的目标是将地球推动到半人马座比邻星。</data>
+      <data key="d8">星际流浪,目标</data>
       <data key="d9">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d10">unknown_source</data>
-      <data key="d11">1758338665</data>
+      <data key="d11">1758513040</data>
     </edge>
-    <edge source="行星发动机" target="地球">
+    <edge source="流浪地球" target="行星发动机">
       <data key="d6">1.0</data>
-      <data key="d7">地球表面建造了一万座巨大的行星发动机，用于推动地球离开太阳系。</data>
-      <data key="d8">建造,推动</data>
+      <data key="d7">行星发动机被用于推动地球离开太阳系，以实现人类的生存。</data>
+      <data key="d8">推动,生存</data>
       <data key="d9">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d10">unknown_source</data>
-      <data key="d11">1758338663</data>
+      <data key="d11">1758513042</data>
     </edge>
     <edge source="国际空间站" target="刘培强">
       <data key="d6">1.0</data>
-      <data key="d7">刘培强在国际空间站担任宇航员。</data>
+      <data key="d7">刘培强是一名国际空间站的宇航员。</data>
       <data key="d8">宇航员,工作</data>
       <data key="d9">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d10">unknown_source</data>
-      <data key="d11">1758338664</data>
+      <data key="d11">1758513039</data>
     </edge>
     <edge source="刘启" target="刘培强">
       <data key="d6">1.0</data>
-      <data key="d7">刘启是刘培强的儿子，两人都是航天员。</data>
-      <data key="d8">父子关系,航天员</data>
+      <data key="d7">刘启和刘培强是父子关系，在木星引力危机中做出了巨大牺牲。</data>
+      <data key="d8">父子关系,牺牲</data>
       <data key="d9">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d10">unknown_source</data>
-      <data key="d11">1758338663</data>
+      <data key="d11">1758513038</data>
     </edge>
-    <edge source="刘启" target="木星引力危机">
+    <edge source="刘启" target="木星">
       <data key="d6">1.0</data>
       <data key="d7">刘启在木星引力危机中为了拯救地球做出了巨大的牺牲。</data>
-      <data key="d8">危机应对,牺牲</data>
+      <data key="d8">危机,牺牲</data>
       <data key="d9">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d10">unknown_source</data>
-      <data key="d11">1758338664</data>
+      <data key="d11">1758513039</data>
     </edge>
-    <edge source="刘培强" target="木星引力危机">
+    <edge source="刘培强" target="木星">
       <data key="d6">1.0</data>
       <data key="d7">刘培强在木星引力危机中为了拯救地球做出了巨大的牺牲。</data>
-      <data key="d8">危机应对,牺牲</data>
+      <data key="d8">危机,牺牲</data>
       <data key="d9">chunk-81923ba451c8105558b3e33b2238ddfd</data>
       <data key="d10">unknown_source</data>
-      <data key="d11">1758338665</data>
+      <data key="d11">1758513041</data>
     </edge>
   </graph>
 </graphml>
