@@ -1,0 +1,35 @@
+Here is some text.
+<html>
+<head>
+<title>A Title</title>
+</head>
+<body>
+<p>This is a paragraph inside the html block.</p>
+<p>This is another paragraph. It is important that this block of html is not split.</p>
+</body>
+</html>
+Here is some more text outside the html block.
+
+And here is another html block:
+<html>
+<body>
+<p>This is the second html block.</p>
+<p>It is also important that this is not split.</p>
+<p>This one is a bit longer to make sure it might get split by a naive chunker.</p>
+<p>The chunker should be smart enough to keep this all together.</p>
+<p>Even if it means the chunk is a little bit larger than the target size.</p>
+<p>This is a very important feature of the data splitting agent.</p>
+<p>Let's add a few more lines to be sure.</p>
+<p>Line 1.</p>
+<p>Line 2.</p>
+<p>Line 3.</p>
+<p>Line 4.</p>
+<p>Line 5.</p>
+<p>Line 6.</p>
+<p>Line 7.</p>
+<p>Line 8.</p>
+<p>Line 9.</p>
+<p>Line 10.</p>
+</body>
+</html>
+Some final text after the second block. This is to ensure that the logic works correctly.
