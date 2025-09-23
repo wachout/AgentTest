@@ -29,26 +29,7 @@ def post_process_splits(splits):
             html_merged_splits.append(current_split)
         i += 1
 
-    # Pass 2: Merge incomplete sentences
-    if not html_merged_splits:
-        return []
-
-    final_splits = [html_merged_splits[0]]
-    for i in range(1, len(html_merged_splits)):
-        current_doc = html_merged_splits[i]
-        prev_content = final_splits[-1].page_content.strip()
-
-        # If the previous chunk does not end with a sentence-ending character, merge.
-        if not prev_content.endswith(('.', '!', '?', '>')):
-            final_splits[-1].page_content += " " + current_doc.page_content
-        else:
-            # Otherwise, check if the current chunk is a continuation.
-            if current_doc.page_content.strip() and current_doc.page_content.strip()[0].islower():
-                final_splits[-1].page_content += " " + current_doc.page_content
-            else:
-                final_splits.append(current_doc)
-
-    return final_splits
+    return html_merged_splits
 
 def main():
     loader = DirectoryLoader('test_documents', glob="**/*.txt")
