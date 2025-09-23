@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d0" for="node" attr.name="label" attr.type="string"/>
+  <key id="d1" for="node" attr.name="properties" attr.type="string"/>
+  <key id="d2" for="edge" attr.name="label" attr.type="string"/>
+  <key id="d3" for="edge" attr.name="properties" attr.type="string"/>
+  <graph id="G" edgedefault="directed">
+    <node id="n0">
+      <data key="d0">Person</data>
+      <data key="d1">{"name": "John Doe"}</data>
+    </node>
+    <node id="n1">
+      <data key="d0">Company</data>
+      <data key="d1">{"name": "Acme Corp"}</data>
+    </node>
+    <edge id="e0" source="n0" target="n1">
+      <data key="d2">WORKS_FOR</data>
+      <data key="d3">{"since": "2020"}</data>
+    </edge>
+  </graph>
+</graphml>

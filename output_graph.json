@@ -1,0 +1,9 @@
+{
+  "nodes": [
+    {"id": "person1", "labels": ["Person"], "properties": {"name": "Alice"}},
+    {"id": "project1", "labels": ["Project"], "properties": {"name": "LightRAG"}}
+  ],
+  "relationships": [
+    {"source": "person1", "target": "project1", "type": "WORKS_ON", "properties": {"role": "Developer"}}
+  ]
+}
