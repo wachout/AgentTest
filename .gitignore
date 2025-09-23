@@ -1,0 +1,20 @@
+# Log files
+*.log
+lightrag.log
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Runtime data and cache
+rag_storage/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+
+# OS-specific files
+.DS_Store
+Thumbs.db
