@@ -1,0 +1,9 @@
+langchain
+langgraph
+langchain_community
+python-dotenv
+fastapi
+uvicorn
+dashscope
+langchain-openai
+tiktoken
