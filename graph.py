@@ -14,7 +14,8 @@ from prompts import (
 class DecomposedQuerySchema(BaseModel):
     """Pydantic schema for the decomposed query components."""
     entities: List[str] = Field(description="Specific nouns or proper nouns (e.g., people, places)")
-    keywords: List[str] = Field(description="Important terms describing the topic or intent")
+    phrases: List[str] = Field(description="Meaningful multi-word phrases or concepts")
+    keywords: List[str] = Field(description="Important single terms describing the topic or intent")
     search_conditions: List[str] = Field(description="Constraints like timeframes or locations")
 
 class AgentState(TypedDict):
@@ -58,6 +59,7 @@ def generate_query_node(state: AgentState):
 
         search_query = generate_chain.invoke({
             "entities": ", ".join(decomposed["entities"]),
+            "phrases": ", ".join(decomposed["phrases"]),
             "keywords": ", ".join(decomposed["keywords"]),
             "search_conditions": ", ".join(decomposed["search_conditions"]),
         })
@@ -109,16 +111,22 @@ def should_revise(state: AgentState) -> str:
     if state.get("error"):
         return END
 
+    revision_count = state.get("revision_count", 0)
     critique = state.get("critique", "").strip()
-    # Check for the specific success phrase at the end of the critique
+
+    # End if the query is deemed perfect
     if critique.endswith("The query is perfect."):
         print("---DECISION: QUERY IS GOOD, END---")
-        # Clean up the critique message for final output
         state["critique"] = critique.replace("The query is perfect.", "").strip()
         return END
-    else:
-        print("---DECISION: REVISION NEEDED---")
-        return "revise_query"
+
+    # End if we have revised enough times
+    if revision_count >= 2:
+        print(f"---DECISION: REACHED MAX REVISIONS ({revision_count}), END---")
+        return END
+
+    print("---DECISION: REVISION NEEDED---")
+    return "revise_query"
 
 workflow.add_conditional_edges(
     "critique_query",

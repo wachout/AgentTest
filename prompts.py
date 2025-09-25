@@ -6,9 +6,10 @@ decompose_question_prompt = PromptTemplate.from_template(
     **Task**: Decompose the user's query into its core components.
 
     **Instructions**:
-    1.  Identify and extract the main **entities**. Entities are specific nouns or proper nouns (e.g., people, places, organizations, product names).
-    2.  Identify and extract relevant **keywords**. Keywords are important terms that describe the topic or intent.
-    3.  Identify and extract any **search conditions** or constraints (e.g., timeframes, locations, specific requirements).
+    1.  Identify and extract the main **entities**. Entities are specific nouns or proper nouns (e.g., people, places, organizations).
+    2.  Identify and extract meaningful **phrases**. Phrases are multi-word concepts that should be searched together (e.g., "artificial intelligence reports", "restaurants in Beijing").
+    3.  Identify and extract relevant **keywords**. These are important single terms that describe the topic.
+    4.  Identify and extract any **search conditions** or constraints (e.g., timeframes, locations, specific requirements).
 
     **User Query**:
     {query}
@@ -25,6 +26,7 @@ generate_query_prompt = PromptTemplate.from_template(
 
     **Decomposed Components**:
     - **Entities**: {entities}
+    - **Phrases**: {phrases}
     - **Keywords**: {keywords}
     - **Search Conditions**: {search_conditions}
 
