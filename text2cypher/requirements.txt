@@ -1,0 +1,8 @@
+langchain
+langgraph
+langchain-community
+langchain-openai
+fastapi
+uvicorn
+python-dotenv
+neo4j
