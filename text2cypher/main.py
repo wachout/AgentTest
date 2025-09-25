@@ -14,20 +14,20 @@ load_dotenv()
 os.environ["OPENAI_API_KEY"] = os.getenv("DASHSCOPE_API_KEY", "dummy_key")
 
 
-# 1. Define Graph Schema
+# 1. Define Graph Schema (Updated)
 graph_schema = """
 Node properties:
-- id: string (unique identifier for the node, also serves as the name)
-- name: string (name of the node)
-- type: string ('实体' or '关键词')
+- entity_id: string (The name of the node, e.g., '潮汐')
+- source_id: string (The ID of the source paragraph, e.g., 'chunk-...')
+- description: string (A description of the node's context)
+- entity_type: string (The type of the entity, e.g., 'UNKNOWN', 'Technology')
+- file_path: string (The path to the source file)
 
 Edge properties:
-- relationship: string (type of the relationship, e.g., 'RELATED_TO')
+- relationship: string (The type of relationship between nodes)
 
-The relationships are:
-(:实体)-[:RELATED_TO]->(:实体)
-(:实体)-[:RELATED_TO]->(:关键词)
-(:关键词)-[:RELATED_TO]->(:实体)
+Relationships connect nodes. For example:
+(n1)-[:RELATED_TO]->(n2)
 """
 
 # 2. Configure the LLM
@@ -41,10 +41,10 @@ llm = ChatOpenAI(
 
 # 3. Build the LangGraph Agent
 
-# 3.1 Define the State for the graph
+# 3.1 Define the State for the graph (Updated)
 class AgentState(TypedDict):
-    question: str
-    entities: List[str]
+    query: str
+    nodes: List[str]
     keywords: List[str]
     cypher_query: str
     query_result: Optional[List[dict]]
@@ -54,57 +54,70 @@ class AgentState(TypedDict):
 
 # 3.2 Define the Nodes of the graph
 
-# Node 1: Analyze Question
-class Entity(BaseModel):
-    name: str
-    type: str
-
-class ExtractedData(BaseModel):
-    entities: List[Entity]
+# Node 1: Analyze Question (Updated)
+class Keywords(BaseModel):
+    """Keywords extracted from the user's query."""
     keywords: List[str]
 
 prompt_analyzer = ChatPromptTemplate.from_messages(
     [
         ("system",
-         "You are an expert at extracting entities and keywords from a user's question. "
-         "Respond with a JSON object that strictly follows this format: "
-         '{{ "entities": [{{ "name": "entity_name", "type": "entity_type" }}], "keywords": ["keyword1", "keyword2"] }}.'
+         "You are an expert at extracting keywords from a user's query. "
+         "Extract the main action-oriented or descriptive keywords. Do not extract entity names, as they are provided separately. "
+         "Respond with a JSON object: {{'keywords': ['keyword1', 'keyword2']}}."
         ),
-        ("human", "{question}"),
+        ("human", "Extract keywords from this query: {query}"),
     ]
 )
-analyzer_runnable = prompt_analyzer | llm.with_structured_output(ExtractedData)
+analyzer_runnable = prompt_analyzer | llm.with_structured_output(Keywords)
 
 def analyze_question(state: AgentState):
-    print("---ANALYZING QUESTION---")
-    question = state["question"]
-    analysis_result = analyzer_runnable.invoke({"question": question})
-    entity_names = [entity.name for entity in analysis_result.entities]
-    print(f"Entities: {entity_names}, Keywords: {analysis_result.keywords}")
+    """Takes user-provided nodes and extracts keywords from the query."""
+    print("---ANALYZING QUESTION & NODES---")
+    # User-provided nodes are now the primary source of entities
+    nodes = state["nodes"]
+    query = state["query"]
+
+    # Extract keywords from the query string
+    analysis_result = analyzer_runnable.invoke({"query": query})
+
+    print(f"User-provided Nodes: {nodes}, Extracted Keywords: {analysis_result.keywords}")
     return {
-        "entities": entity_names,
+        "nodes": nodes,
         "keywords": analysis_result.keywords,
         "refine_count": 0,
         "errors": [],
     }
 
-# Node 2: Generate Cypher Query (with improved prompt)
+# Node 2: Generate Cypher Query (Updated prompt)
 prompt_generate_query = ChatPromptTemplate.from_messages(
     [
         ("system",
-         "You are an expert Neo4j Cypher query generator. Your task is to write a Cypher query based on the provided entities, keywords, and graph schema. "
+         "You are an expert Neo4j Cypher query generator. Your primary task is to write a Cypher query based on a list of user-provided node names and a natural language query. "
          "The query should be read-only (i.e., no CREATE, SET, DELETE). "
-         "Pay close attention to the schema to ensure the query is valid. The user's question is about finding relationships between entities and keywords.\n"
-         "Schema:\n{schema}\n"
-         "Example 1: Find entities related to 'Graph Database'.\n"
-         "MATCH (n {{id: 'Graph Database'}})-[:RELATED_TO]->(related) RETURN related.id, related.name\n"
-         "Example 2: What is Neo4j?\n"
-         "MATCH (n {{id: 'Neo4j'}}) RETURN n.id, n.name"
+         "The nodes in the database have a property `entity_id` which holds their name. You MUST use `entity_id` for matching nodes.\n"
+         "Graph Schema:\n{schema}\n"
+         "---"
+         "Instructions:\n"
+         "1. Use the provided 'nodes' list to identify the primary entities for the query. Match them using `WHERE n.entity_id IN [...]`.\n"
+         "2. Use the 'keywords' to understand the user's intent (e.g., find relationships, get descriptions, count nodes).\n"
+         "3. If the query asks for relationships between the provided nodes, find paths between them.\n"
+         "4. If the query asks for descriptions or properties, return the `description` or other relevant properties of the nodes.\n"
+         "---"
+         "Example 1: User wants to find the relationship between 'Tidal Force' and 'Earth Engine'.\n"
+         "Nodes: ['Tidal Force', 'Earth Engine']\n"
+         "Query: 'What is the connection between them?'\n"
+         "Generated Cypher: MATCH (a)-[r]-(b) WHERE a.entity_id = 'Tidal Force' AND b.entity_id = 'Earth Engine' RETURN a.entity_id, type(r), b.entity_id\n"
+         "---"
+         "Example 2: User wants to know more about 'Helium Flash'.\n"
+         "Nodes: ['Helium Flash']\n"
+         "Query: 'Tell me about Helium Flash'\n"
+         "Generated Cypher: MATCH (n) WHERE n.entity_id = 'Helium Flash' RETURN n.description"
         ),
         ("human",
-         "Generate a Cypher query to answer the following question.\n"
-         "Question: {question}\n"
-         "Entities: {entities}\n"
+         "Generate a Cypher query.\n"
+         "Query: {query}\n"
+         "Nodes: {nodes}\n"
          "Keywords: {keywords}"
         ),
     ]
@@ -113,7 +126,12 @@ query_generator_runnable = prompt_generate_query | llm
 
 def generate_query(state: AgentState):
     print("---GENERATING CYPHER QUERY---")
-    generation = query_generator_runnable.invoke({"schema": graph_schema, "question": state["question"], "entities": state["entities"], "keywords": state["keywords"]})
+    generation = query_generator_runnable.invoke({
+        "schema": graph_schema,
+        "query": state["query"],
+        "nodes": state["nodes"],
+        "keywords": state["keywords"]
+    })
     cypher_query = generation.content.strip()
     if "```cypher" in cypher_query:
         cypher_query = cypher_query.split("```cypher")[1].split("```")[0].strip()
@@ -130,20 +148,18 @@ class QueryCheck(BaseModel):
 prompt_check_query = ChatPromptTemplate.from_messages(
     [
         ("system",
-         "You are an expert Neo4j Cypher query checker. Your task is to evaluate a generated Cypher query for correctness. "
-         "Check for syntax errors, logical errors, and adherence to the graph schema. "
-         "Respond with a JSON object that strictly follows this format: "
-         '{{ "is_correct": true, "errors": [] }} or {{ "is_correct": false, "errors": ["error message"] }}.\n'
+         "You are an expert Neo4j Cypher query checker... "
+         "Respond with a JSON object: {{'is_correct': true, 'errors': []}} or {{'is_correct': false, 'errors': ['error message']}}.\n"
          "Schema:\n{schema}"
         ),
-        ("human", "Please check the following Cypher query.\nQuestion: {question}\nQuery: {query}"),
+        ("human", "Please check the following Cypher query.\nQuestion: {query}\nQuery: {cypher_query}"),
     ]
 )
 query_checker_runnable = prompt_check_query | llm.with_structured_output(QueryCheck)
 
 def check_query(state: AgentState):
     print("---CHECKING CYPHER QUERY---")
-    check_result = query_checker_runnable.invoke({"schema": graph_schema, "question": state["question"], "query": state["cypher_query"]})
+    check_result = query_checker_runnable.invoke({"schema": graph_schema, "query": state["query"], "cypher_query": state["cypher_query"]})
     if check_result.is_correct:
         print("Query Check: CORRECT")
         return {"errors": []}
@@ -154,35 +170,53 @@ def check_query(state: AgentState):
 # Node 4: Refine Cypher Query
 prompt_refine_query = ChatPromptTemplate.from_messages(
     [
-        ("system", "You are an expert Neo4j Cypher query refiner... Schema:\n{schema}"),
-        ("human", "Please refine the following Cypher query...\nQuestion: {question}\nOriginal Query: {query}\nErrors: {errors}"),
+        ("system",
+         "You are an expert Neo4j Cypher query refiner. Your task is to correct a Cypher query based on the provided error feedback. "
+         "Pay close attention to the schema and the user's original query to ensure the refined query is valid and answers the question.\n"
+         "Remember to use `entity_id` to match nodes by name.\n"
+         "Schema:\n{schema}"
+        ),
+        ("human",
+         "Please refine the following Cypher query based on the errors provided.\n"
+         "Original Query: {query}\n"
+         "Original Cypher: {cypher_query}\n"
+         "Errors: {errors}"
+        ),
     ]
 )
 query_refiner_runnable = prompt_refine_query | llm
 
 def refine_query(state: AgentState):
+    """Refines the Cypher query based on feedback."""
     print("---REFINING CYPHER QUERY---")
     refine_count = state.get("refine_count", 0) + 1
-    generation = query_refiner_runnable.invoke({"schema": graph_schema, "question": state["question"], "query": state["cypher_query"], "errors": "\n".join(state["errors"])})
+
+    generation = query_refiner_runnable.invoke({
+        "schema": graph_schema,
+        "query": state["query"],
+        "cypher_query": state["cypher_query"],
+        "errors": "\n".join(state["errors"]),
+    })
+
     refined_query = generation.content.strip()
     if "```cypher" in refined_query:
         refined_query = refined_query.split("```cypher")[1].split("```")[0].strip()
     elif "```" in refined_query:
         refined_query = refined_query.split("```")[1].strip()
+
     print(f"Refined Query: {refined_query}")
     return {"cypher_query": refined_query, "refine_count": refine_count}
 
 
 # Node 5: Execute Query
 def execute_query(state: AgentState):
-    """Executes the Cypher query against the Neo4j database."""
     print("---EXECUTING CYPHER QUERY---")
     uri = os.getenv("NEO4J_URI")
     user = os.getenv("NEO4J_USERNAME")
     password = os.getenv("NEO4J_PASSWORD")
 
-    if not all([uri, user, password]) or uri == "bolt://localhost:7687":
-        error_msg = "Neo4j connection details are not configured in .env file or are default."
+    if not all([uri, user, password]) or "YOUR_NEO4J_URI" in uri:
+        error_msg = "Neo4j connection details are not configured in .env file."
         print(error_msg)
         return {"query_error": error_msg, "query_result": []}
 
@@ -203,17 +237,10 @@ def execute_query(state: AgentState):
 
 # 3.3 Define the Edges of the graph
 def decide_to_refine_or_execute(state: AgentState):
-    """Decides the next step after checking the query."""
     if not state.get("errors"):
-        print("---DECISION: EXECUTE QUERY---")
         return "execute"
     else:
-        if state.get("refine_count", 0) >= 2:
-            print("---DECISION: MAX REFINEMENTS REACHED, ENDING---")
-            return "end"
-        else:
-            print("---DECISION: REFINE QUERY---")
-            return "refine"
+        return "refine" if state.get("refine_count", 0) < 2 else "end"
 
 # 3.4 Assemble the graph
 def build_agent():
@@ -231,11 +258,7 @@ def build_agent():
     workflow.add_conditional_edges(
         "check_query",
         decide_to_refine_or_execute,
-        {
-            "refine": "refine_query",
-            "execute": "execute_query",
-            "end": END,
-        },
+        {"refine": "refine_query", "execute": "execute_query", "end": END},
     )
     workflow.add_edge("refine_query", "check_query")
     workflow.add_edge("execute_query", END)
@@ -247,13 +270,17 @@ if __name__ == "__main__":
     app = build_agent()
     print("LangGraph agent built successfully.")
 
-    question = "What is Neo4j?"
-    print(f"\n--- Running Agent for question: '{question}' ---")
-    inputs = {"question": question}
+    # Updated example usage
+    user_input = {
+        "query": "潮汐和地球发动机之间有什么关系？",
+        "nodes": ["潮汐", "地球发动机"]
+    }
+    print(f"\n--- Running Agent for input: {user_input} ---")
 
-    result = app.invoke(inputs)
+    result = app.invoke(user_input)
     print("\n---FINAL RESULT---")
-    print(f"Question: {question}")
+    print(f"Query: {user_input['query']}")
+    print(f"Nodes: {user_input['nodes']}")
     print(f"Final Cypher Query: {result.get('cypher_query')}")
     if result.get('query_error'):
         print(f"Query Execution Error: {result.get('query_error')}")
