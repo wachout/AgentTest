@@ -90,8 +90,7 @@ def analyze_query_and_nodes(state: AgentState):
         "errors": [],
     }
 
-
-# Node 2: Generate Cypher Query (Restored LLM Generation with a Robust Prompt)
+# Node 2: Generate Cypher Query (Corrected Prompt)
 prompt_generate_query = ChatPromptTemplate.from_messages(
     [
         ("system",
@@ -101,7 +100,7 @@ prompt_generate_query = ChatPromptTemplate.from_messages(
          "---"
          "**CRITICAL RULES**:\n"
          "1.  **Variable Names**: The starting node MUST be named `start_node`. If there is an ending node, it MUST be named `end_node`. The relationship MUST be named `relation`.\n"
-         "2.  **Node Matching**: Always match nodes by their `entity_id` property (e.g., `start_node.entity_id = '{start_node_name}'`).\n"
+         "2.  **Node Matching**: Always match nodes by their `entity_id` property (e.g., `start_node.entity_id = 'Some Entity Name'`).\n"
          "3.  **Return Values**: ALWAYS return the full node and relationship objects (e.g., `RETURN start_node, relation, end_node`).\n"
          "4.  **Relationship Filters**: If `relationship_filters` are provided, you MUST add a `WHERE` clause to filter the `relation` variable. For string properties like `keywords`, use the `CONTAINS` operator for partial matches. For other types, use `=`.\n"
          "5.  **No End Node**: If `end_node` is not provided, find any connected node and alias it as `end_node`.\n"
@@ -176,7 +175,6 @@ def check_query(state: AgentState):
 # Node 4: Execute Query
 def execute_query(state: AgentState):
     print("---EXECUTING CYPHER QUERY---")
-    # ... (rest of the function is unchanged)
     uri = os.getenv("NEO4J_URI")
     user = os.getenv("NEO4J_USERNAME")
     password = os.getenv("NEO4J_PASSWORD")
@@ -199,7 +197,6 @@ def execute_query(state: AgentState):
         return {"query_error": error_msg, "query_result": []}
     finally:
         driver.close()
-
 
 # 3.4 Assemble the graph
 def decide_to_execute(state: AgentState):
@@ -231,15 +228,6 @@ def build_agent():
 
 # Main execution block
 if __name__ == "__main__":
-    # This placeholder prompt for the analyzer was working before, so we'll keep it for the runnable script
-    prompt_analyzer = ChatPromptTemplate.from_messages(
-        [
-            ("system", "You are an intelligent analysis engine... Respond with a JSON object: {{'start_node': '...', 'end_node': '...'}}."),
-            ("human", "Query: {query}\nCandidate Nodes: {nodes}"),
-        ]
-    )
-    analyzer_runnable = prompt_analyzer | llm.with_structured_output(AnalysisResult)
-
     app = build_agent()
     print("LangGraph agent built successfully.")
 
