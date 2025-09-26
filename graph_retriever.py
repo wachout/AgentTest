@@ -1,19 +1,11 @@
 import json
 from typing import List, Dict, Any
 
-def get_graph_data() -> List[List[Dict[str, Any]]]:
-    """
-    从JSON文件中加载图数据。
-    """
-    with open('data/graph_data.json', 'r', encoding='utf-8') as f:
-        return json.load(f)
-
 def search_graph_db(question: str, graph_data: List[List[Dict[str, Any]]]) -> List[Dict[str, Any]]:
     """
-    在图数据中搜索与问题相关的实体和关系。
+    在传入的图数据中搜索与问题相关的实体和关系。
 
     这是一个简化的模拟搜索，它检查问题中是否包含图谱中的实体ID。
-    在实际应用中，这里应该是一个更复杂的图查询逻辑（例如，使用Cypher查询Neo4j）。
     """
     found_relations = []
     # 将问题转换为小写以便不区分大小写地进行匹配
@@ -47,20 +39,3 @@ def format_graph_results(results: List[Dict[str, Any]]) -> str:
         formatted_string += f"  - **描述**: {relation_desc}\n"
 
     return formatted_string
-
-if __name__ == '__main__':
-    # 示例用法
-    sample_data = get_graph_data()
-    sample_question = "地球和木星之间发生了什么？"
-    search_results = search_graph_db(sample_question, sample_data)
-    formatted_output = format_graph_results(search_results)
-
-    print(f"针对问题: '{sample_question}'\n")
-    print(formatted_output)
-
-    sample_question_2 = "太阳对地球有什么影响？"
-    search_results_2 = search_graph_db(sample_question_2, sample_data)
-    formatted_output_2 = format_graph_results(search_results_2)
-
-    print(f"\n针对问题: '{sample_question_2}'\n")
-    print(formatted_output_2)
