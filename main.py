@@ -22,7 +22,7 @@ class AgentState(TypedDict):
     query: str
     provider: str
     graph_data: List[List[Dict[str, Any]]]
-    emb_data: List[str]
+    emb_data: List[Dict[str, Any]] # *** 已更新：emb_data现在是字典列表 ***
     text_results: str
     graph_results: str
     final_answer: str
@@ -56,7 +56,7 @@ def get_embeddings_model():
 
 def retrieve_text_node(state: AgentState) -> AgentState:
     """
-    根据传入的文本数据动态创建FAISS索引并进行检索。
+    *** 已更新：根据传入的字典列表动态创建FAISS索引并进行检索。***
     """
     print("--- 节点: 动态文本检索 ---")
     query = state['query']
@@ -68,18 +68,33 @@ def retrieve_text_node(state: AgentState) -> AgentState:
 
     try:
         embeddings = get_embeddings_model()
-        # 将传入的字符串列表转换为LangChain的Document对象
-        documents = [Document(page_content=text) for text in emb_data]
+
+        # *** 已更新：将字典列表转换为带有元数据的LangChain Document对象 ***
+        documents = [
+            Document(
+                page_content=item.get("content", ""),
+                metadata={
+                    "title": item.get("title", "未知来源"),
+                    "score": item.get("score", 0.0)
+                }
+            ) for item in emb_data
+        ]
 
         # 动态创建FAISS索引
         db = FAISS.from_documents(documents, embeddings)
 
         # 使用相似性搜索从向量数据库中检索文档
-        retriever = db.as_retriever(search_kwargs={'k': 2}) # 检索最相关的2个文档块
+        retriever = db.as_retriever(search_kwargs={'k': 2})
         docs = retriever.invoke(query)
 
-        formatted_results = "\n\n".join([doc.page_content for doc in docs])
-        state['text_results'] = formatted_results
+        # *** 已更新：格式化输出，包含标题元数据 ***
+        formatted_results = []
+        for doc in docs:
+            title = doc.metadata.get('title', '未知来源')
+            content = doc.page_content
+            formatted_results.append(f"来源:《{title}》\n内容: {content}")
+
+        state['text_results'] = "\n\n".join(formatted_results)
         print("动态文本检索完成。")
     except Exception as e:
         print(f"动态文本检索失败: {e}")
@@ -150,7 +165,6 @@ def run_agent(param: Dict[str, Any]):
     """
     运行RAG智能体，处理动态传入的知识库。
     """
-    # 构建并编译LangGraph工作流
     graph_builder = StateGraph(AgentState)
     graph_builder.add_node("retrieve_text", retrieve_text_node)
     graph_builder.add_node("retrieve_graph", retrieve_graph_node)
@@ -163,15 +177,13 @@ def run_agent(param: Dict[str, Any]):
 
     app = graph_builder.compile()
 
-    # 准备输入状态
     initial_state = {
         "query": param.get("query"),
-        "provider": param.get("provider", "deepseek"), # 默认为deepseek
+        "provider": param.get("provider", "deepseek"),
         "emb_data": param.get("emb_data", []),
         "graph_data": param.get("graph_data", [])
     }
 
-    # 运行工作流
     try:
         final_state = app.invoke(initial_state)
         return final_state.get('final_answer', '未能生成最终答案。')
@@ -180,18 +192,17 @@ def run_agent(param: Dict[str, Any]):
 
 # --- 6. 示例用法 ---
 if __name__ == "__main__":
-    # 使用用户提供的示例数据结构
+    # *** 已更新：使用用户提供的最新数据结构 ***
     param = {
-        "query": "根据《流浪地球》的背景，太阳和地球之间发生了什么？",
-        "provider": "deepseek", # 或 "qwen"
+        "query": "太阳和地球之间发生了什么？",
+        "provider": "deepseek",
         "graph_data": [
-            [{"end_node": {"entity_id": "地球"}, "relation": {"description": "地球因太阳即将爆炸而需要逃离太阳系。<SEP>地球为了躲避太阳的威胁而进行逃生计划。"}, "start_node": {"entity_id": "太阳"}}],
-            [{"end_node": {"entity_id": "地球"}, "relation": {"description": "当地球靠近木星时，木星的巨大引力几乎将地球捕获。"}, "start_node": {"entity_id": "木星"}}]
+            [{"end_node": {"entity_id": "地球"}, "relation": {"description": "地球因太阳即将爆炸而需要逃离太阳系。<SEP>地球为了躲避太阳的威胁而进行逃生计划。"}, "start_node": {"entity_id": "太阳"}}]
         ],
         "emb_data": [
-            "在不久的将来，科学家们发现太阳正急速衰老、膨胀，即将发生一场名为“氦闪”的剧烈爆炸，整个太阳系都将被吞噬。",
-            "为了自救，人类社会倾尽全球之力，启动了史无前例的“流浪地球”计划，将地球整个推离太阳系。",
-            "当地球借助木星的引力进行加速变轨时，由于木星引力过强，地球被意外捕获，险些坠入木星大气层。"
+            {"score": 1.0, "title": "《流浪地球》", "content": "太阳是地球绕行的恒星，同时也是地球上生命的主要能源来源。"},
+            {"score": 1.0, "title": "《流浪地球》", "content": "地球是人类居住的星球，也是故事发生的主要背景。"},
+            {"score": 0.9, "title": "三体", "content": "三体世界围绕着三颗不规则运动的太阳运行，文明在恒纪元与乱纪元之间挣扎。"}
         ]
     }
 
