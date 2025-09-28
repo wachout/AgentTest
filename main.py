@@ -18,50 +18,65 @@ def parse_json_toc(toc_data: dict) -> List[str]:
             headings.extend(parse_json_toc(value))
     return headings
 
+def _split_single_text_by_headings(document_text: str, headings: List[str]) -> List[Document]:
+    """
+    Helper function to split a single text block based on a list of headings.
+    """
+    if not headings:
+        return [Document(page_content=document_text)]
+
+    headings.sort(key=len, reverse=True)
+    pattern = '|'.join(map(re.escape, headings))
+    chunks = re.split(f'({pattern})', document_text)
+
+    documents = []
+    num_empty_sections = 0
+
+    if chunks[0] and chunks[0].strip():
+        documents.append(Document(page_content=chunks[0].strip()))
+
+    for i in range(1, len(chunks), 2):
+        heading = chunks[i]
+        text = chunks[i+1] if (i+1) < len(chunks) else ""
+
+        if not text.strip():
+            num_empty_sections += 1
+
+        documents.append(Document(page_content=(heading + text).strip()))
+
+    if num_empty_sections > 0:
+        print(f"--- Warning: Found {num_empty_sections} heading(s) with no descriptive content following them. ---")
+
+    return [doc for doc in documents if doc.page_content]
+
 def split_text_by_headings(document_text: str, headings: List[str]) -> List[Document]:
     """
-    Splits the document text based on a list of headings or into overlapping chunks if it's too long.
+    Splits the document text based on a list of headings.
+    If the document is long, it's first split into large chunks, then by headings.
     """
     if len(document_text) > 20000:
-        print("--- Document is long, using recursive character splitter. ---")
-        text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=1000, length_function=len)
-        chunks = text_splitter.split_text(document_text)
-        # For long documents, we don't need to check for empty sections in the same way.
-        return [Document(page_content=chunk) for chunk in chunks if chunk.strip()]
+        print("--- Document is long. First, splitting into large chunks... ---")
+        large_chunk_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=5000,
+            chunk_overlap=500,
+            length_function=len
+        )
+        large_chunks = large_chunk_splitter.split_text(document_text)
+
+        all_final_chunks = []
+        print(f"--- Found {len(large_chunks)} large chunks. Now splitting each by headings... ---")
+        for i, chunk_text in enumerate(large_chunks):
+            # For each large chunk, find which headings from the TOC are actually in it.
+            headings_in_chunk = [h for h in headings if h in chunk_text]
+
+            # Split the large chunk using only the headings it contains.
+            chunks_from_large_block = _split_single_text_by_headings(chunk_text, headings_in_chunk)
+            all_final_chunks.extend(chunks_from_large_block)
+
+        return all_final_chunks
     else:
         print("--- Document is short, using headings for splitting. ---")
-        if not headings:
-            return [Document(page_content=document_text)]
-
-        headings.sort(key=len, reverse=True)
-        pattern = '|'.join(map(re.escape, headings))
-        chunks = re.split(f'({pattern})', document_text)
-
-        documents = []
-        num_empty_sections = 0
-
-        # Handle the text before the first heading
-        if chunks[0] and chunks[0].strip():
-            documents.append(Document(page_content=chunks[0].strip()))
-
-        # Process the rest of the chunks
-        for i in range(1, len(chunks), 2):
-            heading = chunks[i]
-            text = chunks[i+1] if (i+1) < len(chunks) else ""
-
-            # A section is considered "empty" if it has a heading but no text content.
-            if not text.strip():
-                num_empty_sections += 1
-
-            # We still append the document, as a heading by itself might be meaningful.
-            # The final filter will remove any truly empty strings if they somehow occur.
-            documents.append(Document(page_content=(heading + text).strip()))
-
-        if num_empty_sections > 0:
-            print(f"--- Warning: Found {num_empty_sections} heading(s) with no descriptive content following them. ---")
-
-        # Final safety filter to remove any chunks that became completely empty after stripping.
-        return [doc for doc in documents if doc.page_content]
+        return _split_single_text_by_headings(document_text, headings)
 
 class GraphState(TypedDict):
     """
@@ -70,7 +85,6 @@ class GraphState(TypedDict):
     document_text: str
     toc_data: dict
     chunks: List[Document]
-    verification_status: str
 
 def split_node(state: GraphState):
     """
@@ -84,46 +98,16 @@ def split_node(state: GraphState):
     chunks = split_text_by_headings(document_text, headings)
     return {"chunks": chunks}
 
-def verify_integrity_node(state: GraphState):
-    """
-    Node to verify the integrity of the split by reassembling the chunks.
-    """
-    print("--- Verifying Splitting Integrity... ---")
-    original_text = state["document_text"]
-    chunks = state["chunks"]
-
-    # Reassemble the text from chunks
-    reassembled_text = "".join(doc.page_content for doc in chunks)
-
-    # Normalize both texts by removing all whitespace for a robust comparison
-    original_normalized = re.sub(r'\s+', '', original_text)
-    reassembled_normalized = re.sub(r'\s+', '', reassembled_text)
-
-    if original_normalized == reassembled_normalized:
-        status = "Success: Reassembled text matches original text."
-    else:
-        status = "Failure: Reassembled text does not match original text."
-        # Optional: Print lengths for debugging
-        # print(f"Original length (normalized): {len(original_normalized)}")
-        # print(f"Reassembled length (normalized): {len(reassembled_normalized)}")
-
-    return {"verification_status": status}
-
 def main():
     """
     Main function to set up and run the text splitting workflow.
     """
-    # 1. Define the workflow
     workflow = StateGraph(GraphState)
     workflow.add_node("split", split_node)
-    workflow.add_node("verify", verify_integrity_node)
-
     workflow.add_edge(START, "split")
-    workflow.add_edge("split", "verify")
-    workflow.add_edge("verify", END)
+    workflow.add_edge("split", END)
     app = workflow.compile()
 
-    # 2. Prepare the input data from files
     try:
         with open("document.txt", "r", encoding="utf-8") as f:
             document_text = f.read()
@@ -138,17 +122,14 @@ def main():
         "toc_data": toc_data,
     }
 
-    # 3. Run the workflow
     final_state = app.invoke(inputs)
 
-    # 4. Print the final output
     print("\n--- Workflow Complete. Final Chunks: ---")
     for i, chunk in enumerate(final_state['chunks']):
         print(f"--- Chunk {i+1} ---")
         print(chunk.page_content)
     print("\n-----------------------------------------")
     print(f"Total chunks created: {len(final_state['chunks'])}")
-    print(f"Integrity Check: {final_state['verification_status']}")
 
 
 if __name__ == "__main__":

@@ -1,4 +1,0 @@
-Section 1: The Foundation of Knowledge Graphs
-Section 2: Building the Graph from Text
-Subsection 2.1: Advanced Extraction Techniques
-Section 3: The Role of Agents
