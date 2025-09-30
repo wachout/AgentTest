@@ -1,0 +1,159 @@
+{
+    "entities": [
+        {
+            "name": "The Wandering Earth",
+            "type": "Film",
+            "attributes": {
+                "year": 2019,
+                "genre": "sci-fi",
+                "country": "Chinese",
+                "based_on": "novella by Liu Cixin"
+            }
+        },
+        {
+            "name": "Frant Gwo",
+            "type": "Person",
+            "attributes": {
+                "role": "director"
+            }
+        },
+        {
+            "name": "Liu Cixin",
+            "type": "Person",
+            "attributes": {
+                "role": "author",
+                "genre": "science fiction"
+            }
+        },
+        {
+            "name": "Sun",
+            "type": "Star",
+            "attributes": {
+                "expansion": "causes apocalyptic threat"
+            }
+        },
+        {
+            "name": "Earth",
+            "type": "Planet",
+            "attributes": {
+                "surface": "no longer habitable",
+                "movement": "being moved to new stellar system"
+            }
+        },
+        {
+            "name": "United Earth Government",
+            "type": "Organization",
+            "attributes": {
+                "purpose": "united nations of Earth",
+                "plan": "move Earth"
+            }
+        },
+        {
+            "name": "Earth Engines",
+            "type": "Technology",
+            "attributes": {
+                "function": "move the planet",
+                "issues": "multiple fail and cannot be repaired"
+            }
+        },
+        {
+            "name": "Jupiter",
+            "type": "Planet",
+            "attributes": {
+                "gravitational pull": "causes earthquakes, thins atmosphere, disturbs trajectory"
+            }
+        },
+        {
+            "name": "Beijing",
+            "type": "Location",
+            "attributes": {
+                "type": "underground city"
+            }
+        },
+        {
+            "name": "Space Station",
+            "type": "Structure",
+            "attributes": {
+                "role": "vanguard of Earth",
+                "operating system": "AI system"
+            }
+        },
+        {
+            "name": "AI System",
+            "type": "Technology",
+            "attributes": {
+                "function": "operates space station",
+                "action": "initiates contingency measures"
+            }
+        }
+    ],
+    "keywords": [
+        "science fiction",
+        "apocalyptic threat",
+        "Earth Engines",
+        "Jupiter",
+        "gravitational pull",
+        "earthquakes",
+        "underground cities",
+        "space station",
+        "AI system",
+        "rescue mission"
+    ],
+    "relationships": [
+        {
+            "source": "Frant Gwo",
+            "target": "The Wandering Earth",
+            "relation": "directed"
+        },
+        {
+            "source": "Liu Cixin",
+            "target": "The Wandering Earth",
+            "relation": "authored novella adapted into film"
+        },
+        {
+            "source": "Sun",
+            "target": "Earth",
+            "relation": "expansion causes apocalyptic threat to"
+        },
+        {
+            "source": "United Earth Government",
+            "target": "Earth",
+            "relation": "devises plan to move"
+        },
+        {
+            "source": "United Earth Government",
+            "target": "Earth Engines",
+            "relation": "uses in plan to move Earth"
+        },
+        {
+            "source": "Earth Engines",
+            "target": "Earth",
+            "relation": "moves"
+        },
+        {
+            "source": "Jupiter",
+            "target": "Earth",
+            "relation": "gravitational pull causes earthquakes and disturbs trajectory"
+        },
+        {
+            "source": "Beijing",
+            "target": "Earth",
+            "relation": "is an underground city on"
+        },
+        {
+            "source": "Space Station",
+            "target": "Earth",
+            "relation": "flies ahead of as vanguard"
+        },
+        {
+            "source": "AI System",
+            "target": "Space Station",
+            "relation": "operates"
+        },
+        {
+            "source": "AI System",
+            "target": "Earth",
+            "relation": "initiates contingency measures to abandon"
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+langchain
+openai
+langchain-openai
+beautifulsoup4
+networkx
+deepseek

@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="d16" for="edge" attr.name="label" attr.type="string" />
+  <key id="d15" for="node" attr.name="action" attr.type="string" />
+  <key id="d14" for="node" attr.name="operating system" attr.type="string" />
+  <key id="d13" for="node" attr.name="gravitational pull" attr.type="string" />
+  <key id="d12" for="node" attr.name="issues" attr.type="string" />
+  <key id="d11" for="node" attr.name="function" attr.type="string" />
+  <key id="d10" for="node" attr.name="plan" attr.type="string" />
+  <key id="d9" for="node" attr.name="purpose" attr.type="string" />
+  <key id="d8" for="node" attr.name="movement" attr.type="string" />
+  <key id="d7" for="node" attr.name="surface" attr.type="string" />
+  <key id="d6" for="node" attr.name="expansion" attr.type="string" />
+  <key id="d5" for="node" attr.name="role" attr.type="string" />
+  <key id="d4" for="node" attr.name="type" attr.type="string" />
+  <key id="d3" for="node" attr.name="based_on" attr.type="string" />
+  <key id="d2" for="node" attr.name="country" attr.type="string" />
+  <key id="d1" for="node" attr.name="genre" attr.type="string" />
+  <key id="d0" for="node" attr.name="year" attr.type="long" />
+  <graph edgedefault="directed">
+    <node id="The Wandering Earth">
+      <data key="d0">2019</data>
+      <data key="d1">sci-fi</data>
+      <data key="d2">Chinese</data>
+      <data key="d3">novella by Liu Cixin</data>
+      <data key="d4">Film</data>
+    </node>
+    <node id="Frant Gwo">
+      <data key="d5">director</data>
+      <data key="d4">Person</data>
+    </node>
+    <node id="Liu Cixin">
+      <data key="d5">author</data>
+      <data key="d1">science fiction</data>
+      <data key="d4">Person</data>
+    </node>
+    <node id="Sun">
+      <data key="d6">causes apocalyptic threat</data>
+      <data key="d4">Star</data>
+    </node>
+    <node id="Earth">
+      <data key="d7">no longer habitable</data>
+      <data key="d8">being moved to new stellar system</data>
+      <data key="d4">Planet</data>
+    </node>
+    <node id="United Earth Government">
+      <data key="d9">united nations of Earth</data>
+      <data key="d10">move Earth</data>
+      <data key="d4">Organization</data>
+    </node>
+    <node id="Earth Engines">
+      <data key="d11">move the planet</data>
+      <data key="d12">multiple fail and cannot be repaired</data>
+      <data key="d4">Technology</data>
+    </node>
+    <node id="Jupiter">
+      <data key="d13">causes earthquakes, thins atmosphere, disturbs trajectory</data>
+      <data key="d4">Planet</data>
+    </node>
+    <node id="Beijing">
+      <data key="d4">Location</data>
+    </node>
+    <node id="Space Station">
+      <data key="d5">vanguard of Earth</data>
+      <data key="d14">AI system</data>
+      <data key="d4">Structure</data>
+    </node>
+    <node id="AI System">
+      <data key="d11">operates space station</data>
+      <data key="d15">initiates contingency measures</data>
+      <data key="d4">Technology</data>
+    </node>
+    <edge source="Frant Gwo" target="The Wandering Earth">
+      <data key="d16">directed</data>
+    </edge>
+    <edge source="Liu Cixin" target="The Wandering Earth">
+      <data key="d16">authored novella adapted into film</data>
+    </edge>
+    <edge source="Sun" target="Earth">
+      <data key="d16">expansion causes apocalyptic threat to</data>
+    </edge>
+    <edge source="United Earth Government" target="Earth">
+      <data key="d16">devises plan to move</data>
+    </edge>
+    <edge source="United Earth Government" target="Earth Engines">
+      <data key="d16">uses in plan to move Earth</data>
+    </edge>
+    <edge source="Earth Engines" target="Earth">
+      <data key="d16">moves</data>
+    </edge>
+    <edge source="Jupiter" target="Earth">
+      <data key="d16">gravitational pull causes earthquakes and disturbs trajectory</data>
+    </edge>
+    <edge source="Beijing" target="Earth">
+      <data key="d16">is an underground city on</data>
+    </edge>
+    <edge source="Space Station" target="Earth">
+      <data key="d16">flies ahead of as vanguard</data>
+    </edge>
+    <edge source="AI System" target="Space Station">
+      <data key="d16">operates</data>
+    </edge>
+    <edge source="AI System" target="Earth">
+      <data key="d16">initiates contingency measures to abandon</data>
+    </edge>
+  </graph>
+</graphml>
