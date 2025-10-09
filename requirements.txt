@@ -1,0 +1,4 @@
+lightrag
+openai
+python-dotenv
+dashscope
