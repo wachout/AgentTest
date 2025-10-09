@@ -1,44 +1,76 @@
+import json
 from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 from lightrag.core.component import Component
-from lightrag.core.generator import Generator
+from lightrag.core.generator import Generator, GeneratorOutput
 from lightrag.core.types import ModelType
+from lightrag.core.functional import extract_json_str
 
-# --- Pydantic Models for Graph Structure ---
+# --- Intermediate Pydantic Models for LLM Output ---
+# These models match the exact JSON structure we ask the LLM to produce.
+
+class ChunkNode(BaseModel):
+    """A node extracted from a single chunk, before global ID mapping."""
+    id: int
+    label: str
+    properties: Optional[dict] = Field(default_factory=dict)
+
+class ChunkEdge(BaseModel):
+    """An edge extracted from a single chunk, with local node IDs."""
+    source_id: int
+    target_id: int
+    label: str
+    properties: Optional[dict] = Field(default_factory=dict)
+
+class ChunkKnowledgeGraph(BaseModel):
+    """The knowledge graph structure for a single chunk."""
+    nodes: List[ChunkNode]
+    edges: List[ChunkEdge]
+
+# --- Final Pydantic Models for Merged Graph Output ---
+# These models include the traceability fields (chunk_id, chunk_text).
 
 class Node(BaseModel):
-    """Represents a node in the knowledge graph."""
-    id: int = Field(..., description="A unique identifier for the node. In the final merged graph, this ID will be globally unique.")
-    label: str = Field(..., description="The primary label or name of the node (e.g., 'Person', 'Organization').")
-    properties: Optional[dict] = Field(default_factory=dict, description="A dictionary of properties for the node.")
-    chunk_id: int = Field(..., description="The ID of the text chunk from which this node was extracted.")
-    chunk_text: str = Field(..., description="The raw text of the chunk from which this node was extracted.")
+    """A node in the final, merged knowledge graph with global ID and chunk info."""
+    id: int = Field(..., description="A globally unique identifier for the node across the entire document.")
+    label: str
+    properties: Optional[dict]
+    chunk_id: int
+    chunk_text: str
 
 class Edge(BaseModel):
-    """Represents a directed edge between two nodes in the knowledge graph."""
-    source_id: int = Field(..., description="The globally unique identifier of the source node.")
-    target_id: int = Field(..., description="The globally unique identifier of the target node.")
-    label: str = Field(..., description="The type or name of the relationship (e.g., 'WORKS_FOR', 'LOCATED_IN').")
-    properties: Optional[dict] = Field(default_factory=dict, description="A dictionary of properties for the edge.")
-    chunk_id: int = Field(..., description="The ID of the text chunk from which this edge was extracted.")
-    chunk_text: str = Field(..., description="The raw text of the chunk from which this edge was extracted.")
+    """An edge in the final, merged knowledge graph with global IDs and chunk info."""
+    source_id: int
+    target_id: int
+    label: str
+    properties: Optional[dict]
+    chunk_id: int
+    chunk_text: str
 
 class KnowledgeGraph(BaseModel):
-    """Represents the entire knowledge graph with a list of nodes and edges."""
-    nodes: List[Node] = Field(..., description="A list of all nodes in the graph.")
-    edges: List[Edge] = Field(..., description="A list of all edges connecting the nodes.")
+    """The final, merged knowledge graph for the entire document."""
+    nodes: List[Node]
+    edges: List[Edge]
 
 # --- LLM Prompt Template ---
 
 EXTRACTION_PROMPT_TEMPLATE = """
 Your task is to extract a knowledge graph from the provided text.
 Identify all the meaningful entities as nodes and the relationships between them as edges.
+The output must be a JSON object that strictly follows the provided schema.
 
-- Each node must have a unique integer ID local to this text, a descriptive label, and properties.
-- Each edge must connect two nodes using their local IDs and have a label describing the relationship.
-- The output must be a JSON object that strictly follows the provided schema for a KnowledgeGraph containing nodes and edges.
-- Do not add any extra fields like chunk_id or chunk_text; they will be added later.
+Schema:
+{
+  "nodes": [
+    {"id": <int>, "label": "<string>", "properties": {}},
+    ...
+  ],
+  "edges": [
+    {"source_id": <int>, "target_id": <int>, "label": "<string>", "properties": {}},
+    ...
+  ]
+}
 
 TEXT:
 "{text}"
@@ -46,10 +78,7 @@ TEXT:
 
 # --- Helper function for text chunking ---
 def _chunk_text(text: str, chunk_size: int = 1024, chunk_overlap: int = 128) -> List[str]:
-    """Splits text into overlapping chunks."""
-    if len(text) <= chunk_size:
-        return [text]
-
+    if len(text) <= chunk_size: return [text]
     chunks = []
     start = 0
     while start < len(text):
@@ -64,88 +93,78 @@ class GraphExtractor(Component):
     """
     def __init__(self, model_client: ModelType, model_kwargs: Optional[dict] = None):
         super().__init__()
-        self.model_kwargs = model_kwargs or {}
         self.generator = Generator(
             model_client=model_client,
-            model_kwargs=self.model_kwargs
+            model_kwargs=model_kwargs or {},
+            template=EXTRACTION_PROMPT_TEMPLATE,
         )
 
-    def _extract_from_chunk(self, chunk_text: str) -> KnowledgeGraph:
-        """Extracts a knowledge graph from a single text chunk."""
-        prompt = EXTRACTION_PROMPT_TEMPLATE.format(text=chunk_text)
-        # The Pydantic model here is used for parsing the LLM output for a single chunk
-        # It does not yet contain the chunk_id or chunk_text fields.
-        response = self.generator.call(prompt=prompt, output_cls=KnowledgeGraph)
-        return response
+    def _extract_from_chunk(self, chunk_text: str) -> Optional[ChunkKnowledgeGraph]:
+        """Extracts a knowledge graph from a single text chunk into the intermediate format."""
+        output: GeneratorOutput = self.generator.call(prompt_kwargs={"text": chunk_text})
+        raw_response = output.data
+        if not raw_response: return None
+        try:
+            json_str = extract_json_str(raw_response)
+            # Parse into the intermediate ChunkKnowledgeGraph model
+            return ChunkKnowledgeGraph.model_validate_json(json_str)
+        except (ValueError, ValidationError, json.JSONDecodeError) as e:
+            print(f"Failed to parse knowledge graph from chunk. Error: {e}\nResponse: {raw_response}")
+            return None
 
     def extract(self, text: str, chunk_size: int = 1024) -> KnowledgeGraph:
         """
         Extracts a knowledge graph from text, automatically handling chunking and merging.
-
-        Args:
-            text: The input text to process.
-            chunk_size: The size of text chunks to split the document into.
-
-        Returns:
-            A single, merged KnowledgeGraph containing all nodes and edges from the document.
         """
         chunks = _chunk_text(text, chunk_size=chunk_size)
-
         all_nodes: List[Node] = []
         all_edges: List[Edge] = []
-
         global_node_id_counter = 0
-        node_map = {}  # Maps (chunk_id, local_node_id) to global_node_id
+        node_map = {}
 
         for i, chunk in enumerate(chunks):
             chunk_graph = self._extract_from_chunk(chunk)
+            if not chunk_graph or not chunk_graph.nodes: continue
 
-            if not chunk_graph or not chunk_graph.nodes:
-                continue
-
-            # Process nodes from the current chunk
-            for node in chunk_graph.nodes:
-                # Assign a new global ID
+            # Process nodes from the intermediate chunk_graph
+            for chunk_node in chunk_graph.nodes:
                 global_id = global_node_id_counter
-                node_map[(i, node.id)] = global_id
-
-                # Create the new node with global ID and chunk info
+                node_map[(i, chunk_node.id)] = global_id
+                # Create the final Node object with enriched data
                 all_nodes.append(
                     Node(
                         id=global_id,
-                        label=node.label,
-                        properties=node.properties,
+                        label=chunk_node.label,
+                        properties=chunk_node.properties,
                         chunk_id=i,
                         chunk_text=chunk,
                     )
                 )
                 global_node_id_counter += 1
 
-            # Process edges from the current chunk
+            # Process edges
             if chunk_graph.edges:
-                for edge in chunk_graph.edges:
-                    # Remap source and target IDs to global IDs
-                    global_source_id = node_map.get((i, edge.source_id))
-                    global_target_id = node_map.get((i, edge.target_id))
-
+                for chunk_edge in chunk_graph.edges:
+                    global_source_id = node_map.get((i, chunk_edge.source_id))
+                    global_target_id = node_map.get((i, chunk_edge.target_id))
                     if global_source_id is not None and global_target_id is not None:
+                        # Create the final Edge object with remapped IDs and enriched data
                         all_edges.append(
                             Edge(
                                 source_id=global_source_id,
                                 target_id=global_target_id,
-                                label=edge.label,
-                                properties=edge.properties,
+                                label=chunk_edge.label,
+                                properties=chunk_edge.properties,
                                 chunk_id=i,
                                 chunk_text=chunk,
                             )
                         )
-
         return KnowledgeGraph(nodes=all_nodes, edges=all_edges)
 
-    # Maintain the 'call' method for backward compatibility and simple, single-chunk extractions.
-    def call(self, input: str) -> KnowledgeGraph:
+    def call(self, input: str) -> Optional[ChunkKnowledgeGraph]:
         """
         Performs graph extraction on a single block of text without chunking.
-        For automatic chunking, use the `extract` method.
+        Note: This returns the raw chunk-level graph, not the final merged format.
+        For most use cases, prefer the `extract` method.
         """
         return self._extract_from_chunk(input)
