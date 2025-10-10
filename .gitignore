@@ -1,0 +1,9 @@
+# Environment variables
+.env
+
+# Generated data and cache
+lightrag_data/
+
+# Python cache
+__pycache__/
+*.pyc
