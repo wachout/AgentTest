@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 750px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+
+
+
+
+
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+
+
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+
+
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+
+
+
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "created_at": 1760068203, "description": "The Wandering Earth is a story about humanity\u0027s attempt to save Earth from a dying sun by turning it into a spaceship and moving it to a new solar system.\u003cSEP\u003eThe Wandering Earth is a movie and a book that share the same core concept but differ significantly in plot, characters, and tone.", "entity_id": "The Wandering Earth", "entity_type": "content", "file_path": "unknown_source", "font": {"color": "white"}, "id": "The Wandering Earth", "label": "The Wandering Earth", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228\u003cSEP\u003echunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "Humanity refers to the collective human species undertaking a multi-generational journey to save Earth from destruction.", "entity_id": "Humanity", "entity_type": "concept", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Humanity", "label": "Humanity", "shape": "dot", "size": 10, "source_id": "chunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "The Sun is a star nearing the end of its life, set to undergo a helium flash that would destroy Earth.", "entity_id": "Sun", "entity_type": "naturalobject", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Sun", "label": "Sun", "shape": "dot", "size": 10, "source_id": "chunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "The young man is a character who remembers life on Earth before its journey began, grows up, marries, and has children during the interstellar voyage.", "entity_id": "Young Man", "entity_type": "person", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Young Man", "label": "Young Man", "shape": "dot", "size": 10, "source_id": "chunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "Survival of the fittest is a philosophical theme in the story where societies based on love and kindness are destroyed by more advanced, analytical ones.", "entity_id": "Survival Of The Fittest", "entity_type": "concept", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Survival Of The Fittest", "label": "Survival Of The Fittest", "shape": "dot", "size": 10, "source_id": "chunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068203, "description": "These are the mental and societal difficulties faced by humans during the long and perilous journey of Earth through space.", "entity_id": "Psychological And Social Challenges", "entity_type": "concept", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Psychological And Social Challenges", "label": "Psychological And Social Challenges", "shape": "dot", "size": 10, "source_id": "chunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068203, "description": "Hope is a central theme in the story, representing the enduring human spirit amidst despair and uncertainty.", "entity_id": "Hope", "entity_type": "concept", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Hope", "label": "Hope", "shape": "dot", "size": 10, "source_id": "chunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068203, "description": "The human spirit embodies resilience, perseverance, and emotional depth in the face of existential threats.", "entity_id": "Human Spirit", "entity_type": "concept", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Human Spirit", "label": "Human Spirit", "shape": "dot", "size": 10, "source_id": "chunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "Earth is transformed into a giant spaceship to escape the dying Sun and travel to a new solar system over 100 generations.", "entity_id": "Earth", "entity_type": "naturalobject", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Earth", "label": "Earth", "shape": "dot", "size": 10, "source_id": "chunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "A helium flash is a catastrophic stellar event in which the Sun will expand into a red giant, threatening to engulf Earth.", "entity_id": "Helium Flash", "entity_type": "event", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Helium Flash", "label": "Helium Flash", "shape": "dot", "size": 10, "source_id": "chunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "The Jupiter gravity slingshot is a dangerous maneuver used to propel Earth out of the solar system using Jupiter\u0027s gravitational pull.", "entity_id": "Jupiter Gravity Slingshot", "entity_type": "event", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Jupiter Gravity Slingshot", "label": "Jupiter Gravity Slingshot", "shape": "dot", "size": 10, "source_id": "chunk-a827d7a21feef1627ae780de845a591b"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "The book version of The Wandering Earth features a philosophical exploration of the long-term consequences of Earth\u0027s journey through space.", "entity_id": "The Book", "entity_type": "content", "file_path": "unknown_source", "font": {"color": "white"}, "id": "The Book", "label": "The Book", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "The movie adaptation of The Wandering Earth focuses on an action-packed disaster narrative centered on a single event involving Jupiter.", "entity_id": "The Movie", "entity_type": "content", "file_path": "unknown_source", "font": {"color": "white"}, "id": "The Movie", "label": "The Movie", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "This event is a pivotal moment in the movie where Earth uses Jupiter\u0027s gravity to propel itself, forming the central plot of the film.", "entity_id": "Earth\u0027s Slingshot Maneuver Past Jupiter", "entity_type": "event", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Earth\u0027s Slingshot Maneuver Past Jupiter", "label": "Earth\u0027s Slingshot Maneuver Past Jupiter", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "The main character in the book grows up during Earth\u0027s journey and has a father who is an astronaut.", "entity_id": "Main Character In The Book", "entity_type": "person", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Main Character In The Book", "label": "Main Character In The Book", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "The father is a character archetype present in both the book and the movie, portrayed as an astronaut in both versions.", "entity_id": "Father", "entity_type": "person", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Father", "label": "Father", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "The main character in the movie has a younger sister and a grandfather, with his father being an astronaut, differing from the book\u0027s portrayal.", "entity_id": "Main Character In The Movie", "entity_type": "person", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Main Character In The Movie", "label": "Main Character In The Movie", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228"}, {"color": "#97c2fc", "created_at": 1760068188, "description": "The younger sister is a character in the movie who is part of the main character\u0027s family, not present in the book.", "entity_id": "Younger Sister", "entity_type": "person", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Younger Sister", "label": "Younger Sister", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228"}, {"color": "#97c2fc", "created_at": 1760068203, "description": "The grandfather is a character in the movie and part of the main character\u0027s family, absent in the book.", "entity_id": "Grandfather", "entity_type": "person", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Grandfather", "label": "Grandfather", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228"}, {"color": "#97c2fc", "created_at": 1760068203, "description": "The tone of the movie is uplifting and triumphant, contrasting with the more serious and philosophical tone of the book.", "entity_id": "Tone Of The Movie", "entity_type": "concept", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Tone Of The Movie", "label": "Tone Of The Movie", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228"}, {"color": "#97c2fc", "created_at": 1760068203, "description": "The tone of the book is philosophical and reflective, focusing on the long-term implications of humanity\u0027s interstellar journey.", "entity_id": "Tone Of The Book", "entity_type": "concept", "file_path": "unknown_source", "font": {"color": "white"}, "id": "Tone Of The Book", "label": "Tone Of The Book", "shape": "dot", "size": 10, "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228"}]);
+                  edges = new vis.DataSet([{"created_at": 1760068209, "description": "The story of The Wandering Earth centers on humanity\u0027s struggle for survival against cosmic extinction.", "file_path": "unknown_source", "from": "The Wandering Earth", "keywords": "narrative theme,survival", "source_id": "chunk-a827d7a21feef1627ae780de845a591b", "to": "Humanity", "width": 1.0}, {"created_at": 1760068213, "description": "The Sun\u0027s impending helium flash is the driving force behind the plot of The Wandering Earth.", "file_path": "unknown_source", "from": "The Wandering Earth", "keywords": "existential threat,stellar evolution", "source_id": "chunk-a827d7a21feef1627ae780de845a591b", "to": "Sun", "width": 1.0}, {"created_at": 1760068217, "description": "The story follows the young man\u0027s life and memories, illustrating individual experiences within the larger journey.", "file_path": "unknown_source", "from": "The Wandering Earth", "keywords": "character narrative,personal memory", "source_id": "chunk-a827d7a21feef1627ae780de845a591b", "to": "Young Man", "width": 1.0}, {"created_at": 1760068222, "description": "The story reflects a survival-of-the-fittest mentality, where compassionate societies are overcome by more rational, advanced ones.", "file_path": "unknown_source", "from": "The Wandering Earth", "keywords": "philosophical theme,societal conflict", "source_id": "chunk-a827d7a21feef1627ae780de845a591b", "to": "Survival Of The Fittest", "width": 1.0}, {"created_at": 1760068224, "description": "The narrative explores the psychological and social burdens of living through a century-long interstellar journey.", "file_path": "unknown_source", "from": "The Wandering Earth", "keywords": "mental strain,societal adaptation", "source_id": "chunk-a827d7a21feef1627ae780de845a591b", "to": "Psychological And Social Challenges", "width": 1.0}, {"created_at": 1760068225, "description": "Hope is portrayed as a sustaining force for humanity despite the bleak and often tragic circumstances.", "file_path": "unknown_source", "from": "The Wandering Earth", "keywords": "emotional theme,endurance", "source_id": "chunk-a827d7a21feef1627ae780de845a591b", "to": "Hope", "width": 1.0}, {"created_at": 1760068226, "description": "The story highlights the strength and complexity of the human spirit in the face of overwhelming odds.", "file_path": "unknown_source", "from": "The Wandering Earth", "keywords": "existential struggle,resilience", "source_id": "chunk-a827d7a21feef1627ae780de845a591b", "to": "Human Spirit", "width": 1.0}, {"created_at": 1760068213, "description": "Humanity modifies Earth into a spaceship to move it to a new solar system for survival.", "file_path": "unknown_source", "from": "Humanity", "keywords": "interstellar migration,planetary engineering", "source_id": "chunk-a827d7a21feef1627ae780de845a591b", "to": "Earth", "width": 1.0}, {"created_at": 1760068217, "description": "The Sun is expected to undergo a helium flash, leading to its expansion and the potential destruction of Earth.", "file_path": "unknown_source", "from": "Sun", "keywords": "destruction,stellar event", "source_id": "chunk-a827d7a21feef1627ae780de845a591b", "to": "Helium Flash", "width": 1.0}, {"created_at": 1760068217, "description": "Earth uses Jupiter\u0027s gravity in a slingshot maneuver to exit the solar system, a high-risk operation endangering all life.", "file_path": "unknown_source", "from": "Earth", "keywords": "orbital maneuver,risk", "source_id": "chunk-a827d7a21feef1627ae780de845a591b", "to": "Jupiter Gravity Slingshot", "width": 1.0}, {"created_at": 1760068209, "description": "The movie is based on the same concept as the book but diverges significantly in plot, characters, and tone.", "file_path": "unknown_source", "from": "The Book", "keywords": "adaptation,divergence", "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228", "to": "The Movie", "width": 1.0}, {"created_at": 1760068217, "description": "In the book, the slingshot maneuver is a minor part of the broader narrative about Earth\u0027s journey.", "file_path": "unknown_source", "from": "The Book", "keywords": "background event,minor plot point", "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228", "to": "Earth\u0027s Slingshot Maneuver Past Jupiter", "width": 1.0}, {"created_at": 1760068213, "description": "The movie revolves entirely around the Earth\u0027s slingshot maneuver past Jupiter as its primary event.", "file_path": "unknown_source", "from": "The Movie", "keywords": "central plot,narrative focus", "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228", "to": "Earth\u0027s Slingshot Maneuver Past Jupiter", "width": 1.0}, {"created_at": 1760068217, "description": "The movie is described as a slice of a story that the main character from the book might have encountered, indicating different narrative scopes.", "file_path": "unknown_source", "from": "The Movie", "keywords": "narrative perspective,story scope", "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228", "to": "Main Character In The Book", "width": 1.0}, {"created_at": 1760068222, "description": "In the book, the main character\u0027s father is an astronaut, similar to the movie\u0027s portrayal.", "file_path": "unknown_source", "from": "Main Character In The Book", "keywords": "astronaut,family relationship", "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228", "to": "Father", "width": 1.0}, {"created_at": 1760068209, "description": "In the movie, the main character\u0027s father is an astronaut, establishing a familial and professional connection.", "file_path": "unknown_source", "from": "Main Character In The Movie", "keywords": "astronaut,family relationship", "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228", "to": "Father", "width": 1.0}, {"created_at": 1760068213, "description": "The main character in the movie has a younger sister, indicating a sibling relationship within the family unit.", "file_path": "unknown_source", "from": "Main Character In The Movie", "keywords": "family relationship,sibling", "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228", "to": "Younger Sister", "width": 1.0}, {"created_at": 1760068217, "description": "The main character in the movie has a grandfather, showing a multi-generational family structure.", "file_path": "unknown_source", "from": "Main Character In The Movie", "keywords": "family relationship,generational", "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228", "to": "Grandfather", "width": 1.0}, {"created_at": 1760068209, "description": "The uplifting and triumphant tone of the movie contrasts with the philosophical and reflective tone of the book.", "file_path": "unknown_source", "from": "Tone Of The Movie", "keywords": "contrast,thematic difference", "source_id": "chunk-2ef11b97bb67fc71eeeea536a2749228", "to": "Tone Of The Book", "width": 1.0}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+
+
+
+
+
+                  network = new vis.Network(container, data, options);
+
+
+
+
+
+
+
+
+
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

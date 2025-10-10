@@ -1,5 +1,6 @@
 import os
 import asyncio
+import shutil
 from dotenv import load_dotenv
 from lightrag import LightRAG
 from lightrag.utils import EmbeddingFunc
@@ -8,7 +9,8 @@ from lightrag.kg.shared_storage import initialize_pipeline_status
 import dashscope
 from dashscope import Generation
 from langchain_community.embeddings import DashScopeEmbeddings
-from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+import networkx as nx
+from pyvis.network import Network
 
 # Load environment variables from .env file
 load_dotenv()
@@ -58,18 +60,58 @@ async def llm_wrapper(prompt: str, system_prompt: str = None, history_messages: 
     else:
         print(f"LLM Error Code: {response.code}")
         print(f"LLM Error Message: {response.message}")
-        # Return an empty string or a specific error format that lightrag can handle
-        return "{}" # Return empty JSON to avoid breaking the parsing logic
+        return "{}"
 
 async def embed_wrapper(texts: list[str], **kwargs):
     return embeddings.embed_documents(texts, **kwargs)
+
+def verify_and_visualize_graph(graph_path="lightrag_data/graph_chunk_entity_relation.graphml"):
+    """
+    Reads the generated graphml file, prints its stats, and creates an HTML visualization.
+    """
+    print("\n--- Graph Verification and Visualization ---")
+    if not os.path.exists(graph_path):
+        print(f"Error: Graph file not found at {graph_path}")
+        return
+
+    try:
+        # Read the graph from the file
+        G = nx.read_graphml(graph_path)
+
+        # Print statistics
+        num_nodes = G.number_of_nodes()
+        num_edges = G.number_of_edges()
+        print(f"Successfully loaded the knowledge graph.")
+        print(f" - Number of nodes: {num_nodes}")
+        print(f" - Number of edges: {num_edges}")
+
+        if num_nodes == 0:
+            print("Warning: The knowledge graph is empty. No visualization will be generated.")
+            return
+
+        # Create a Pyvis network for visualization
+        net = Network(height="750px", width="100%", bgcolor="#222222", font_color="white", notebook=True)
+        net.from_nx(G)
+
+        # Generate the visualization
+        output_filename = "knowledge_graph.html"
+        net.show(output_filename)
+        print(f"Successfully generated graph visualization: {output_filename}")
+
+    except Exception as e:
+        print(f"An error occurred during graph verification: {e}")
 
 
 async def main():
     """
     Main function to run the RAG pipeline.
-    Initializes LightRAG, ingests documents, and performs a query.
+    Initializes LightRAG, ingests documents, performs a query, and verifies the graph.
     """
+    # Although the user requested "synchronous" calls, the lightrag library is
+    # async-native. Using asyncio.run() ensures that the async operations
+    # complete sequentially, which achieves the user's goal of preventing
+    # file write failures due to race conditions.
+
     # 1. Initialize LightRAG
     rag = LightRAG(
         llm_model_func=llm_wrapper,
@@ -109,8 +151,14 @@ async def main():
     print(response)
 
 if __name__ == "__main__":
-    # Ensure the working directory exists, but do not clear it automatically
-    if not os.path.exists("./lightrag_data"):
-        os.makedirs("./lightrag_data")
+    # Per the user's request, clear the cache directory to ensure a fresh run
+    # and prevent file writing failures.
+    if os.path.exists("./lightrag_data"):
+        shutil.rmtree("./lightrag_data")
+        print("Cleared previous lightrag_data directory.")
 
     asyncio.run(main())
+
+    # 4. Verify and Visualize the Knowledge Graph
+    # This is a synchronous step after the main async pipeline has completed.
+    verify_and_visualize_graph()
