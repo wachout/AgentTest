@@ -4,3 +4,5 @@ langchain-openai
 langchain-community
 tiktoken
 langgraph
+pymilvus
+sentence-transformers

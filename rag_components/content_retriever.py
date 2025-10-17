@@ -1,20 +1,36 @@
+import os
+from pymilvus import connections, Collection
+from sentence_transformers import SentenceTransformer
 from .state import AgentState
+
+MILVUS_URI = os.getenv("MILVUS_URI", "http://localhost:19530")
+COLLECTION_NAME = "tech_support_kb"
+DIMENSION = 384
+
+connections.connect(alias="default", uri=MILVUS_URI)
+model = SentenceTransformer('all-MiniLM-L6-v2')
+collection = Collection(name=COLLECTION_NAME)
+collection.load()
 
 def retrieve_content(state: AgentState):
     """
-    Retrieves content from the knowledge base.
+    Retrieves content from Milvus using similarity search.
     """
-    # This is a mock implementation.
-    knowledge_base = {
-        "how to reset password": "To reset your password, go to the settings page and click on 'Reset Password'.",
-        "how to update profile": "You can update your profile from the 'Profile' section in your account.",
-        "billing issues": "For any billing issues, please contact our support team at support@example.com."
+    query_embedding = model.encode([state["enhanced_query"]])[0]
+
+    search_params = {
+        "metric_type": "L2",
+        "params": {"nprobe": 10}
     }
 
-    retrieved = []
-    query = state["enhanced_query"]
-    for key, value in knowledge_base.items():
-        if any(word in query.lower() for word in key.split()):
-            retrieved.append({"content": value})
+    results = collection.search(
+        data=[query_embedding],
+        anns_field="embedding",
+        param=search_params,
+        limit=3,
+        output_fields=["text"]
+    )
 
-    return {"retrieved_docs": retrieved}
+    retrieved_docs = [{"content": hit.entity.get("text")} for hit in results[0]]
+
+    return {"retrieved_docs": retrieved_docs}
