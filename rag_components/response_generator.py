@@ -13,7 +13,7 @@ def generate_response(state: AgentState):
     )
     chain = prompt | llm | StrOutputParser()
 
-    context_str = "\n".join([doc["content"] for doc in state["retrieved_docs"]])
+    context_str = "\n".join([f"Title: {doc['title']}\nContent: {doc['content']}" for doc in state["retrieved_docs"]])
     generation = chain.invoke({"query": state["enhanced_query"], "context": context_str})
 
     return {"generation": generation}

@@ -28,9 +28,15 @@ def retrieve_content(state: AgentState):
         anns_field="embedding",
         param=search_params,
         limit=3,
-        output_fields=["text"]
+        output_fields=["title", "content"]
     )
 
-    retrieved_docs = [{"content": hit.entity.get("text")} for hit in results[0]]
+    retrieved_docs = []
+    for hit in results[0]:
+        retrieved_docs.append({
+            "title": hit.entity.get("title"),
+            "content": hit.entity.get("content"),
+            "score": hit.distance
+        })
 
     return {"retrieved_docs": retrieved_docs}

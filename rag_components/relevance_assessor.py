@@ -14,7 +14,7 @@ def assess_relevance(state: AgentState):
     parser = JsonOutputParser()
     chain = prompt | llm | parser
 
-    doc_content = "\n".join([doc["content"] for doc in state["retrieved_docs"]])
+    doc_content = "\n".join([f"Title: {doc['title']}\nContent: {doc['content']}" for doc in state["retrieved_docs"]])
     relevance = chain.invoke({"query": state["enhanced_query"], "documents": doc_content})
 
     return {"document_relevance": relevance}

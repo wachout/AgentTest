@@ -23,7 +23,8 @@ def main():
     fields = [
         FieldSchema(name="id", dtype=DataType.INT64, is_primary=True, auto_id=True),
         FieldSchema(name="embedding", dtype=DataType.FLOAT_VECTOR, dim=DIMENSION),
-        FieldSchema(name="text", dtype=DataType.VARCHAR, max_length=65535)
+        FieldSchema(name="title", dtype=DataType.VARCHAR, max_length=512),
+        FieldSchema(name="content", dtype=DataType.VARCHAR, max_length=65535)
     ]
     schema = CollectionSchema(fields, "Technical support knowledge base")
     collection = Collection(name=COLLECTION_NAME, schema=schema)
@@ -41,18 +42,20 @@ def main():
     # Load sentence transformer model
     model = SentenceTransformer('all-MiniLM-L6-v2')
 
-    # Sample documents
+    # Sample documents with titles
     documents = [
-        "To reset your password, go to the settings page and click on 'Reset Password'.",
-        "You can update your profile from the 'Profile' section in your account.",
-        "For any billing issues, please contact our support team at support@example.com.",
-        "Our software is compatible with Windows, macOS, and Linux.",
-        "To get a refund, you must request it within 30 days of purchase."
+        {"title": "Password Reset", "content": "To reset your password, go to the settings page and click on 'Reset Password'."},
+        {"title": "Profile Update", "content": "You can update your profile from the 'Profile' section in your account."},
+        {"title": "Billing Support", "content": "For any billing issues, please contact our support team at support@example.com."},
+        {"title": "OS Compatibility", "content": "Our software is compatible with Windows, macOS, and Linux."},
+        {"title": "Refund Policy", "content": "To get a refund, you must request it within 30 days of purchase."}
     ]
 
     # Insert data
-    embeddings = model.encode(documents)
-    data = [embeddings, documents]
+    titles = [doc["title"] for doc in documents]
+    contents = [doc["content"] for doc in documents]
+    embeddings = model.encode(contents)
+    data = [embeddings, titles, contents]
     collection.insert(data)
     collection.flush()
     print(f"Inserted {len(documents)} documents into the collection.")
