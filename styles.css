@@ -1,0 +1,30 @@
+
+/* General Styles */
+body {
+    font-family: sans-serif;
+}
+
+/* Sidebar Styles */
+.css-1d391kg {
+    background-color: #f0f2f6;
+}
+
+/* Button Styles */
+.stButton>button {
+    border-radius: 20px;
+    border: 1px solid #4CAF50;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 24px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.stButton>button:hover {
+    background-color: #45a049;
+}
+
+/* Input Styles */
+.stTextInput>div>div>input {
+    border-radius: 20px;
+}
