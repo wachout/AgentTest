@@ -1,0 +1,7 @@
+langchain
+langgraph
+langchain_openai
+langchain_community
+python-dotenv
+# For Tongyi (DashScope)
+dashscope
