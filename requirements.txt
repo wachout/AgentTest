@@ -1,0 +1,14 @@
+lightrag
+langgraph
+langchain
+neo4j
+python-dotenv
+langchain_openai
+tiktoken
+ipykernel
+jupyter
+requests
+beautifulsoup4
+sentence-transformers
+transformers
+faiss-cpu
