@@ -2,7 +2,6 @@ import requests
 import json
 from config import BASE_URL
 
-
 class API:
     def _post(self, endpoint, data):
         try:
@@ -19,34 +18,13 @@ class API:
         return self._post("/user_logout", {"session_id": session_id})
 
     def register(self, user_name, password, confirm_password):
-        return self._post(
-            "/register",
-            {
-                "user_name": user_name,
-                "password": password,
-                "confirm_password": confirm_password,
-            },
-        )
+        return self._post("/register", {"user_name": user_name, "password": password, "confirm_password": confirm_password})
 
     def delete_user(self, user_name, password):
-        return self._post(
-            "/delete_user", {"user_name": user_name, "password": password}
-        )
+        return self._post("/delete_user", {"user_name": user_name, "password": password})
 
-    def create_session(
-        self,
-        user_name,
-        password,
-        session_name,
-        konwledge_name=None,
-        knowledge_id=None,
-        user_id=None,
-    ):
-        data = {
-            "user_name": user_name,
-            "password": password,
-            "session_name": session_name,
-        }
+    def create_session(self, user_name, password, session_name, konwledge_name=None, knowledge_id=None, user_id=None):
+        data = {"user_name": user_name, "password": password, "session_name": session_name}
         if konwledge_name:
             data["konwledge_name"] = konwledge_name
         if knowledge_id:
@@ -67,24 +45,14 @@ class API:
     def delete_sessions_by_session_id(self, session_id):
         return self._post("/delete_sessions_by_session_id", {"session_id": session_id})
 
-    def chat(
-        self,
-        user_name,
-        password,
-        session_id,
-        query,
-        knowledge_name=None,
-        knowledge_id=None,
-        stream_chat=True,
-        stream_chat_type=None,
-    ):
+    def chat(self, user_name, password, session_id, query, knowledge_name=None, knowledge_id=None, stream_chat=True, stream_chat_type=None):
         data = {
             "user_name": user_name,
             "password": password,
             "session_id": session_id,
             "query": query,
             "stream_chat": stream_chat,
-            "stream_chat_type": stream_chat_type,
+            "stream_chat_type": stream_chat_type
         }
         if knowledge_name:
             data["knowledge_name"] = knowledge_name
@@ -101,6 +69,5 @@ class API:
             yield {"success": False, "message": str(e)}
         except json.JSONDecodeError as e:
             yield {"success": False, "message": f"Error decoding JSON: {e}"}
-
 
 api = API()

@@ -2,3 +2,14 @@
 .stApp {
     background-color: #f0f2f6;
 }
+
+[data-testid="stChatMessageContent"] {
+    background-color: #FFFFFF;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+[data-testid="stChatMessageContent"] p {
+    color: #000000 !important;
+}

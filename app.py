@@ -182,21 +182,22 @@ def main_page():
         st.chat_input("请先选择或创建一个会话", disabled=True)
 
     # File upload
-    with st.expander("上传文件"):
-        uploaded_file = st.file_uploader("选择一个文件", type=["txt", "pdf", "md"])
-        if uploaded_file is not None:
-            st.success(f"文件 '{uploaded_file.name}' 上传成功！")
-            save_option = st.radio(
-                "是否保存到知识库？",
-                ("不保存", "私人可见", "共享可见"),
-                key=f"save_option_{uploaded_file.name}",  # Use a unique key
-            )
-            if st.button("确认", key=f"confirm_button_{uploaded_file.name}"):
-                if save_option != "不保存":
-                    # Here you would typically call an API to save the file
-                    st.success(f"文件已保存为 '{save_option}'。")
-                else:
-                    st.info("文件未保存。")
+    uploaded_file = st.file_uploader(
+        "将文件拖拽到此处上传", type=["txt", "pdf", "md"], key="chat_file_uploader"
+    )
+    if uploaded_file is not None:
+        st.success(f"文件 '{uploaded_file.name}' 上传成功！")
+        save_option = st.radio(
+            "是否保存到知识库？",
+            ("不保存", "私人可见", "共享可见"),
+            key=f"save_option_{uploaded_file.name}",  # Use a unique key
+        )
+        if st.button("确认", key=f"confirm_button_{uploaded_file.name}"):
+            if save_option != "不保存":
+                # Here you would typically call an API to save the file
+                st.success(f"文件已保存为 '{save_option}'。")
+            else:
+                st.info("文件未保存。")
 
 
 def main():
