@@ -1,9 +1,18 @@
 
 import streamlit as st
+import subprocess
+import sys
+
+try:
+    import extra_streamlit_components as stx
+except ImportError:
+    st.info("Installing missing dependency: extra-streamlit-components")
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "extra-streamlit-components"])
+    st.rerun()
+
 from api import (login_user, register_user, delete_user, create_knowledge_base,
                  delete_knowledge_base, get_user_knowledge_bases, add_file,
                  execute_stream_chat, update_knowledge_base, delete_file)
-import extra_streamlit_components as stx
 import time
 
 st.set_page_config(page_title="Knowledge Base", layout="wide")
