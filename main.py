@@ -1,12 +1,10 @@
 import os
-import uvicorn
+import asyncio
 from dotenv import load_dotenv
-from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
 from langchain_openai import ChatOpenAI
 from langchain_community.chat_models.tongyi import ChatTongyi
 from langgraph.graph import StateGraph, END
-from typing import TypedDict, Annotated, List
+from typing import TypedDict, Annotated, List, AsyncGenerator
 from langchain_core.messages import AnyMessage, SystemMessage, HumanMessage, AIMessage
 
 # Load environment variables
@@ -51,33 +49,60 @@ workflow.add_edge("agent", END)
 # Compile the graph
 app_runnable = workflow.compile()
 
-# FastAPI app
-app = FastAPI()
-
-class RequestBody(TypedDict):
-    message: str
-    history: List[dict]
-
-@app.post("/stream")
-async def stream(body: RequestBody):
+async def get_streaming_response(message: str, history: List[dict]) -> AsyncGenerator[str, None]:
     """
-    This endpoint streams the response from the agent.
+    This function takes a user message and chat history, and yields the streaming response from the agent.
     """
-    history = [AIMessage(content=msg['content']) if msg['role'] == 'assistant' else HumanMessage(content=msg['content']) for msg in body['history']]
+    history_messages = [AIMessage(content=msg['content']) if msg['role'] == 'assistant' else HumanMessage(content=msg['content']) for msg in history]
 
     inputs = {
-        "messages": [SystemMessage(content="You are a helpful assistant.")] + history + [HumanMessage(content=body['message'])]
+        "messages": [SystemMessage(content="You are a helpful assistant.")] + history_messages + [HumanMessage(content=message)]
     }
 
-    async def event_stream():
-        async for event in app_runnable.astream_events(inputs, version="v1"):
-            kind = event["event"]
-            if kind == "on_chat_model_stream":
-                content = event["data"]["chunk"].content
-                if content:
-                    yield content
+    async for event in app_runnable.astream_events(inputs, version="v1"):
+        kind = event["event"]
+        if kind == "on_chat_model_stream":
+            content = event["data"]["chunk"].content
+            if content:
+                yield content
 
-    return StreamingResponse(event_stream(), media_type="text/event-stream")
+async def main():
+    """
+    Main function to run the agent with an example.
+    """
+    print("Agent: Hello! How can I help you today?")
+
+    # Example conversation
+    history = []
+
+    # First message
+    user_message_1 = "Hello, what's the weather like in London?"
+    print(f"User: {user_message_1}")
+
+    response_1 = ""
+    async for chunk in get_streaming_response(user_message_1, history):
+        response_1 += chunk
+        print(f"Agent chunk: {chunk}")
+
+    history.append({"role": "user", "content": user_message_1})
+    history.append({"role": "assistant", "content": response_1})
+
+    print(f"\nFull Agent Response 1: {response_1}\n")
+
+    # Follow-up message
+    user_message_2 = "What about in Paris?"
+    print(f"User: {user_message_2}")
+
+    response_2 = ""
+    async for chunk in get_streaming_response(user_message_2, history):
+        response_2 += chunk
+        print(f"Agent chunk: {chunk}")
+
+    history.append({"role": "user", "content": user_message_2})
+    history.append({"role": "assistant", "content": response_2})
+
+    print(f"\nFull Agent Response 2: {response_2}\n")
+
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    asyncio.run(main())
